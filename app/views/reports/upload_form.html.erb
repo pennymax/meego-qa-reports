@@ -1,0 +1,111 @@
+<%
+#
+# This file is part of meego-test-reports
+#
+# Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
+#
+# Authors: Jussi Jokinen <jussijokinen@iki.fi>
+#          Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
+#          Jarno Keskikangas <jarno.keskikangas@leonidasoy.fi>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public License
+# version 2.1 as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+# 02110-1301 USA
+#
+%>
+<div id="wizard_progress" class="page_header">
+    <strong>Publish test report:</strong>
+    <span id="wizard_upload"><span id="upload">Upload</span><strong>&raquo;</strong><span id="finalize">Finalize</span><strong>&raquo;</strong><span id="publish">Publish</span></span>
+</div>
+<div class="page_content">
+    <%= form_for @test_session, :url=>{:action => "upload"}, :html => {:id => 'upload_report', :multipart => true} do |f| %>
+        <h1>Upload test data</h1>
+        <div class="field">
+            <label for="report_test_target">Target profile:</label>
+			<%= f.text_field :target, :id => "report_test_target", :class => "text", :tabindex => 2 %>
+            <small class="suggestions">e.g. <%= render :partial=>'suggestion', :collection => @targets[0,3], :spacer_template => 'comma' %></small>
+			<%= f.error_message_on :target %>
+        </div>
+        <div class="field">
+            <label for="report_test_type">Test type:</label>
+			<%= f.text_field :testtype, :id => "report_test_type", :class => "text", :tabindex => 3 %>
+            <small class="suggestions">e.g. <%= render :partial=>'suggestion', :collection => @types[0,3], :spacer_template => 'comma' %></small>
+			<%= f.error_message_on :testtype %>
+        </div>
+        <div class="field">
+            <label for="report_test_hardware">Hardware:</label>
+			<%= f.text_field :hwproduct, :id => "report_test_hardware", :class => "text", :tabindex => 5 %>
+            <small class="suggestions">e.g. <%= render :partial=>'suggestion', :collection => @hardware[0,3], :spacer_template => 'comma' %></small>
+			<%= f.error_message_on :hwproduct %>
+        </div>
+        <div class="field last">
+            <label for="report_test_data">Test data:</label>
+            <div id="dropbox">
+              Please drop files here
+            </div>
+			<small>See dataset specifications at <a href="http://gitorious.org/qa-tools/test-definition/blobs/master/data/testdefinition-results.xsd">Gitorious ›</a></small>
+			<div id="browse">
+	            <div>or browse </div><br/><%= f.file_field :uploaded_files, :id => "report_test_data", :class => "file", :tabindex => 6, :multiple => "true" %>
+           
+			</div>
+			<%= f.error_message_on :xmlfile %>
+        </div>
+        <div id="wizard_actions">
+            <div id="wizard_buttons">
+                <input type="button" class="big_btn cancel" value="Cancel" />
+				<%= f.submit :id=>"upload_report_submit", :value=>"Next", :class=>"big_btn next", :tabindex => "7" %>
+            </div><p class="next_step">next step: 
+                <br/>
+                <strong>Finalize</strong>
+            </p>
+        </div>
+    <% end %>
+</div>
+
+<%= javascript_include_tag 'handlebars'%>
+
+<script type="text/x-handlebars-template" name="attachment">
+  <div id="{{fileid}}">
+    <span style="float: left; margin-right: 20px;"><input
+      type="checkbox"
+      name="drag_n_drop_attachments[]"
+      value="1"
+      checked="true"/>
+    {{filename}}</span>
+    <img style="float: left;  margin-left: -10px; margin-top: 5px;" src="/images/progress.gif" />
+  </div>
+</script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	var targetSuggestions = [<%=raw @targets.map{|t| '"%s"' % t}.join(',')%>];
+	var typeSuggestions = [<%=raw @types.map{|t| '"%s"' % t}.join(',')%>];
+	var hardwareSuggestions = [<%=raw @hardware.map{|t| '"%s"' % t}.join(',')%>];
+	
+	$("#report_test_target").autocomplete({
+		source: targetSuggestions
+	});
+
+	$("#report_test_type").autocomplete({
+		source: typeSuggestions
+	});
+
+	$("#report_test_hardware").autocomplete({
+		source: hardwareSuggestions
+	});
+	
+	activateSuggestionLinks("div.field");
+});
+
+</script>

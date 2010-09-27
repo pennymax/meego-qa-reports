@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  test_suite_id: 1
+  name: MyString
+  description: MyString
+  environment: MyString
+  feature: MyString
+
+two:
+  test_suite_id: 1
+  name: MyString
+  description: MyString
+  environment: MyString
+  feature: MyString

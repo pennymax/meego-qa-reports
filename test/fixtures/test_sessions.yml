@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  environment: MyString
+  hwproduct: MyString
+  hwbuild: MyString
+
+two:
+  environment: MyString
+  hwproduct: MyString
+  hwbuild: MyString
