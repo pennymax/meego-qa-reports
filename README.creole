@@ -1,0 +1,31 @@
+= MeeGo Test Reports
+
+Test reporting application prototype for the MeeGo QA teams. See trailer at
+[[http://www.youtube.com/watch?v=sOUkwJT2RBo|youtube]]
+
+== Setting up the development environment
+
+=== Getting the source code
+* Install [[http://git-scm.com/|git]]
+* Clone the source tree
+{{{ git clone http://github.com/leonidas/meego-qa-reports.git }}}
+
+=== Installing the dependencies
+* Install [[http://www.ruby-lang.org/|ruby]]
+{{{
+gem update --system  # Update gems
+gem intall bundler --no-ri --no-rdoc # Install bundler to manage dependencies
+
+cd meego-qa-reports
+bundle install --without staging production # Install just development environment dependencies
+}}}
+
+=== Initialize database and start the web server
+{{{
+rake db:create
+rake db:migrate
+
+rails server
+}}}
+
+Have fun!
