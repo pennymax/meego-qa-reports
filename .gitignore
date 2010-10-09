@@ -12,3 +12,4 @@ config/deploy/staging.rb
 config/database.yml
 nbproject/
 .idea
+.rvmrc
