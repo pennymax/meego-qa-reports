@@ -13,6 +13,16 @@ group :development do
   gem 'sqlite3-ruby', :require => 'sqlite3'
 end
 
+group :test do
+  gem 'capybara'
+  gem 'cucumber'
+  gem 'cucumber-rails'
+  gem 'rspec-rails', '>= 2.0.0.beta'
+  gem 'ZenTest', '4.4.0'
+  gem 'autotest'
+  gem 'autotest-rails'
+end
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

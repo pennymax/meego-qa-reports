@@ -1,6 +1,5 @@
 .bundle
 .project
-.rvmrc
 db/*.sqlite3
 log/*.log
 tmp/**/*
@@ -12,3 +11,5 @@ config/deploy/production.rb
 config/deploy/staging.rb
 config/database.yml
 nbproject/
+.idea
+.rvmrc
