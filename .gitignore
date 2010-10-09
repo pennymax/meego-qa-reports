@@ -11,3 +11,4 @@ config/deploy/production.rb
 config/deploy/staging.rb
 config/database.yml
 nbproject/
+.idea
