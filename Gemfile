@@ -21,6 +21,7 @@ group :test do
   gem 'ZenTest', '4.4.0'
   gem 'autotest'
   gem 'autotest-rails'
+  gem 'metric_fu', :git => "git://github.com/pyykkis/metric_fu.git"
 end
 
 # Use unicorn as the web server
