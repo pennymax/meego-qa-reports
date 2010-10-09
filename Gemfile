@@ -14,6 +14,7 @@ group :development do
 end
 
 group :test do
+  gem 'webrat'
   gem 'cucumber'
   gem 'cucumber-rails'
   gem 'rspec-rails', '>= 2.0.0.beta'
