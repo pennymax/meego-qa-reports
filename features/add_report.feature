@@ -21,9 +21,7 @@ Feature:
     And I fill in "report_test_type" with "Smokey"
     And I fill in "report_test_hardware" with "n990"
 
-    Then show me the page
-
-    And I follow "#upload_report_submit"
+    And submit the form
 
     Then show me the response
 
