@@ -16,6 +16,9 @@ end
 group :test do
   gem 'capybara'
   gem 'cucumber'
+  gem 'culerity'
+  gem 'celerity', :require => false
+  gem 'launchy'
   gem 'cucumber-rails'
   gem 'rspec-rails', '>= 2.0.0.beta'
   gem 'ZenTest', '4.4.0'
