@@ -2,7 +2,7 @@
 .project
 db/*.sqlite3
 log/*.log
-tmp/**/*
+tmp/*
 .tmp*~
 Gemfile.lock
 public/reports/**/*

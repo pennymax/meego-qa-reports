@@ -3,10 +3,12 @@ Feature: Manage report_front_pages
   [stakeholder]
   wants [behaviour]
   
+  @wip
   Scenario: Register new report_front_page
     Given I am on the new report_front_page page
     And I press "Create"
 
+  @wip
   Scenario: Delete report_front_page
     Given the following report_front_pages:
       ||
