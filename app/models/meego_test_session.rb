@@ -23,6 +23,7 @@
 require 'resultparser'
 require 'csv'
 
+#noinspection Rails3Deprecated
 class MeegoTestSession < ActiveRecord::Base
   has_many :meego_test_suites, :dependent => :destroy
   has_many :meego_test_sets, :through => :meego_test_suites
@@ -40,23 +41,23 @@ class MeegoTestSession < ActiveRecord::Base
   XML_DIR = "public/reports"
   
   def self.list_targets(seed=[])
-    (seed + MeegoTestSession.find(:all, :select => 'DISTINCT target', :conditions=>{:published=>true}).map{|s| s.target.gsub(/\b\w/){$&.upcase}}).uniq
+    (seed + MeegoTestSession.all(:select => 'DISTINCT target', :conditions=>{:published=>true}).map{|s| s.target.gsub(/\b\w/){$&.upcase}}).uniq
   end
 
   def self.list_types(seed=[])
-    (seed + MeegoTestSession.find(:all, :select => 'DISTINCT testtype', :conditions=>{:published=>true}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
+    (seed + MeegoTestSession.all(:select => 'DISTINCT testtype', :conditions=>{:published=>true}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
   end
 
   def self.list_types_for(target, seed=[])
-    (seed + MeegoTestSession.find(:all, :select => 'DISTINCT testtype', :conditions => {:target => target, :published => true}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
+    (seed + MeegoTestSession.all(:select => 'DISTINCT testtype', :conditions => {:target => target, :published => true}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
   def self.list_hardware(seed=[])
-    (seed + MeegoTestSession.find(:all, :select => 'DISTINCT hwproduct', :conditions=>{:published=>true}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
+    (seed + MeegoTestSession.all(:select => 'DISTINCT hwproduct', :conditions=>{:published=>true}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
   def self.list_hardware_for(target, testtype, seed=[])
-    (seed + MeegoTestSession.find(:all, :select => 'DISTINCT hwproduct', :conditions => {:target => target, :testtype=> testtype, :published=>true}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
+    (seed + MeegoTestSession.all(:select => 'DISTINCT hwproduct', :conditions => {:target => target, :testtype=> testtype, :published=>true}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
   def uploaded_files=(files)
@@ -64,7 +65,7 @@ class MeegoTestSession < ActiveRecord::Base
   end
   
   def uploaded_files
-    return @files
+    @files
   end
   
   def save_uploaded_files
@@ -73,7 +74,10 @@ class MeegoTestSession < ActiveRecord::Base
       @files.each do |f|
         datepart = Time.now.strftime("%Y%m%d")
         dir = File.join(XML_DIR, datepart)
-        filename = sanitize_filename(f.original_filename)
+
+        f = f.respond_to?(:original_filename) ? f : File.new(f.gsub(/\#.*/, ''))
+
+        filename = sanitize_filename(f)
         filename = ("%05i-" % self.id.to_s) + filename
         path_to_file = File.join(dir, filename)
         filenames << path_to_file
@@ -229,10 +233,17 @@ class MeegoTestSession < ActiveRecord::Base
     end
   end  
   
-private
-  def sanitize_filename(filename)
-    just_filename = File.basename(filename) 
-    just_filename.gsub(/[^\w\.\_\-]/,'_') 
+  private
+
+  def sanitize_filename(f)
+
+    filename = if f.respond_to?(:original_filename)
+      f.original_filename
+    else
+      f.path
+    end
+    just_filename = File.basename(filename)
+    just_filename.gsub(/[^\w\.\_\-]/, '_')
   end
 
 end

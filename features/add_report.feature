@@ -4,7 +4,7 @@ Feature:
   So that stakeholders can easily see the current status
 
   @smoke
-  Scenario: Checking the adding new report page
+  Scenario: Check the add new report page
 
     When I am on the front page
     And I follow "Add report" within "#action"
@@ -12,19 +12,20 @@ Feature:
     Then I should see "Upload test data" within "#upload_report"
     And I should see "Publish test report" within "#wizard_progress"
 
-  Scenario: Checking the adding new report page
+  @smoke
+  Scenario: Add new report with valid data
 
     When I am on the front page
     And I follow "Add report" within "#action"
 
-    And I fill in "report_test_target" with "Core"
-    And I fill in "report_test_type" with "Smokey"
-    And I fill in "report_test_hardware" with "n990"
+    And fill in "meego_test_session[target]" with "Core"
+    And fill in "meego_test_session[testtype]" with "Smokey"
+    And fill in "meego_test_session[hwproduct]" with "n990"
 
-    And submit the form
+    And attach the file "features/resources/sample.csv" to "meego_test_session[uploaded_files][]" within "#browse"
 
-    Then show me the response
+    And submit the form at "upload_report_submit"
 
-
-
-
+    Then I should see "Check home screen" within ".testcase"
+    And I should see "Fail" within ".testcase"
+    And I should see "3921" within ".testcase"
