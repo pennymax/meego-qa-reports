@@ -131,6 +131,7 @@ class ReportsController < ApplicationController
       @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
       @types = MeegoTestSession.list_types ["Acceptance", "Sanity", "Weekly", "Milestone"]
       @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
+      @no_upload_link = true
       
       render :upload_form
     end
