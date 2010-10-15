@@ -22,280 +22,52 @@
 # 02110-1301 USA
 #
 %>
-<% unless @editing or @email%>
-	<%= breadcrumbs %>
+
+<% content_for :page_header do %>
+	<%= render :partial => "page_header" %>
 <% end %>
-<% if @wizard %>
+
+<% content_for :wizard_progress do %>
 <div id="wizard_progress" class="page_header">
 	<strong>Publish test report:</strong>
     <span id="wizard_finalize"><span id="upload">Upload</span> <strong>&raquo;</strong> <span id="finalize">Finalize</span> <strong>&raquo;</strong> <span id="publish">Publish</span></span>
 </div>
 <% end %>
-<div class="page_content">
-	<% if @editing %>
-		<% if @wizard %>
-    		<div class="notification">Fill in the remaining information and finalize the report.</div>
-		<% else %>
-    		<div class="notification">Edit the report information.</div>
-		<% end %>
-	<% else %>
-		<% if @published %>
-		<div class="published"><h3>Your report has been successfully published.</h3></div>
-		<% end %>
-		<% unless @email %>
-        <form id="edit_report">
-			<a href="#" id="delete-button" class="small_btn cancel">Delete</a>
-			<a href="<%=url_for :controller=>'reports', :action=>'edit', :id=>@test_session.id%>" id="edit-button" class="small_btn">Edit</a>
-			<a href="<%=url_for :controller=>'reports', :action=>'email', :id=>@test_session.id%>" id="email-button" class="small_btn">Print</a>
-		</form>
-		<% end %>
-	<% end %>
-	
-    <h1><span class="content"><%=@report.title%></span><span class="heading_actions"><%=edit_button%></span></h1>
-	
-	<% unless @email %>
-	<h2 id="contents_title">Contents</h2>
-	<ol class="toc">
-	  <li><a href="#test_objective">Test objective</a></li>
-	  <li><a href="#build">Build (image)</a></li>
-	  <li><a href="#environment">Test Environment</a></li>
-	  <li><a href="#qa_summary">Quality Summary</a></li>
-	  <li><a href="#test_results">Test Results</a></li>
-      	<ol>
-      	  <li><a href="#test_results">Result Summary</a></li>
-		  <li><a href="#test_categories">Test Results by Category</a></li>
-      	  <li><a href="#detailed_results">Detailed Test Results</a></li>
-      	</ol>
-	  <li><a href="#issue_summary">Issue Summary</a></li>
-	</ol>
-	<% end %>
-    
-    <h2 id="test_objective">Test Objective<span class="heading_actions"><%=edit_button%></span></h2>
-	<%= editable_txt('objective') %>
-    
-    <h2 id="build">Build (image)<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
-	<%= editable_txt('build') %>
-    
-    <h2 id="environment">Test Environment<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
-	<%= editable_txt('environment') %>
 
-    <h2 id="qa_summary">Quality Summary<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
-	<%= editable_txt('qa_summary') %>
-    
-  <div class="test_results">
-	
-        <h2 id="test_results">Test Results<span class="heading_actions"><%=back_to_top%></span></h2>
-        <div class="container">
-        <% unless @editing or @email %>
-        <div id="test_results_navi">
-        	<% if @test_session.prev_session %>
-        	<a class="go_to_previous" href="<%=url_for :controller => 'reports', :action => 'view', :id => @test_session.prev_session.id%>">Previous report</a>
-			<% end %>
-        	<% if @test_session.next_session %>
-			<a href="<%=url_for :controller => 'reports', :action => 'view', :id => @test_session.next_session.id%>" class="go_to_next">Next report</a>
-			<% end %>
-		</div>
-		<% end %>    
-          
-		<h3>Result Summary</h3>
-		<div class="wrap">	   
-			<table id="test_result_overview">
-			  <tr class="even">
-				<td class="title">Total test cases</td>
-				<td class="value"><strong><%= @summary.total_cases %></strong></td>
-				<td class="change <%=@summary.total_change_class%>"><em><%=@summary.total_change%></em></td>
-                                <td rowspan="7" style="background-color: white;"><%= @report.graph_img_tag(@email) %></td>
-			  </tr>
-			  <tr class="odd">
-				<td>Passed</td>
-				<td><strong class="pass"><%= @summary.total_passed %></strong></td>
-				<td class="<%=@summary.passed_change_class%>"><em><%=@summary.passed_change%></em></td>
-			  </tr>
-			  <tr class="even">
-				<td>Failed</td>
-				<td><strong class="fail"><%= @summary.total_failed %></strong></td>
-				<td class="<%=@summary.failed_change_class%>"><em><%=@summary.failed_change%></em></td>
-			  </tr>
-			  <tr class="odd">
-				<td>Not testable</td>
-				<td><strong><%= @summary.total_na %></strong></td>
-				<td class="<%=@summary.na_change_class%>"><em><%=@summary.na_change%></em></td>
-			  </tr>
-			  <tr class="even">
-				<td>Run rate</td>
-				<td><strong><%= @summary.run_rate %></strong></td>
-				<td class="<%=@summary.run_rate_change_class%>"><em><%=@summary.run_rate_change%></em></td>
-			  </tr>
-			  <tr class="odd">
-				<td>Pass rate of total</td>
-				<td><strong><%= @summary.total_pass_rate %></strong></td>
-				<td class="<%=@summary.total_pass_rate_change_class%>"><em><%=@summary.total_pass_rate_change%></em></td>
-			  </tr>
-			  <tr class="even">
-				<td>Pass rate of executed</td>
-				<td><strong><%= @summary.executed_pass_rate %></strong></td>
-				<td class="<%=@summary.executed_pass_rate_change_class%>"><em><%=@summary.executed_pass_rate_change%></em></td>
-			  </tr>
-			</table>
-		</div>
-        
-                <h3 id="test_categories">Test Results by Category</h3>
-        
-        <table id="test_results">
-          <thead class="even">
-		  	<tr>
-				<th class="th_category">Category</th>
-				<th class="th_total">Total</th>
-				<th class="th_passed">Passed</th>
-				<th class="th_failed">Failed</th>
-				<th class="th_not_testable">Not testable</th>
-				<th class="th_graph">&nbsp;</th>
-          	</tr>
-		  </thead>
-		  
-		  <%= render :partial => 'category_summary', :collection => @report.categories %>
-		  
-        </table>
-      </div>
-   </div>
-   	  <% if @editing %>
-      <div class="notification">Edit results and notes in place by clicking the field.</div>
-	  <% end %>
-      
-      <h2 id="detailed_results">Detailed Test Results<span class="heading_actions"><%=back_to_top%></span></h2>
-      
-      <table id="detailed_results">
-        <thead>
-			<tr>
-			  <th id="th_test_case">Test case</th>
-			  <th id="th_result">Result</th>
-			  <th id="th_notes">Notes</th>
-        	</tr>
-		</thead>
-		
-		<%= render :partial => "category", :collection => @test_session.meego_test_sets %>
-		
-      </table>
-      
-      <h2 id="issue_summary">Issue Summary <span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
-	  
-	<%= editable_txt('issue_summary') %>
-	  
-      <% if @wizard %>
-      <div id="wizard_actions">
-    	<div id="wizard_buttons">
-		  <form method="post" action="<%=url_for :controller => 'reports', :action => 'publish' %>">
-    	  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
-          <input type="hidden" name="report_id" value="<%=@test_session.id%>"/>
-              <input id="cancel-publish" type="button" class="big_btn cancel" value="Cancel" />
-              <input type="submit" id="upload_report_submit" value="Publish" class="big_btn submit" />
-          </div>
-		  </form>
-    	</div>
-      </div>  
-	  <% elsif @editing %>
-      <div id="wizard_actions">
-    	<div id="wizard_buttons">
-          <a href="<%=url_for :controller=>'reports', :action=>'view', :id=>@test_session.id, :edited=>'true'%>" class="big_btn submit">Done</a>
-		</div>
-	  </div>
-	  <% end %>
-        
-</div>
+<% content_for :notification_area do %>
+	<div class="notification">Fill in the remaining information and finalize the report.</div>
+<% end %>
 
-<% if @editing %>
-<div id="templates" style="display:none;">
-	<div id="txt_edit_form">
-			<form method="post" action="<%=url_for :controller => 'reports', :action=>'update_txt'%>" class="txt_form">
-				<div class="help">
-<strong>Markup Reference</strong>
-<pre>== Header ==
-=== Subheader ===
-''italics''
-'''bold'''
+<% content_for :table_of_contents do %>
+	<%= render :partial => "toc" %>
+<% end %>
 
-* bulleted list
+<% content_for :result_edit_notification do %>
+	<%= render :partial => "result_edit_notification" %>
+<% end %>
 
-[[http://foo.bar/ Link]]
-[[1234]] (Bugzilla issue link)</pre>
-				</div>
-
-				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
-				<input class="id_field" type="hidden" name="id" value="<%=@test_session.id%>" />
-				<textarea class="txt_edit"></textarea>
-				<input type="button" class="small_btn cancel" value="Cancel"/>
-				<input type="submit" class="small_btn save" value="Save"/>
-				
-			</form>
-	</div>
-	<div id="title_edit_form">
-		<form method="post" action="<%=url_for :controller => 'reports', :action=>'update_title'%>" class="title_form">
-			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
-			<input class="id_field" type="hidden" name="id" value="<%=@test_session.id%>" />
-			<input class="title_field" type="text" name="meego_test_session[title]"/>
-			<input type="button" class="small_btn cancel" value="Cancel"/>
-			<input type="submit" class="small_btn save" value="Save"/>
-		</form>
-	</div>
-	<div id="comment_edit_form">
-		<form method="post" action="<%=url_for :controller => 'reports', :action=>'update_case_comment'%>" class="comment_form">
-			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
-			<input class="id_field" type="hidden" name="id" value="" />
-			<textarea class="comment_field" name="comment"></textarea>
-			<input type="button" class="small_btn cancel" value="Cancel"/>
-			<input type="submit" class="small_btn save" value="Save"/>
-		</form>
-	</div>
-	<div id="result_edit_form">
-		<form method="post" action="<%=url_for :controller => 'reports', :action=>'update_case_result'%>" class="result_form">
-			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
-			<input class="id_field" type="hidden" name="id" value="" />
-			<select name="result">
-				<option value="1">Pass</option>
-				<option value="-1">Fail</option>
-				<option value="0">N/A</option>
-			</select>
-		</form>
+<% content_for :wizard_actions do %>
+<div id="wizard_actions">
+	<div id="wizard_buttons">
+	  <form method="post" action="<%=url_for :controller => 'reports', :action => 'publish' %>">
+	  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+	  <input type="hidden" name="report_id" value="<%=@test_session.id%>"/>
+      <input id="cancel-publish" type="button" class="big_btn cancel" value="Cancel" />
+      <input type="submit" id="upload_report_submit" value="Publish" class="big_btn submit" />
+	  </form>
 	</div>
 </div>
 <% end %>
-<div id="delete-dialog" style="display:none;" class="jqmWindow">
-	<p>Are you sure you want to delete this test report? The action cannot be undone.</p>
-	<form action="<%=url_for :controller=>'reports', :action=>'delete'%>" method="post">
-	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
-	<input class="id_field" type="hidden" name="id" value="<%=@test_session.id%>" />
-	<input type="button" value="Cancel" class="dialog-cancel jqmClose"/>
-	<input type="submit" value="Delete" class="dialog-delete"/>
-	</form>
-</div>
 
-<% if @editing %> 
+<% content_for :inplace_edit_templates do %>
+	<%= render :partial => "inplace_edit_templates" %>
+<% end %>
 
-<script language="javascript">
-var $ID = "<%= @test_session.id %>";
-	
+<% content_for :view_specific_js do %>
+<script language="javascript" type="text/javascript">
 $(document).ready(function(){
 	linkEditButtons();
 	fetchBugzillaInfo();
 });
-</script>
-<% else %>
-<%= javascript_include_tag 'jqModal.js'%>
-<script language="javascript">
-$(document).ready(function(){
-	fetchBugzillaInfo();
-	$('#delete-dialog').jqm({
-		modal:true
-	}).jqmAddTrigger('#delete-button');
-});
-</script>
-<% end %>
-<% if @wizard %>
-<script language="javascript">
-	$('#cancel-publish').click(function(){
-		$('#delete-dialog form').submit();
-		return false;
-	});
-
 </script>
 <% end %>

@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--
+/*
+ * This file is part of meego-test-reports
+ *
+ * Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
+ *
+ * Authors: Jussi Jokinen <jussijokinen@iki.fi>
+ *			Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA
+ *
+ */
+-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Meego Test Reports</title>
+<%= stylesheet_link_tag :all %>
+<%= csrf_meta_tag %>
+</head>
+<body>
+<a name="top"></a>
+<div id="wrapper">
+  <%= yield :page_header %>
+
+  <div id="page">
+	<%= yield :breadcrumbs %>
+
+	<%= yield :wizard_progress %>
+
+<div class="page_content">
+	
+	<%= yield :notification_area %>
+	
+	<%= yield :button_area %>
+	
+    <h1><span class="content"><%=@report.title%></span><span class="heading_actions"><%=edit_button%></span></h1>
+
+	<%= yield :table_of_contents %>
+	
+    <h2 id="test_objective">Test Objective<span class="heading_actions"><%=edit_button%></span></h2>
+	<%= editable_txt('objective') %>
+    
+    <h2 id="build">Build (image)<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
+	<%= editable_txt('build') %>
+    
+    <h2 id="environment">Test Environment<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
+	<%= editable_txt('environment') %>
+
+    <h2 id="qa_summary">Quality Summary<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
+	<%= editable_txt('qa_summary') %>
+    
+  <div class="test_results">
+	
+        <h2 id="test_results">Test Results<span class="heading_actions"><%=back_to_top%></span></h2>
+        
+		<div class="container">
+			
+		<%= yield :test_result_navigation %>
+			
+		<h3>Result Summary</h3>
+		<div class="wrap">	   
+			<table id="test_result_overview">
+			  <tr class="even">
+				<td class="title">Total test cases</td>
+				<td class="value"><strong><%= @summary.total_cases %></strong></td>
+				<td class="change <%=@summary.total_change_class%>"><em><%=@summary.total_change%></em></td>
+                                <td rowspan="7" style="background-color: white;"><%= @report.graph_img_tag(@email) %></td>
+			  </tr>
+			  <tr class="odd">
+				<td>Passed</td>
+				<td><strong class="pass"><%= @summary.total_passed %></strong></td>
+				<td class="<%=@summary.passed_change_class%>"><em><%=@summary.passed_change%></em></td>
+			  </tr>
+			  <tr class="even">
+				<td>Failed</td>
+				<td><strong class="fail"><%= @summary.total_failed %></strong></td>
+				<td class="<%=@summary.failed_change_class%>"><em><%=@summary.failed_change%></em></td>
+			  </tr>
+			  <tr class="odd">
+				<td>Not testable</td>
+				<td><strong><%= @summary.total_na %></strong></td>
+				<td class="<%=@summary.na_change_class%>"><em><%=@summary.na_change%></em></td>
+			  </tr>
+			  <tr class="even">
+				<td>Run rate</td>
+				<td><strong><%= @summary.run_rate %></strong></td>
+				<td class="<%=@summary.run_rate_change_class%>"><em><%=@summary.run_rate_change%></em></td>
+			  </tr>
+			  <tr class="odd">
+				<td>Pass rate of total</td>
+				<td><strong><%= @summary.total_pass_rate %></strong></td>
+				<td class="<%=@summary.total_pass_rate_change_class%>"><em><%=@summary.total_pass_rate_change%></em></td>
+			  </tr>
+			  <tr class="even">
+				<td>Pass rate of executed</td>
+				<td><strong><%= @summary.executed_pass_rate %></strong></td>
+				<td class="<%=@summary.executed_pass_rate_change_class%>"><em><%=@summary.executed_pass_rate_change%></em></td>
+			  </tr>
+			</table>
+		</div>
+        
+        <h3 id="test_categories">Test Results by Category</h3>
+        
+        <table id="test_results">
+          <thead class="even">
+		  	<tr>
+				<th class="th_category">Category</th>
+				<th class="th_total">Total</th>
+				<th class="th_passed">Passed</th>
+				<th class="th_failed">Failed</th>
+				<th class="th_not_testable">Not testable</th>
+				<th class="th_graph">&nbsp;</th>
+          	</tr>
+		  </thead>
+		  
+		  <%= render :partial => 'category_summary', :collection => @report.categories %>
+		  
+        </table>
+      </div>
+   </div>
+   
+   <%= yield :result_edit_notification %>
+      
+      <h2 id="detailed_results">Detailed Test Results<span class="heading_actions"><%=back_to_top%></span></h2>
+      
+      <table id="detailed_results">
+        <thead>
+			<tr>
+			  <th id="th_test_case">Test case</th>
+			  <th id="th_result">Result</th>
+			  <th id="th_notes">Notes</th>
+        	</tr>
+		</thead>
+		
+		<%= render :partial => "category", :collection => @test_session.meego_test_sets %>
+		
+      </table>
+      
+      <h2 id="issue_summary">Issue Summary <span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
+	  
+	<%= editable_txt('issue_summary') %>
+	
+	<%= yield :wizard_actions %>
+	  
+</div>
+
+<%= yield :inplace_edit_templates %>
+
+<%= yield :delete_dialog %>
+
+</div>
+<div id="footer">
+	
+</div>
+</div>
+
+<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"%>
+<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"%>
+<%= javascript_include_tag 'application'%>
+
+<%= yield :view_specific_js %>
+
+</body>
+</html>

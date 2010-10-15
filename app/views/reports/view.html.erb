@@ -1,0 +1,78 @@
+<%
+#
+# This file is part of meego-test-reports
+#
+# Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
+#
+# Authors: Jussi Jokinen <jussijokinen@iki.fi>
+#          Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public License
+# version 2.1 as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+# 02110-1301 USA
+#
+%>
+
+<% content_for :page_header do %>
+	<%= render :partial => "page_header" %>
+<% end %>
+
+<% content_for :breadcrumbs do %>
+	<%= breadcrumbs %>
+<% end %>
+
+<% if @published %>
+	<% content_for :notification_area do %>
+		<div class="published"><h3>Your report has been successfully published.</h3></div>
+	<% end %>
+<% end %>
+
+<% content_for :button_area do %>
+    <form id="edit_report" action="">
+		<a href="#" id="delete-button" class="small_btn cancel">Delete</a>
+		<a href="<%=url_for :controller=>'reports', :action=>'edit', :id=>@test_session.id%>" id="edit-button" class="small_btn">Edit</a>
+		<a href="<%=url_for :controller=>'reports', :action=>'print', :id=>@test_session.id%>" id="email-button" class="small_btn">Print</a>
+	</form>
+<% end %>
+
+<% content_for :table_of_contents do %>
+	<%= render :partial => "toc" %>
+<% end %>
+
+<% content_for :test_result_navigation do %>
+	<%= render :partial => "test_result_navi" %>
+<% end %>
+
+<% content_for :delete_dialog do %>
+<div id="delete-dialog" style="display:none;" class="jqmWindow">
+	<p>Are you sure you want to delete this test report? The action cannot be undone.</p>
+	<form action="<%=url_for :controller=>'reports', :action=>'delete'%>" method="post">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+	<input class="id_field" type="hidden" name="id" value="<%=@test_session.id%>" />
+	<input type="button" value="Cancel" class="dialog-cancel jqmClose"/>
+	<input type="submit" value="Delete" class="dialog-delete"/>
+	</form>
+</div>
+<% end %>
+
+<% content_for :view_specific_js do %>
+<%= javascript_include_tag 'jqModal.js'%>
+<script language="javascript" type="text/javascript">
+$(document).ready(function(){
+	fetchBugzillaInfo();
+	$('#delete-dialog').jqm({
+		modal:true
+	}).jqmAddTrigger('#delete-button');
+});
+</script>
+<% end %>

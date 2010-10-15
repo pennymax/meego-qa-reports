@@ -41,11 +41,8 @@
   	<div id="logo">
   	  <h3><a href="<%=url_for :controller=>'reports', :action=>'index'%>">MeeGo | QA Reports</a></h3>
   	</div>
-	<% unless @no_upload_link %>
-    <div id="action">
-    	<a href="<%=url_for :controller=>'reports', :action=>'upload_form'%>" class="small_btn add">Add report +</a>
-    </div>
-	<% end %>
+	
+	<%= render :partial => "upload_link" %>
   </div>
   <div id="page">
 

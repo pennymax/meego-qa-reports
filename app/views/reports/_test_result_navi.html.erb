@@ -1,0 +1,8 @@
+<div id="test_results_navi">
+	<% if @test_session.prev_session %>
+	<a class="go_to_previous" href="<%=url_for :controller => 'reports', :action => 'view', :id => @test_session.prev_session.id%>">Previous report</a>
+	<% end %>
+	<% if @test_session.next_session %>
+	<a href="<%=url_for :controller => 'reports', :action => 'view', :id => @test_session.next_session.id%>" class="go_to_next">Next report</a>
+	<% end %>
+</div>

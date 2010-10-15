@@ -13,7 +13,7 @@ Meegoqa::Application.routes.draw do
   match '/report/list/:target-:testtype' => 'reports#filtered_list', :via => "get"
   match '/report/list/:target' => 'reports#filtered_list', :via => "get"
   match '/report/view/(:id)' => 'reports#view', :via => "get"
-  match '/report/print/(:id)' => 'reports#email', :via => "get"
+  match '/report/print/(:id)' => 'reports#print', :via => "get"
   
   match '/delete' => 'reports#delete', :via => "post"
 

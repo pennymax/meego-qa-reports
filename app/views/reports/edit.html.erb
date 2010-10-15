@@ -1,0 +1,61 @@
+<%
+#
+# This file is part of meego-test-reports
+#
+# Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
+#
+# Authors: Jussi Jokinen <jussijokinen@iki.fi>
+#          Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public License
+# version 2.1 as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+# 02110-1301 USA
+#
+%>
+
+<% content_for :page_header do %>
+	<%= render :partial => "page_header" %>
+<% end %>
+
+<% content_for :notification_area do %>
+	<div class="notification">Edit the report information.</div>
+<% end %>
+
+<% content_for :table_of_contents do %>
+	<%= render :partial => "toc" %>
+<% end %>
+
+<% content_for :result_edit_notification do %>
+	<%= render :partial => "result_edit_notification" %>
+<% end %>
+
+<% content_for :wizard_actions do %>
+<div id="wizard_actions">
+	<div id="wizard_buttons">
+	  <a href="<%=url_for :controller=>'reports', :action=>'view', :id=>@test_session.id, :edited=>'true'%>" class="big_btn submit">Done</a>
+	</div>
+</div>
+<% end %>
+
+<% content_for :inplace_edit_templates do %>
+	<%= render :partial => "inplace_edit_templates" %>
+<% end %>
+
+<% content_for :view_specific_js do %>
+<script language="javascript" type="text/javascript">
+$(document).ready(function(){
+	linkEditButtons();
+	fetchBugzillaInfo();
+});
+</script>
+<% end %>

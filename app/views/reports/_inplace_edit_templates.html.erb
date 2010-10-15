@@ -1,0 +1,54 @@
+<div id="templates" style="display:none;">
+	<div id="txt_edit_form">
+			<form method="post" action="<%=url_for :controller => 'reports', :action=>'update_txt'%>" class="txt_form">
+				<div class="help">
+<strong>Markup Reference</strong>
+<pre>== Header ==
+=== Subheader ===
+''italics''
+'''bold'''
+
+* bulleted list
+
+[[http://foo.bar/ Link]]
+[[1234]] (Bugzilla issue link)</pre>
+				</div>
+
+				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+				<input class="id_field" type="hidden" name="id" value="<%=@test_session.id%>" />
+				<textarea class="txt_edit"></textarea>
+				<input type="button" class="small_btn cancel" value="Cancel"/>
+				<input type="submit" class="small_btn save" value="Save"/>
+				
+			</form>
+	</div>
+	<div id="title_edit_form">
+		<form method="post" action="<%=url_for :controller => 'reports', :action=>'update_title'%>" class="title_form">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+			<input class="id_field" type="hidden" name="id" value="<%=@test_session.id%>" />
+			<input class="title_field" type="text" name="meego_test_session[title]"/>
+			<input type="button" class="small_btn cancel" value="Cancel"/>
+			<input type="submit" class="small_btn save" value="Save"/>
+		</form>
+	</div>
+	<div id="comment_edit_form">
+		<form method="post" action="<%=url_for :controller => 'reports', :action=>'update_case_comment'%>" class="comment_form">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+			<input class="id_field" type="hidden" name="id" value="" />
+			<textarea class="comment_field" name="comment"></textarea>
+			<input type="button" class="small_btn cancel" value="Cancel"/>
+			<input type="submit" class="small_btn save" value="Save"/>
+		</form>
+	</div>
+	<div id="result_edit_form">
+		<form method="post" action="<%=url_for :controller => 'reports', :action=>'update_case_result'%>" class="result_form">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+			<input class="id_field" type="hidden" name="id" value="" />
+			<select name="result">
+				<option value="1">Pass</option>
+				<option value="-1">Fail</option>
+				<option value="0">N/A</option>
+			</select>
+		</form>
+	</div>
+</div>

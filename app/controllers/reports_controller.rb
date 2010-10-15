@@ -146,6 +146,8 @@ class ReportsController < ApplicationController
     @report = MeegoTestReport::Session.new(@test_session)
     @summary = @report.summary
     @no_upload_link = true
+
+    render :layout => "report"
   end
   
   def update_txt
@@ -235,10 +237,10 @@ class ReportsController < ApplicationController
     @editing = false
     @wizard = false
     
-    render "preview"
+    render :layout => "report"
   end
   
-  def email
+  def print
     @report_id = params[:id].to_i
     unless @report_id
       redirect_to :action => :index
@@ -252,7 +254,7 @@ class ReportsController < ApplicationController
     @wizard = false
     @email = true
     
-    render "preview", :layout => "email"
+    render :layout => "report"
   end
   
   def edit
@@ -270,7 +272,7 @@ class ReportsController < ApplicationController
     @summary = @report.summary
     @no_upload_link = true
     
-    render "preview"
+    render :layout => "report"
   end
   
   def just_published?
