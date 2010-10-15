@@ -128,6 +128,10 @@ class ReportsController < ApplicationController
       session[:preview_id] = @test_session.id
       redirect_to :action => :preview
     else
+      @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
+      @types = MeegoTestSession.list_types ["Acceptance", "Sanity", "Weekly", "Milestone"]
+      @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
+      
       render :upload_form
     end
   end
