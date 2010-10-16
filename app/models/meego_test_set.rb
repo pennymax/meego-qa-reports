@@ -21,8 +21,7 @@
 #
 
 class MeegoTestSet < ActiveRecord::Base
-   belongs_to :meego_test_suite
-   #belongs_to :meego_test_session, :through => :meego_test_suite 
+   belongs_to :meego_test_session
    
    has_many :meego_test_cases, :dependent => :destroy
 end

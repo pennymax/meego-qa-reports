@@ -26,13 +26,13 @@ require 'csv'
 #noinspection Rails3Deprecated
 class MeegoTestSession < ActiveRecord::Base
   has_many :meego_test_suites, :dependent => :destroy
-  has_many :meego_test_sets, :through => :meego_test_suites
+  has_many :meego_test_sets, :dependent => :destroy
   has_many :meego_test_cases
   
   validates_presence_of :title
   validates_presence_of :target
   validates_presence_of :testtype
-  validates_presence_of :hwproduct
+  validates_presence_of :hardware
   validates_presence_of :uploaded_files
 
   after_create :save_uploaded_files
@@ -53,11 +53,11 @@ class MeegoTestSession < ActiveRecord::Base
   end
   
   def self.list_hardware(seed=[])
-    (seed + MeegoTestSession.all(:select => 'DISTINCT hwproduct', :conditions=>{:published=>true}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
+    (seed + MeegoTestSession.all(:select => 'DISTINCT hardware', :conditions=>{:published=>true}).map{|s| s.hardware.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
   def self.list_hardware_for(target, testtype, seed=[])
-    (seed + MeegoTestSession.all(:select => 'DISTINCT hwproduct', :conditions => {:target => target, :testtype=> testtype, :published=>true}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
+    (seed + MeegoTestSession.all(:select => 'DISTINCT hardware', :conditions => {:target => target, :testtype=> testtype, :published=>true}).map{|s| s.hardware.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
   def uploaded_files=(files)
@@ -105,8 +105,8 @@ class MeegoTestSession < ActiveRecord::Base
   end
   
   def generate_defaults!
-    self.title = target + " Test Report: " + hwproduct + " " + testtype + " " + Time.now.strftime("%Y-%m-%d")
-    self.environment_txt = "* Hardware: " + hwproduct
+    self.title = target + " Test Report: " + hardware + " " + testtype + " " + Time.now.strftime("%Y-%m-%d")
+    self.environment_txt = "* Hardware: " + hardware
   end
   
   def format_date
@@ -163,7 +163,6 @@ class MeegoTestSession < ActiveRecord::Base
     r = TestResults.new(File.open(filename))
     
     self.environment = r.environment
-    #self.hwproduct = r.hwproduct, # This is set manually in the upload form
     self.hwbuild = r.hwbuild
     
     r.suites.each do |suite|
@@ -200,14 +199,14 @@ class MeegoTestSession < ActiveRecord::Base
       time = Time.now
     end
     MeegoTestSession.find(:first, :conditions => [
-        "created_at < ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ?", time, target, testtype, hwproduct, true
+        "created_at < ? AND target = ? AND testtype = ? AND hardware = ? AND published = ?", time, target, testtype, hardware, true
       ],
       :order => "created_at DESC")
   end
   
   def next_session
     MeegoTestSession.find(:first, :conditions => [
-        "created_at > ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ?", created_at, target, testtype, hwproduct, true
+        "created_at > ? AND target = ? AND testtype = ? AND hardware = ? AND published = ?", created_at, target, testtype, hardware, true
       ],
       :order => "created_at ASC")
   end
