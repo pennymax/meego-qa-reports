@@ -114,10 +114,6 @@ class MeegoTestSession < ActiveRecord::Base
   end
   
   def parse_csv_file(filename)
-    suite = meego_test_suites.create(
-      :name => "",
-      :domain => ""
-    )
     prev_category = nil
     test_set = nil
 
@@ -132,10 +128,7 @@ class MeegoTestSession < ActiveRecord::Base
       na = row[5]
       if category != prev_category
         prev_category = category
-        test_set = suite.meego_test_sets.create(
-          :name => "",
-          :description => "",
-          :environment => "",
+        test_set = self.meego_test_sets.create(
           :feature => category.strip
         )
       end
@@ -148,11 +141,7 @@ class MeegoTestSession < ActiveRecord::Base
       end
       test_case = test_set.meego_test_cases.create(
         :name => summary.strip,
-        :description => "",
-        :manual => true,
-        :insignificant => false,
         :result => result,
-        :subfeature => "",
         :comment => (comments || "").strip,
         :meego_test_session => self
       )
@@ -161,15 +150,8 @@ class MeegoTestSession < ActiveRecord::Base
   
   def parse_xml_file(filename)
     r = TestResults.new(File.open(filename))
-    
-    self.environment = r.environment
-    self.hwbuild = r.hwbuild
-    
+
     r.suites.each do |suite|
-      suite_model = meego_test_suites.create(
-        :name => suite.name,
-        :domain => suite.domain
-      )
       suite.sets.each do |set|
         set_model = suite_model.meego_test_sets.create(
           :name => set.name,
