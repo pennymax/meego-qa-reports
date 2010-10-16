@@ -6,16 +6,23 @@ class SchemaRedesign < ActiveRecord::Migration
       
       t.rename :hwproduct, :hardware
       
-      t.datetime :tested_at, :null => false
+      t.datetime :tested_at, :null => false, :default => 0
       
-      t.integer  :author_id, :null => false
-      t.integer  :editor_id, :null => false
+      t.integer  :author_id, :null => false, :default => 0
+      t.integer  :editor_id, :null => false, :default => 0
       
       t.integer  :total_cases, :null => false, :default => 0
       t.integer  :total_pass, :null => false, :default => 0
       t.integer  :total_fail, :null => false, :default => 0
       t.integer  :total_na, :null => false, :default => 0
+      
     end
+    
+    change_column :meego_test_sessions, :objective_txt, :text, :limit => 4000, :default => ""
+    change_column :meego_test_sessions, :build_txt, :text, :limit => 4000, :default => ""
+    change_column :meego_test_sessions, :qa_summary_txt, :text, :limit => 4000, :default => ""
+    change_column :meego_test_sessions, :issue_summary_txt, :text, :limit => 4000, :default => ""
+    change_column :meego_test_sessions, :environment_txt, :text, :limit => 4000, :default => ""
     
     drop_table :meego_test_suites
     
