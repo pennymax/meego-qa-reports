@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101016112255) do
+ActiveRecord::Schema.define(:version => 20101016120942) do
 
   create_table "meego_test_cases", :force => true do |t|
     t.integer "meego_test_set_id",                     :null => false
@@ -45,12 +45,12 @@ ActiveRecord::Schema.define(:version => 20101016112255) do
   end
 
   create_table "meego_test_sets", :force => true do |t|
-    t.integer "meego_test_suite_id",                 :null => false
-    t.string  "feature",             :default => ""
-    t.integer "total_cases",         :default => 0,  :null => false
-    t.integer "total_pass",          :default => 0,  :null => false
-    t.integer "total_fail",          :default => 0,  :null => false
-    t.integer "total_na",            :default => 0,  :null => false
+    t.string  "feature",               :default => ""
+    t.integer "total_cases",           :default => 0,  :null => false
+    t.integer "total_pass",            :default => 0,  :null => false
+    t.integer "total_fail",            :default => 0,  :null => false
+    t.integer "total_na",              :default => 0,  :null => false
+    t.integer "meego_test_session_id", :default => 0,  :null => false
   end
 
 end
