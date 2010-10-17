@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100922151725) do
+ActiveRecord::Schema.define(:version => 20101017182620) do
 
   create_table "meego_test_cases", :force => true do |t|
     t.integer "meego_test_set_id",                        :null => false
@@ -59,5 +59,24 @@ ActiveRecord::Schema.define(:version => 20100922151725) do
     t.string  "domain",                :default => ""
     t.integer "ref_id"
   end
+
+  create_table "users", :force => true do |t|
+    t.string   "email",                              :default => "", :null => false
+    t.string   "encrypted_password",  :limit => 128, :default => "", :null => false
+    t.string   "password_salt",                      :default => "", :null => false
+    t.string   "remember_token"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                      :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "name"
+    t.string   "username"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
 end
