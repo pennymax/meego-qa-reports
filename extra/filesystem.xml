@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testresults version="1.0" environment="hardware" hwproduct="RX-71" hwbuild="0720">
+ <suite name="mwts-filesystem-tests" domain="System">
+  <set name="TMP" description="File system test cases for TEMP file system" feature="Filesystem" environment="hardware">
+   <case name="NFT-FS-Write_Data_TMP-THRO" description="Purpose          This test measures Write performance for TMP         Method         Test case makes 20 iterations of file write and calculates throughput. File block size 32kB and block count 16.         Pre-/Post-Conditions         Test asset is installed to the device. Test must be executed as root.         Pass/Fail Criteria         Test case returns passed and latency speed is logged into /var/log/tests/.         " manual="false" insignificant="false" result="PASS" subfeature="write">
+    <step command="min -c -t 'NFT-FS-Write_Data_TMP-THRO'" result="PASS">
+     <expected_result>0</expected_result>
+     <return_code>0</return_code>
+     <start>2010-07-01 12:13:32</start>
+     <end>2010-07-01 12:13:48</end>
+     <stdout>MIN Test Framework, © Nokia 2008,2009,2010 All rights reserved,
+licensed under the Gnu General Public License version 2,
+Contact: min-support@lists.sourceforge.net
+
+12:13:47 Passed     scripter.so:&quot;NFT-FS-Write_Data_TMP-THRO&quot; - Scripted test case passed
+</stdout>
+     <stderr></stderr>
+</step>
+    <step command="cat /var/log/tests/NFT-FS-Write_Data_TMP-THRO.report" result="PASS">
+     <expected_result>0</expected_result>
+     <return_code>0</return_code>
+     <start>2010-07-01 12:13:48</start>
+     <end>2010-07-01 12:13:48</end>
+     <stdout>&lt;testreport&gt;
+ &lt;measures&gt;
+  &lt;measure name=&quot;write throughput&quot; description=&quot;median&quot; value=&quot;3.69217&quot; unit=&quot;MB/s&quot; fail=&quot;1.1&quot; target=&quot;5.1&quot; /&gt;
+ &lt;/measures&gt;
+&lt;/testreport&gt;
+</stdout>
+     <stderr></stderr>
+</step>
+</case>
+   <case name="NFT-FS-Read_Data_TMP-THRO" description="Purpose          This test measures Read performance for TMP         Method         Test case makes 20 iterations of file write and calculates throughput. File block size 32kB and block count 16.         Pre-/Post-Conditions         Test asset is installed to the device. Test must be executed as root.         Pass/Fail Criteria         Test case returns passed and latency speed is logged into /var/log/tests/.         " manual="false" insignificant="false" result="PASS" subfeature="read">
+    <step command="min -c -t 'NFT-FS-Read_Data_TMP-THRO'" result="PASS">
+     <expected_result>0</expected_result>
+     <return_code>0</return_code>
+     <start>2010-07-01 12:13:48</start>
+     <end>2010-07-01 12:14:00</end>
+     <stdout>MIN Test Framework, © Nokia 2008,2009,2010 All rights reserved,
+licensed under the Gnu General Public License version 2,
+Contact: min-support@lists.sourceforge.net
+
+12:14:00 Passed     scripter.so:&quot;NFT-FS-Read_Data_TMP-THRO&quot; - Scripted test case passed
+</stdout>
+     <stderr></stderr>
+</step>
+    <step command="cat /var/log/tests/NFT-FS-Read_Data_TMP-THRO.report" result="PASS">
+     <expected_result>0</expected_result>
+     <return_code>0</return_code>
+     <start>2010-07-01 12:14:00</start>
+     <end>2010-07-01 12:14:00</end>
+     <stdout>&lt;testreport&gt;
+ &lt;measures&gt;
+  &lt;measure name=&quot;read throughput&quot; description=&quot;median&quot; value=&quot;262.144&quot; unit=&quot;MB/s&quot; fail=&quot;120.12&quot; target=&quot;300&quot; /&gt;
+ &lt;/measures&gt;
+&lt;/testreport&gt;
+</stdout>
+     <stderr></stderr>
+</step>
+</case>
+   <case name="NFT-FS-Create_Directory_TMP-LATE" description="Purpose          This test measures create directory latency for TMP         Method         Test case makes 100 iterations of create directory and measures time taken and calculates latency.         Pre-/Post-Conditions         Test asset is installed to the device. Test must be executed as root.         Pass/Fail Criteria         Test case returns passed and latency speed is logged into /var/log/tests/.         " manual="false" insignificant="false" result="FAIL" subfeature="directory">
+    <step command="min -c -t 'NFT-FS-Create_Directory_TMP-LATE'" result="PASS">
+     <expected_result>0</expected_result>
+     <return_code>0</return_code>
+     <start>2010-07-01 12:14:00</start>
+     <end>2010-07-01 12:14:04</end>
+     <stdout>MIN Test Framework, © Nokia 2008,2009,2010 All rights reserved,
+licensed under the Gnu General Public License version 2,
+Contact: min-support@lists.sourceforge.net
+
+12:14:03 Passed     scripter.so:&quot;NFT-FS-Create_Directory_TMP-LATE&quot; - Scripted test case passed
+</stdout>
+     <stderr></stderr>
+</step>
+</case>
+   <case name="NFT-FS-Remove_Directory_TMP-LATE" description="Purpose          This test measures remove directory latency for TMP         Method         Test case makes 100 iterations of file write and measures time taken and calculates latency.         Pre-/Post-Conditions         Test asset is installed to the device. Test must be executed as root.         Pass/Fail Criteria         Test case returns passed and latency speed is logged into /var/log/tests/.         " manual="false" insignificant="false" result="FAIL" subfeature="directory">
+    <step command="min -c -t 'NFT-FS-Remove_Directory_TMP-LATE'" result="PASS">
+     <expected_result>0</expected_result>
+     <return_code>0</return_code>
+     <start>2010-07-01 12:14:04</start>
+     <end>2010-07-01 12:14:08</end>
+     <stdout>MIN Test Framework, © Nokia 2008,2009,2010 All rights reserved,
+licensed under the Gnu General Public License version 2,
+Contact: min-support@lists.sourceforge.net
+
+12:14:08 Passed     scripter.so:&quot;NFT-FS-Remove_Directory_TMP-LATE&quot; - Scripted test case passed
+</stdout>
+     <stderr></stderr>
+</step>
+</case>
+   <case name="NFT-FS-Create_File_TMP-LATE" description="Purpose          This test measures file creation performance for TMP         Method         Test case makes 100 iterations of create file and measures time taken and calculates latency.         Pre-/Post-Conditions         Test asset is installed to the device. Test must be executed as root.         Pass/Fail Criteria         Test case returns passed and latency speed is logged into /var/log/tests/.         " manual="false" insignificant="false" result="FAIL" subfeature="file">
+    <step command="min -c -t 'NFT-FS-Create_File_TMP-LATE'" result="PASS">
+     <expected_result>0</expected_result>
+     <return_code>0</return_code>
+     <start>2010-07-01 12:14:08</start>
+     <end>2010-07-01 12:14:12</end>
+     <stdout>MIN Test Framework, © Nokia 2008,2009,2010 All rights reserved,
+licensed under the Gnu General Public License version 2,
+Contact: min-support@lists.sourceforge.net
+
+12:14:11 Passed     scripter.so:&quot;NFT-FS-Create_File_TMP-LATE&quot; - Scripted test case passed
+</stdout>
+     <stderr></stderr>
+</step>
+</case>
+   <case name="NFT-FS-Remove_File_TMP-LATE" description="Purpose          This test measures file removal performance for TMP         Method         Test case makes 100 iterations of remove file and measures time taken and calculates latency.         Pre-/Post-Conditions         Test asset is installed to the device. Test must be executed as root.         Pass/Fail Criteria         Test case returns passed and latency speed is logged into /var/log/tests/.         " manual="false" insignificant="false" result="FAIL" subfeature="file">
+    <step command="min -c -t 'NFT-FS-Remove_File_TMP-LATE'" result="PASS">
+     <expected_result>0</expected_result>
+     <return_code>0</return_code>
+     <start>2010-07-01 12:14:12</start>
+     <end>2010-07-01 12:14:14</end>
+     <stdout>MIN Test Framework, © Nokia 2008,2009,2010 All rights reserved,
+licensed under the Gnu General Public License version 2,
+Contact: min-support@lists.sourceforge.net
+
+12:14:14 Passed     scripter.so:&quot;NFT-FS-Remove_File_TMP-LATE&quot; - Scripted test case passed
+</stdout>
+     <stderr></stderr>
+</step>
+</case>
+   <case name="NFT-FS-Sync_Latency_TMP-LATE" description="Purpose          This test measures sync latency performance for TMP         Method         Test case makes 100 iterations of file sync and measures time taken and calculates latency.         Pre-/Post-Conditions         Test asset is installed to the device. Test must be executed as root.         Pass/Fail Criteria         Test case returns passed and latency speed is logged into /var/log/tests/.         " manual="false" insignificant="false" result="FAIL" subfeature="sync">
+    <step command="min -c -t 'NFT-FS-Sync_Latency_TMP-LATE'" result="PASS">
+     <expected_result>0</expected_result>
+     <return_code>0</return_code>
+     <start>2010-07-01 12:14:14</start>
+     <end>2010-07-01 12:14:29</end>
+     <stdout>MIN Test Framework, © Nokia 2008,2009,2010 All rights reserved,
+licensed under the Gnu General Public License version 2,
+Contact: min-support@lists.sourceforge.net
+
+12:14:29 Passed     scripter.so:&quot;NFT-FS-Sync_Latency_TMP-LATE&quot; - Scripted test case passed
+</stdout>
+     <stderr></stderr>
+</step>
+</case>
+</set>
+</suite>
+</testresults>
