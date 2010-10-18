@@ -39,10 +39,10 @@
 <div id="wrapper">
   <div id="header">
   	<div id="logo">
-  	  <h3><a href="<%=url_for :controller=>'reports', :action=>'index'%>">MeeGo | QA Reports</a></h3>
+  	  <h3><a href="<%= root_path %>">MeeGo | QA Reports</a></h3>
   	</div>
 	
-	<%= render :partial => "upload_link" %>
+	<%= render :partial => "reports/upload_link" %>
   </div>
   <div id="page">
 
