@@ -18,6 +18,8 @@ module NavigationHelpers
     #     user_profile_path(User.find_by_login($1))
     when /the front page/
       '/'
+      when /login/
+      new_user_session_path
     else
       begin
         page_name =~ /the (.*) page/
