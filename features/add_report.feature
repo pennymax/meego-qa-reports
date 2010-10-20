@@ -3,6 +3,9 @@ Feature:
   I want to add existing test run reports
   So that stakeholders can easily see the current status
 
+  Background:
+    Given I am a new, authenticated user
+
   @smoke
   Scenario: Check the add new report page
 
