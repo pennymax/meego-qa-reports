@@ -547,7 +547,25 @@ input.cancel {
 .notice a {color:#514721;}
 .success a {color:#264409;}
 
+/* error msgs 500, 422, 404 */
+.error_msg_wrap {
+	padding: 4em 0 4em 0;
+	background: transparent url(../images/error_msg_bg.png) repeat-x 0 bottom;}
 
+.error_msg {
+	padding-left: 110px;
+	margin-left: 4em;
+	background: transparent url(../images/dialog_icon.png) no-repeat 0 0em;}
+
+.error_msg h1{
+	font-size: 3em;
+	margin-bottom: 0.35em;
+	color: #adadad;
+	text-shadow:2px 2px 2px  #fff ;}
+	
+.error_msg p{
+	font-size: 1.16667em;
+	text-shadow: 1px 1px 1px #fff;}
 
 /* @end */
 
@@ -618,7 +636,7 @@ input.cancel {
 	clear: both;
 	border-bottom: 1px solid #cacaca;}
 
- ul{
+#version_navi ul{
 	list-style-type: none;
 	float: left;
 	margin: 0;
@@ -683,8 +701,9 @@ input.cancel {
 	padding-top: 30px; 
 	padding-bottom: 30px; }
 
-#index_page { 
-	padding-bottom: 313px; 
+#index_page,
+#error_page { 
+	padding-bottom: 329px; 
 	background: url(../images/hdiv_3.png) no-repeat 50% bottom; }
 
 
@@ -715,7 +734,8 @@ input.cancel {
 
 #report_navigation { 
 	border-bottom: 1px solid #cacaca; 
-	border-left: 1px solid #cacaca; }
+	border-left: 1px solid #cacaca; 
+	margin-bottom: 0;}
 
 #report_navigation ul { 
 	padding-left: 20px; }
