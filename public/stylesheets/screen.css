@@ -585,7 +585,7 @@ input.cancel {
 #header { 
 	border-bottom: 7px solid #ed0089;  
 	padding-top: 0; 
-	height: 110px;
+	height: 112px;
 	position: relative;}
 	
 	/* header */
@@ -609,7 +609,48 @@ input.cancel {
 
 	#action {
 		top: 72px;}
+		
 	/* header end */
+
+#version_navi {
+	height: 3em;
+	overflow: visible;
+	clear: both;
+	border-bottom: 1px solid #cacaca;}
+
+ ul{
+	list-style-type: none;
+	float: left;
+	margin: 0;
+	height: 3em;
+	background: transparent url(../images/version_navi_div.png) no-repeat right bottom;
+	}
+
+/* version navigation */
+#version_navi ul li {
+	float: left;}
+	
+#version_navi ul li.current {
+	border-left: 1px solid #cacaca;
+	position: relative;
+	z-index: 100;}
+
+#version_navi ul li.current a {
+	border-right: 1px solid #cacaca;
+	background: #515151 url(../images/version_navi_active_bg.png) repeat-x 0 bottom;
+	color: #f20089;
+	height: 1.0833em;
+	margin-right: -1px;}
+
+#version_navi ul li a {
+	display: block;
+	padding: 1em 1em;
+	line-height: 1;
+	font-weight: bold;
+	text-decoration: none;
+	background: transparent url(../images/version_navi_div.png) no-repeat left bottom;}
+
+/* version navigation end */
 
 #page {
 
