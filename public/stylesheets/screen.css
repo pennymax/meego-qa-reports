@@ -410,6 +410,21 @@ div.formError {
 	background-color: #57257b;
 	color: #fff; }
 
+.ui_btn {
+	border: 1px solid #cfcece;
+	background-color: #fff;
+	background-repeat: repeat-x;
+	background-position: bottom;
+	background-image: url(../images/ui_btn_bg.png);
+	text-decoration: none;
+	padding: 4px 7px;
+	font-size: 10px;}
+
+.ui_btn:hover {
+	-webkit-box-shadow: #aaa 0px 0px 2px;
+	-moz-box-shadow: #aaa 0px 0px 2px;}
+
+
 /* @end */
 
 form#edit_report { 
@@ -561,10 +576,33 @@ input.cancel {
 	padding-left: 30px; }
 
 #header { 
-	border-bottom: 7px solid #ed0089; 
-	overflow: hidden; 
+	border-bottom: 7px solid #ed0089;  
 	padding-top: 0; 
-	height: 110px;}
+	height: 110px;
+	position: relative;}
+	
+	/* header */
+	#action,
+	#session { 
+		position: absolute; 
+		right: 0;
+		top: 72px;}
+	
+	#logo { 
+		float: left; }
+	
+	#session {
+		top:10px;
+		background: transparent url(../images/session_btm.png) no-repeat right bottom;
+		padding-bottom: 12px;}
+
+	#session span.username {
+		font-size: 11px;
+		padding-right: 1em;}
+
+	#action {
+		top: 72px;}
+	/* header end */
 
 #page {
 
@@ -601,12 +639,6 @@ input.cancel {
 	padding-bottom: 313px; 
 	background: url(../images/hdiv_3.png) no-repeat 50% bottom; }
 
-div#action { 
-	float: right; 
-	margin-top: 72px; }
-
-#logo { 
-	float: left; }
 
 
 

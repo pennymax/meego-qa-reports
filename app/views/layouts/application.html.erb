@@ -37,10 +37,14 @@
 <body>
 <a name="top"></a>
 <div id="wrapper">
-  <div id="header">
+  <div id="header" class="clearfix">
   	<div id="logo">
   	  <h3><a href="<%= root_path %>">MeeGo | QA Reports</a></h3>
   	</div>
+	
+	<div id="session">
+		<span class="username">John Longname</span> <a href="" class="ui_btn">Sign out</a>
+	</div>
 	
 	<%= render :partial => "reports/upload_link" %>
   </div>
