@@ -42,21 +42,23 @@
 	<%= render :partial => "toc" %>
 <% end %>
 
+<% content_for :meta_info do %>
+<div id="meta_info">
+	<dl>
+		<dt>Author:</dt>
+		<dd>John Longername</dd>
+		<dt>Last modified by:</dt>
+		<dd>Jane Doe, 24th November 2010</dd>
+		<dt>Test execution date:</dt>
+		<dd>23th October 2010</dd>
+	</dl>
+</div>
+<% end %>
+
 <% content_for :result_edit_notification do %>
 	<%= render :partial => "result_edit_notification" %>
 <% end %>
 
-<% content_for :wizard_actions do %>
-<div id="wizard_actions">
-	<div id="wizard_buttons">
-	  <form method="post" action="<%=url_for :controller => 'reports', :action => 'publish' %>">
-	  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
-	  <input type="hidden" name="report_id" value="<%=@test_session.id%>"/>
-      <input id="cancel-publish" type="button" class="big_btn cancel" value="Cancel" />
-      <input type="submit" id="upload_report_submit" value="Publish" class="big_btn submit" />
-	  </form>
-	</div>
-</div>
 <% end %>
 
 <% content_for :inplace_edit_templates do %>

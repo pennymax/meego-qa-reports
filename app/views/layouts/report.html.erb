@@ -49,7 +49,18 @@
 	
     <h1><span class="content"><%=@report.title%></span><span class="heading_actions"><%=edit_button%></span></h1>
 
-	<%= yield :table_of_contents %>
+	<div class="report_head">
+		<%= yield :table_of_contents %>
+		
+		<dl class="meta_info">
+				<dt>Author:</dt>
+				<dd>John Longername</dd>
+				<dt>Last modified by:</dt>
+				<dd>Jane Doe, 24th November 2010</dd>
+				<dt>Test execution date:</dt>
+				<dd>23th October 2010</dd>
+		</dl>
+	</div>
 	
     <h2 id="test_objective">Test Objective<span class="heading_actions"><%=edit_button%></span></h2>
 	<%= editable_txt('objective') %>

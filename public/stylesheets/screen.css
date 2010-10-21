@@ -961,25 +961,38 @@ td.na {
 
 /* @group toc */
 
-ol.toc ol { 
-		list-style-type: none; 
+ol.toc ol,
+dl.meta_info { 
+	list-style-type: none; 
 	list-style-position: outside; 
 	}
 
 ol.toc a:after { 
 	content: ' >'; }
 
-ol.toc { 
+ol.toc,
+dl.meta_info { 
 	background: url(../images/bt_shade.png) repeat-x 0 bottom; 
 	list-style-type: none; 
 	list-style-position: outside; 
 	margin-left: 0; 
 	padding: 20px 40px; 
-	border-top: 7px solid #ed0089; 
+	border-top-width: 7px;
+	border-top-style: solid;
 	width: 21em; 
 	line-height: 20px; }
+	
+ol.toc {border-top-color: #ed0089;}
 
+dl.meta_info {border-top-color: #9f9f9f;}
 
+.report_head .meta_info,
+.report_head .toc {
+	float: left;
+	min-height: 16em;}
+
+.report_head {
+	overflow: hidden;}
 
 /* @end */
 
