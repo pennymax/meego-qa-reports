@@ -59,6 +59,7 @@ class ReportsController < ApplicationController
     field = params[:meego_test_session]
     field = field.keys()[0]
     @test_session.update_attribute(field, params[:meego_test_session][field]);
+    @test_session.updated_by(current_user)
     expire_caches_for(@test_session)
     
     sym = field.sub("_txt", "_html").to_sym
@@ -73,6 +74,7 @@ class ReportsController < ApplicationController
     field = params[:meego_test_session]
     field = field.keys()[0]
     @test_session.update_attribute(field, params[:meego_test_session][field]);
+    @test_session.updated_by(current_user)
     expire_caches_for(@test_session)
     expire_index_for(@test_session)
 
@@ -86,6 +88,7 @@ class ReportsController < ApplicationController
   	testcase.update_attribute(:comment, comment)
 
     test_session = test_case.meego_test_session
+    test_session.updated_by(current_user)
     expire_caches_for(test_session)
 
   	render :text => "OK"
@@ -98,6 +101,7 @@ class ReportsController < ApplicationController
   	testcase.update_attribute(:result, result.to_i)
     
     test_session = testcase.meego_test_session
+    test_session.updated_by(current_user)
     expire_caches_for(test_session, true)
     
     render :text => "OK"

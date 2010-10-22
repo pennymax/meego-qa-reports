@@ -77,6 +77,8 @@ class UploadController < ApplicationController
     end
 
     @test_session.tested_at = Time.now
+    @test_session.author = current_user
+    @test_session.editor = current_user
 
     if @test_session.save
       session[:preview_id] = @test_session.id

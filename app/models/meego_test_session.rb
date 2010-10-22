@@ -30,6 +30,9 @@ class MeegoTestSession < ActiveRecord::Base
   has_many :meego_test_sets, :dependent => :destroy
   has_many :meego_test_cases
   
+  belongs_to :author, :class_name => "User"
+  belongs_to :editor, :class_name => "User"
+  
   validates_presence_of :title
   validates_presence_of :target
   validates_presence_of :testtype
@@ -205,6 +208,11 @@ class MeegoTestSession < ActiveRecord::Base
   ###############################################
   # Small utility functions                     #
   ###############################################
+  def updated_by(user)
+    self.editor = user
+    self.save
+  end
+  
   def generate_defaults!
     self.title = target + " Test Report: " + hwproduct + " " + testtype + " " + Time.now.strftime("%Y-%m-%d")
     self.environment_txt = "* Hardware: " + hwproduct

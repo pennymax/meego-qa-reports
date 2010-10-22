@@ -43,7 +43,7 @@
   	</div>
 	
 	<div id="session">
-		<span class="username">John Longname</span> <a href="" class="ui_btn">Sign out</a>
+		<span class="username"><%=current_user.name%></span> <a href="" class="ui_btn">Sign out</a>
 	</div>
 	
 	<%= render :partial => "reports/upload_link" %>
