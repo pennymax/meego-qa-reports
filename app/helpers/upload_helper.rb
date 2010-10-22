@@ -1,11 +1,5 @@
-<%
 #
-# This file is part of meego-test-reports
-#
-# Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
-#
-# Authors: Jussi Jokinen <jussijokinen@iki.fi>
-#          Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
+# Authors: Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public License
@@ -21,10 +15,8 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 # 02110-1301 USA
 #
-%>
-<strong><%=testtype%></strong>
-<ul>
-	<% hardware_for(target, testtype).each do |hw| %>
-	<li><a href="<%=url_for :controller=>'reports', :action=>'filtered_list', :target=>target, :testtype=>testtype, :hwproduct=>hw%>"><%=hw%></a></li>
-	<% end %>
-</ul>
+
+module UploadHelper
+
+end
+

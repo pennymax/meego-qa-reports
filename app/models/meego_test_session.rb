@@ -95,7 +95,7 @@ class MeegoTestSession < ActiveRecord::Base
     self.environment_txt = "* Hardware: " + hwproduct
   end
   
-  def self.format_date
+  def format_date
     created_at.strftime("%d.%m")
   end
 

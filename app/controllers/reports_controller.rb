@@ -27,118 +27,12 @@ require 'drag_n_drop_uploaded_file'
 
 class ReportsController < ApplicationController
   
-  caches_page :index, :upload_form, :email, :filtered_list
+  caches_page :index, :upload_form, :print, :filtered_list
   caches_page :view, :if => proc {|c|!c.just_published?}
   caches_action :fetch_bugzilla_data,
                 :cache_path => Proc.new { |controller| controller.params },
                 :expires_in => 1.hour
 
-  def index
-    @types = {}
-    @types["Core"] = MeegoTestSession.list_types_for "Core", ["Sanity", "Core", "Milestone"]
-    @types["Handset"] = MeegoTestSession.list_types_for "Handset", ["Acceptance", "Sanity", "Weekly", "Milestone"]
-    @types["Netbook"] = MeegoTestSession.list_types_for "Netbook", ["Sanity", "Weekly", "System Functional"]
-    @types["IVI"] = MeegoTestSession.list_types_for "IVI", []
-
-    @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
-  end
-  
-  def filtered_list
-    @target = params[:target]
-    @testtype = params[:testtype]
-    @hwproduct = params[:hwproduct]
-    
-    if @hwproduct
-      sessions = MeegoTestSession.where(['target = ? AND testtype = ? AND hwproduct = ? AND published = ?', @target, @testtype, @hwproduct, true]).order("created_at DESC")
-    elsif @testtype
-      sessions = MeegoTestSession.where(['target = ? AND testtype = ? AND published = ?', @target, @testtype, true]).order("created_at DESC")
-    else
-      sessions = MeegoTestSession.where(['target = ? AND published = ?', @target, true]).order("created_at DESC")
-    end
-    # .group_by{|s| s.created_at.beginning_of_month}
-    
-    @headers = []
-    @sessions = {}
-    
-    #@trend_graph_url = generate_trend_graph(sessions[0,30])
-    
-    sessions.each do |s|
-      header = s.created_at.strftime("%B %Y")
-      unless @sessions.has_key? header
-        @headers << header
-        (@sessions[header] = []) << s
-      else
-        @sessions[header] << s
-      end
-    end
-    
-  end
-  
-  def upload_form
-    @test_session = MeegoTestSession.new
-    @no_upload_link = true
-    
-    @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
-    @types = MeegoTestSession.list_types ["Acceptance", "Sanity", "Weekly", "Milestone"]
-    @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
-  end
-
-  def upload_attachment
-    raw_filename = env['HTTP_X_FILE_NAME']
-    extension = File.extname(raw_filename)
-    fileid = env['HTTP_X_FILE_ID']
-    raw_filename_wo_extension = File.basename(env['HTTP_X_FILE_NAME'], extension)
-
-    url      = "/system/#{raw_filename_wo_extension.parameterize}#{extension}"
-    filename = "#{Rails.root}/public#{url}"
-
-    value = env['rack.input'].read()
-    File.open(filename, 'wb') {|f| f.write( value ) }
-    render :json => { :ok => '1', :fileid => fileid, :url => url }
-  end
-  
-  def upload
-
-    files = params[:meego_test_session][:uploaded_files] || []
-
-    dnd = params[:drag_n_drop_attachments]
-    if dnd
-      dnd.each do |name|
-        files.push( DragnDropUploadedFile.new("public" + name, "rb") )
-      end
-  
-      params[:meego_test_session][:uploaded_files] = files
-    end
-
-    @test_session = MeegoTestSession.new(params[:meego_test_session])
-
-    @test_session.generate_defaults!
-
-  	# See if there is a previous report with the same test target and type
-    prev = @test_session.prev_session
-
-  	if prev
-  		@test_session.objective_txt = prev.objective_txt
-  		@test_session.build_txt = prev.build_txt
-  		@test_session.qa_summary_txt = prev.qa_summary_txt
-  		@test_session.issue_summary_txt = prev.issue_summary_txt
-  	end
-
-    @test_session.tested_at = Time.now
-
-    if @test_session.save
-      session[:preview_id] = @test_session.id
-      redirect_to :action => :preview
-    else
-      @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
-      @types = MeegoTestSession.list_types ["Acceptance", "Sanity", "Weekly", "Milestone"]
-      @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
-      @no_upload_link = true
-      
-      render :upload_form
-    end
-  end
-  
   def preview
     @preview_id = session[:preview_id] || params[:id].to_i
     @editing = true
@@ -377,31 +271,31 @@ protected
   end
 
   def expire_index_for(test_session)
-    expire_page :action => :index
-    expire_page :action => :upload_form
-    expire_page :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype, :hwproduct => test_session.hwproduct
-    expire_page :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype
-    expire_page :action => :filtered_list, :target => test_session.target
+    expire_page  :controller => 'index', :action => :index
+    expire_page  :controller => 'upload', :action => :upload_form
+    expire_page  :controller => 'index', :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype, :hwproduct => test_session.hwproduct
+    expire_page  :controller => 'index', :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype
+    expire_page  :controller => 'index', :action => :filtered_list, :target => test_session.target
   end
 
   def expire_caches_for(test_session, results=false)
-    expire_page :action => 'view', :id => test_session.id
-    expire_page :action => 'email', :id => test_session.id
+    expire_page :controller => 'reports', :action => 'view', :id => test_session.id
+    expire_page :controller => 'reports', :action => 'print', :id => test_session.id
     
     if results
       prev = test_session.prev_session
       if prev
-        expire_page :action => 'view', :id => prev.id
-        expire_page :action => 'email', :id => prev.id
+        expire_page  :controller => 'reports', :action => 'view', :id => prev.id
+        expire_page  :controller => 'reports', :action => 'print', :id => prev.id
       end
       next_ = test_session.next_session
       if next_
-        expire_page :action => 'view', :id => next_.id
-        expire_page :action => 'email', :id => next_.id
+        expire_page  :controller => 'reports', :action => 'view', :id => next_.id
+        expire_page  :controller => 'reports', :action => 'print', :id => next_.id
         next_ = next_.next_session
         if next_
-          expire_page :action => 'view', :id => next_.id
-          expire_page :action => 'email', :id => next_.id
+          expire_page  :controller => 'reports', :action => 'view', :id => next_.id
+          expire_page  :controller => 'reports', :action => 'print', :id => next_.id
         end
       end
     end

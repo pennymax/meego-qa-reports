@@ -2,20 +2,20 @@ Meegoqa::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  match '/upload' => 'reports#upload_form', :via => "get"
-  match '/upload_post' => 'reports#upload', :via => "post"
-  match '/upload_attachment' => 'reports#upload_attachment', :via => "post"
+  match '/upload' => 'upload#upload_form', :via => "get"
+  match '/upload_post' => 'upload#upload', :via => "post"
+  match '/upload_attachment' => 'upload#upload_attachment', :via => "post"
 
   match '/finalize' => 'reports#preview', :via => "get"
   match '/publish' => 'reports#publish', :via => "post"
   match '/edit' => 'reports#edit', :via => "get"
-  match '/report/list/:target-:testtype-:hwproduct' => 'reports#filtered_list', :via => "get"
-  match '/report/list/:target-:testtype' => 'reports#filtered_list', :via => "get"
-  match '/report/list/:target' => 'reports#filtered_list', :via => "get"
+  match '/delete' => 'reports#delete', :via => "post"
   match '/report/view/(:id)' => 'reports#view', :via => "get"
   match '/report/print/(:id)' => 'reports#print', :via => "get"
   
-  match '/delete' => 'reports#delete', :via => "post"
+  match '/report/list/:target-:testtype-:hwproduct' => 'index#filtered_list', :via => "get"
+  match '/report/list/:target-:testtype' => 'index#filtered_list', :via => "get"
+  match '/report/list/:target' => 'index#filtered_list', :via => "get"
 
 
   match '/ajax_update_txt' => 'reports#update_txt', :via => "post"
@@ -73,7 +73,7 @@ Meegoqa::Application.routes.draw do
   # just remember to delete public/index.html.
   # root :to => "welcome#index"
 
-  root :to => "reports#index"
+  root :to => "index#index"
 
   # See how all your routes lay out with "rake routes"
 

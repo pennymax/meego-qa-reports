@@ -1,8 +1,4 @@
 #
-# This file is part of meego-test-reports
-#
-# Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
-#
 # Authors: Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
 #
 # This program is free software; you can redistribute it and/or
@@ -20,32 +16,7 @@
 # 02110-1301 USA
 #
 
-module ReportsHelper
+module IndexHelper
 
-  def edit_button
-    if @editing
-      '<a href="" class="edit">Edit</a>'.html_safe
-    end
-  end
-  
-  def back_to_top
-    unless @email
-      '<a href="#top">Back to top</a>'.html_safe
-    end
-  end
-  
-  def editable_txt(field)
-  	html_field = field+'_html'
-  	txt_field = field+'_txt'
-  	html = '<div class="editcontent" id="' +txt_field+ '">' + \
-  	  @report.send(html_field) + '</div>'
-  	
-  	if @editing
-  	  html += '<div class="editmarkup" style="display:none;">' + \
-  	    @report.send(txt_field) + '</div>'
-  	end
-  	
-  	html.html_safe
- end
- 
 end
+
