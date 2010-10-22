@@ -37,12 +37,27 @@
 <body>
 <a name="top"></a>
 <div id="wrapper">
-  <div id="header">
+  <div id="header" class="clearfix">
   	<div id="logo">
-  	  <h3><a href="<%=url_for :controller=>'index', :action=>'index'%>">MeeGo | QA Reports</a></h3>
+  	  <h3><a href="<%= root_path %>">MeeGo | QA Reports</a></h3>
   	</div>
 	
+	<div id="session">
+		<span class="username">John Longname</span> <a href="" class="ui_btn">Sign out</a>
+	</div>
+	
 	<%= render :partial => "reports/upload_link" %>
+  </div>
+  <div id="version_navi">
+  	<ul class="clearfix">
+		<li class="current"><a>Meego v2.5</a></li>
+		<li><a href="">v2.0</a></li>
+		<li><a href="">v1.7</a></li>
+		<li><a href="">v1.5</a></li>
+		<li><a href="">v1.0</a></li>
+		<li><a href="">v0.9</a></li>
+		<li><a href="">v0.8</a></li>
+	</ul>
   </div>
   <div id="page">
 

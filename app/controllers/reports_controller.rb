@@ -27,6 +27,9 @@ require 'drag_n_drop_uploaded_file'
 class ReportsController < ApplicationController
   
   caches_page :print
+
+  before_filter :authenticate_user!, :only => ["edit", "delete", "update"]
+
   caches_page :view, :if => proc {|c|!c.just_published?}
   caches_action :fetch_bugzilla_data,
                 :cache_path => Proc.new { |controller| controller.params },

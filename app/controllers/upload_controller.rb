@@ -24,7 +24,7 @@
 
 class UploadController < ApplicationController
   
-  caches_page :upload_form 
+  before_filter :authenticate_user!
   
   def upload_form
     @test_session = MeegoTestSession.new
