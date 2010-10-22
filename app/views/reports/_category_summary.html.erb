@@ -28,9 +28,9 @@
 	<%else%>
 	<td><a href="<%= category_summary.test_set_link %>"><%= category_summary.name %></a></td>
 	<%end%>
-	<td class="total"><%= category_summary.summary.total_cases %></td>
-	<td class="pass"><%= category_summary.summary.total_passed %></td>
-	<td class="fail"><%= category_summary.summary.total_failed %></td>
-	<td class="na"><%= category_summary.summary.total_na %></td>
+	<td class="total"><%= category_summary.total_cases %></td>
+	<td class="pass"><%= category_summary.total_passed %></td>
+	<td class="fail"><%= category_summary.total_failed %></td>
+	<td class="na"><%= category_summary.total_na %></td>
 	<td><%= category_summary.graph_img_tag %></td>
 </tr>

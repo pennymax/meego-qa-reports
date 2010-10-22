@@ -21,7 +21,6 @@
 # 02110-1301 USA
 #
 
-require 'testreport'
 require 'open-uri'
 require 'drag_n_drop_uploaded_file'
 
@@ -44,8 +43,7 @@ class ReportsController < ApplicationController
     end
     
     @test_session = MeegoTestSession.find(@preview_id)
-    @report = MeegoTestReport::Session.new(@test_session)
-    @summary = @report.summary
+    @report = @test_session
     @no_upload_link = true
 
     render :layout => "report"
@@ -60,11 +58,9 @@ class ReportsController < ApplicationController
     @test_session.update_attribute(field, params[:meego_test_session][field]);
     expire_caches_for(@test_session)
     
-    @report = MeegoTestReport::Session.new(@test_session, false)
-    
     sym = field.sub("_txt", "_html").to_sym
     
-    render :text => @report.send(sym) 
+    render :text => @test_session.send(sym) 
   end
   
   def update_title
@@ -133,8 +129,7 @@ class ReportsController < ApplicationController
     @testtype = @test_session.testtype
     @hwproduct = @test_session.hwproduct
     
-    @report = MeegoTestReport::Session.new(@test_session)
-    @summary = @report.summary
+    @report = @test_session
     @editing = false
     @wizard = false
     
@@ -149,8 +144,7 @@ class ReportsController < ApplicationController
     end
     @test_session = MeegoTestSession.find(@report_id)
     
-    @report = MeegoTestReport::Session.new(@test_session)
-    @summary = @report.summary
+    @report = @test_session
     @editing = false
     @wizard = false
     @email = true
@@ -169,8 +163,7 @@ class ReportsController < ApplicationController
     end
     
     @test_session = MeegoTestSession.find(id)
-    @report = MeegoTestReport::Session.new(@test_session)
-    @summary = @report.summary
+    @report = @test_session
     @no_upload_link = true
     
     render :layout => "report"

@@ -80,7 +80,7 @@ class UploadController < ApplicationController
 
     if @test_session.save
       session[:preview_id] = @test_session.id
-      redirect_to :action => :preview
+      redirect_to :controller => 'reports', :action => 'preview'
     else
       @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
       @types = MeegoTestSession.list_types ["Acceptance", "Sanity", "Weekly", "Milestone"]
