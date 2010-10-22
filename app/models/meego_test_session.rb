@@ -21,6 +21,7 @@
 #
 
 require 'resultparser'
+require 'testreport'
 require 'csv'
 
 #noinspection Rails3Deprecated
@@ -39,7 +40,11 @@ class MeegoTestSession < ActiveRecord::Base
   after_destroy :remove_uploaded_files
   
   XML_DIR = "public/reports"
+
   
+  ###############################################
+  # List category tags                          #
+  ###############################################
   def self.list_targets(seed=[])
     (seed + MeegoTestSession.all(:select => 'DISTINCT target', :conditions=>{:published=>true}).map{|s| s.target.gsub(/\b\w/){$&.upcase}}).uniq
   end
@@ -60,6 +65,65 @@ class MeegoTestSession < ActiveRecord::Base
     (seed + MeegoTestSession.all(:select => 'DISTINCT hardware', :conditions => {:target => target, :testtype=> testtype, :published=>true}).map{|s| s.hardware.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
+  ###############################################
+  # Test session navigation                     #
+  ###############################################
+  def prev_session
+    time = created_at
+    if not time
+      time = Time.now
+    end
+    MeegoTestSession.find(:first, :conditions => [
+        "created_at < ? AND target = ? AND testtype = ? AND hardware = ? AND published = ?", time, target, testtype, hardware, true
+      ],
+      :order => "created_at DESC")
+  end
+  
+  def next_session
+    MeegoTestSession.find(:first, :conditions => [
+        "created_at > ? AND target = ? AND testtype = ? AND hardware = ? AND published = ?", created_at, target, testtype, hardware, true
+      ],
+      :order => "created_at ASC")
+  end
+ 
+ 
+  ###############################################
+  # Small utility functions                     #
+  ###############################################
+  def generate_defaults!
+    self.title = target + " Test Report: " + hardware + " " + testtype + " " + Time.now.strftime("%Y-%m-%d")
+    self.environment_txt = "* Hardware: " + hardware
+  end
+  
+  def self.format_date
+    created_at.strftime("%d.%m")
+  end
+
+  def self.map_result(result)
+    result = result.downcase
+    if result == "pass"
+      1
+    elsif result == "fail"
+      -1
+    else
+      0
+    end
+  end  
+
+  def self.sanitize_filename(f)
+    filename = if f.respond_to?(:original_filename)
+      f.original_filename
+    else
+      f.path
+    end
+    just_filename = File.basename(filename)
+    just_filename.gsub(/[^\w\.\_\-]/, '_')
+  end
+  
+
+ ###############################################
+  # File upload handlers                        #
+  ###############################################
   def uploaded_files=(files)
     @files = files
   end
@@ -103,16 +167,13 @@ class MeegoTestSession < ActiveRecord::Base
   def remove_uploaded_files
     # TODO
   end
+
   
-  def generate_defaults!
-    self.title = target + " Test Report: " + hardware + " " + testtype + " " + Time.now.strftime("%Y-%m-%d")
-    self.environment_txt = "* Hardware: " + hardware
-  end
-  
-  def format_date
-    created_at.strftime("%d.%m")
-  end
-  
+private
+
+  ###############################################
+  # Uploaded data parsing                       #
+  ###############################################
   def parse_csv_file(filename)
     prev_category = nil
     test_set = nil
@@ -151,80 +212,31 @@ class MeegoTestSession < ActiveRecord::Base
   def parse_xml_file(filename)
     r = TestResults.new(File.open(filename))
 
+    sets = {}
+
     r.suites.each do |suite|
       suite.sets.each do |set|
-        set_model = suite_model.meego_test_sets.create(
-          :name => set.name,
-          :description => set.description,
-          :environment => set.environment,
-          :feature => set.feature
-        )
+        if sets.has_key? set.feature
+          set_model = sets[set.feature]
+        else
+          set_model = meego_test_sets.create(
+            :name => set.name,
+            :description => set.description,
+            :environment => set.environment,
+            :feature => set.feature
+          )
+          sets[set.feature] = set_model
+        end
         set.cases.each do |testcase|
           case_model = set_model.meego_test_cases.create(
             :name => testcase.name,
-            :description => testcase.description,
-            :manual => testcase.manual?,
-            :insignificant => testcase.insignificant?,
             :result => MeegoTestSession.map_result(testcase.result),
-            :subfeature => testcase.subfeature,
             :comment => testcase.comment,
             :meego_test_session => self
           )
         end
       end
     end
-  end
-  
-  def prev_session
-    time = created_at
-    if not time
-      time = Time.now
-    end
-    MeegoTestSession.find(:first, :conditions => [
-        "created_at < ? AND target = ? AND testtype = ? AND hardware = ? AND published = ?", time, target, testtype, hardware, true
-      ],
-      :order => "created_at DESC")
-  end
-  
-  def next_session
-    MeegoTestSession.find(:first, :conditions => [
-        "created_at > ? AND target = ? AND testtype = ? AND hardware = ? AND published = ?", created_at, target, testtype, hardware, true
-      ],
-      :order => "created_at ASC")
-  end
-  
-  def meego_test_cases
-    cases = []
-    meego_test_suites.each do |suite|
-      suite.meego_test_sets.each do |set|
-        cases += set.meego_test_cases
-      end
-    end
-    cases
-  end
-  
-  def self.map_result(result)
-    result = result.downcase
-    if result == "pass"
-      1
-    elsif result == "fail"
-      -1
-    else
-      0
-    end
-  end  
-  
-  private
-
-  def sanitize_filename(f)
-
-    filename = if f.respond_to?(:original_filename)
-      f.original_filename
-    else
-      f.path
-    end
-    just_filename = File.basename(filename)
-    just_filename.gsub(/[^\w\.\_\-]/, '_')
   end
 
 end
