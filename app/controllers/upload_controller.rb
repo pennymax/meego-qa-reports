@@ -23,7 +23,8 @@
 
 
 class UploadController < ApplicationController
-
+  
+  caches_page :upload_form 
   
   def upload_form
     @test_session = MeegoTestSession.new
