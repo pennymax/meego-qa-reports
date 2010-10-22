@@ -66,4 +66,72 @@ class IndexController < ApplicationController
     
   end
   
+private
+
+
+  def generate_trend_graph(sessions)
+    passed = []
+    failed = []
+    na = []
+    total = []
+    
+    sessions.each do |s|
+      total << s.total_cases
+      passed << s.total_passed
+      failed << s.total_failed
+      na << s.total_na
+    end
+    
+    max_total = total.max
+    
+    chart_type = 'cht=lc'
+    colors = '&chco=CACACA,ec4343,73a20c'
+    size = '&chs=700x120'
+    legend = '&chdl=na|fail|pass'
+    legend_pos = '&chdlp=b'
+    axes = '&chxt=x,y,r'
+    axrange = '&chxr=0,' + max_total.to_s
+    linefill = '&chm=B,CACACA,0,0,0|B,ec4343,0,0,0|B,73a20c,0,0,0'
+    data = '&chd=s:' + encode(passed,failed,na,max_total)
+    
+    "http://chart.apis.google.com/chart?" + chart_type + size + colors + legend + legend_pos + axes + axrange + linefill + data
+  end
+
+  def encode(passed, failed, na, max)
+    result = []
+
+    data = []
+    na.each do |v|
+      data << simple_encode(v,max)
+    end
+    result << data.join('')
+    
+    data = []
+    failed.each do |v|
+      data << simple_encode(v,max)
+    end
+    result << data.join('')
+
+    data = []
+    passed.each do |v|
+      data << simple_encode(v,max)
+    end
+    result << data.join('')
+    
+    result.join(',')
+  end
+
+  def simple_encode(value, max)
+    v = value*61/max
+    if v <= 25
+      ('A'[0] + v).chr
+    elsif v <= 51
+      ('a'[0] + v-26).chr
+    elsif v <= 61
+      ('0'[0] + v-52).chr
+    else
+      '_'
+    end
+  end
+
 end

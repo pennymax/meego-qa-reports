@@ -153,8 +153,6 @@ class MeegoTestSession < ActiveRecord::Base
     
     "<div class=\"bvs_wrap\"><img class=\"bvs\" src=\"#{url}\"/></div>".html_safe
   end
-
-
   ###############################################
   # Text data html formatting                   #
   ###############################################
