@@ -124,6 +124,8 @@ class ReportsController < ApplicationController
   		@test_session.issue_summary_txt = prev.issue_summary_txt
   	end
 
+    @test_session.tested_at = Time.now
+
     if @test_session.save
       session[:preview_id] = @test_session.id
       redirect_to :action => :preview

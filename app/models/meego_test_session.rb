@@ -110,7 +110,7 @@ class MeegoTestSession < ActiveRecord::Base
     end
   end  
 
-  def self.sanitize_filename(f)
+  def sanitize_filename(f)
     filename = if f.respond_to?(:original_filename)
       f.original_filename
     else
@@ -220,9 +220,6 @@ private
           set_model = sets[set.feature]
         else
           set_model = meego_test_sets.create(
-            :name => set.name,
-            :description => set.description,
-            :environment => set.environment,
             :feature => set.feature
           )
           sets[set.feature] = set_model
