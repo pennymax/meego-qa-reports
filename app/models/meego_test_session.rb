@@ -33,7 +33,7 @@ class MeegoTestSession < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :target
   validates_presence_of :testtype
-  validates_presence_of :hardware
+  validates_presence_of :hwproduct
   validates_presence_of :uploaded_files
 
   after_create :save_uploaded_files
@@ -58,11 +58,11 @@ class MeegoTestSession < ActiveRecord::Base
   end
   
   def self.list_hardware(seed=[])
-    (seed + MeegoTestSession.all(:select => 'DISTINCT hardware', :conditions=>{:published=>true}).map{|s| s.hardware.gsub(/\b\w/){$&.upcase}}).uniq
+    (seed + MeegoTestSession.all(:select => 'DISTINCT hwproduct', :conditions=>{:published=>true}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
   def self.list_hardware_for(target, testtype, seed=[])
-    (seed + MeegoTestSession.all(:select => 'DISTINCT hardware', :conditions => {:target => target, :testtype=> testtype, :published=>true}).map{|s| s.hardware.gsub(/\b\w/){$&.upcase}}).uniq
+    (seed + MeegoTestSession.all(:select => 'DISTINCT hwproduct', :conditions => {:target => target, :testtype=> testtype, :published=>true}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
   ###############################################
@@ -74,14 +74,14 @@ class MeegoTestSession < ActiveRecord::Base
       time = Time.now
     end
     MeegoTestSession.find(:first, :conditions => [
-        "created_at < ? AND target = ? AND testtype = ? AND hardware = ? AND published = ?", time, target, testtype, hardware, true
+        "created_at < ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ?", time, target, testtype, hwproduct, true
       ],
       :order => "created_at DESC")
   end
   
   def next_session
     MeegoTestSession.find(:first, :conditions => [
-        "created_at > ? AND target = ? AND testtype = ? AND hardware = ? AND published = ?", created_at, target, testtype, hardware, true
+        "created_at > ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ?", created_at, target, testtype, hwproduct, true
       ],
       :order => "created_at ASC")
   end
@@ -91,8 +91,8 @@ class MeegoTestSession < ActiveRecord::Base
   # Small utility functions                     #
   ###############################################
   def generate_defaults!
-    self.title = target + " Test Report: " + hardware + " " + testtype + " " + Time.now.strftime("%Y-%m-%d")
-    self.environment_txt = "* Hardware: " + hardware
+    self.title = target + " Test Report: " + hwproduct + " " + testtype + " " + Time.now.strftime("%Y-%m-%d")
+    self.environment_txt = "* Hardware: " + hwproduct
   end
   
   def self.format_date
