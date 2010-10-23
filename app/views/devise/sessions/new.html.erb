@@ -1,17 +1,28 @@
-<h2>Sign in</h2>
-
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <p><%= f.label :username %><br />
-  <%= f.text_field :username %></p>
-
-  <p><%= f.label :password %><br />
-  <%= f.password_field :password %></p>
-
-  <% if devise_mapping.rememberable? -%>
-    <p><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
-  <% end -%>
-
-  <p><%= f.submit "Sign in" %></p>
-<% end %>
-
-<%= render :partial => "devise/shared/links" %>
+<div class="page_content">
+	<h1>Login to MeeGo QA Reports</h1>
+	
+	<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+		
+	  <div class="field last">
+	  	<%= f.label :username %>
+	  	<%= f.text_field :username, :class => "text short" %>
+	  </div>
+	
+	  <div class="field last">
+	  	<%= f.label :password %>
+	  	<%= f.password_field :password, :class => "text short" %>
+	  </div>
+	  
+	  
+	  <div class="field last no_label">
+	  <% if devise_mapping.rememberable? -%>
+	    <%= f.check_box :remember_me %> <%= f.label :remember_me, :class => "inline_label" %>
+	  <% end -%>
+	  </div>
+		<div id="wizard_actions">
+	  <%= f.submit "Login", :class =>"big_btn login" %>
+	  </div>
+	<% end %>
+	
+	<%= render :partial => "devise/shared/links" %>
+</div>
