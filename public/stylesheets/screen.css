@@ -169,9 +169,10 @@ ol {
 dl {
 	margin:0 0 1.5em 0; }
 dl dt {
-	font-weight:bold; }
+	font-weight:normal; }
 dd {
-	margin-left:1.5em; }
+	margin-left:1.5em;
+	font-weight: bold; }
 
 
 
@@ -223,6 +224,10 @@ dfn {
 	font-style:italic; }
 em {
 	font-style: italic}
+	
+.un {font-weight: normal;
+	font-size: smaller;}
+
 dfn {
 	font-weight:bold; }
 sup, 
@@ -410,6 +415,23 @@ div.formError {
 	background-color: #57257b;
 	color: #fff; }
 
+.ui_btn {
+	border: 1px solid #cfcece;
+	background-color: #fff;
+	background-repeat: repeat-x;
+	background-position: bottom;
+	background-image: url(../images/ui_btn_bg.png);
+	text-decoration: none;
+	padding: 4px 7px;
+	font-size: 10px;}
+
+.ui_btn:hover {
+	-webkit-box-shadow: #aaa 0px 0px 2px;
+	-moz-box-shadow: #aaa 0px 0px 2px;
+	box-shadow: #aaa 0px 0px 2px;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=0, Color='#aaaaaa')";}
+
+
 /* @end */
 
 form#edit_report { 
@@ -525,7 +547,25 @@ input.cancel {
 .notice a {color:#514721;}
 .success a {color:#264409;}
 
+/* error msgs 500, 422, 404 */
+.error_msg_wrap {
+	padding: 4em 0 4em 0;
+	background: transparent url(../images/error_msg_bg.png) repeat-x 0 bottom;}
 
+.error_msg {
+	padding-left: 110px;
+	margin-left: 4em;
+	background: transparent url(../images/dialog_icon.png) no-repeat 0 0em;}
+
+.error_msg h1{
+	font-size: 3em;
+	margin-bottom: 0.35em;
+	color: #adadad;
+	text-shadow:2px 2px 2px  #fff ;}
+	
+.error_msg p{
+	font-size: 1.16667em;
+	text-shadow: 1px 1px 1px #fff;}
 
 /* @end */
 
@@ -561,10 +601,74 @@ input.cancel {
 	padding-left: 30px; }
 
 #header { 
-	border-bottom: 7px solid #ed0089; 
-	overflow: hidden; 
+	border-bottom: 7px solid #ed0089;  
 	padding-top: 0; 
-	height: 110px;}
+	height: 112px;
+	position: relative;}
+	
+	/* header */
+	#action,
+	#session { 
+		position: absolute; 
+		right: 0;
+		top: 72px;}
+	
+	#logo { 
+		float: left; }
+	
+	#session {
+		top:10px;
+		background: transparent url(../images/session_btm.png) no-repeat right bottom;
+		padding-bottom: 12px;}
+
+	#session span.username {
+		font-size: 11px;
+		padding-right: 1em;}
+
+	#action {
+		top: 72px;}
+		
+	/* header end */
+
+#version_navi {
+	height: 3em;
+	overflow: visible;
+	clear: both;
+	border-bottom: 1px solid #cacaca;}
+
+#version_navi ul{
+	list-style-type: none;
+	float: left;
+	margin: 0;
+	height: 3em;
+	background: transparent url(../images/version_navi_div.png) no-repeat right bottom;
+	}
+
+/* version navigation */
+#version_navi ul li {
+	float: left;}
+	
+#version_navi ul li.current {
+	border-left: 1px solid #cacaca;
+	position: relative;
+	z-index: 100;}
+
+#version_navi ul li.current a {
+	border-right: 1px solid #cacaca;
+	background: #515151 url(../images/version_navi_active_bg.png) repeat-x 0 bottom;
+	color: #f20089;
+	height: 1.0833em;
+	margin-right: -1px;}
+
+#version_navi ul li a {
+	display: block;
+	padding: 1em 1em;
+	line-height: 1;
+	font-weight: bold;
+	text-decoration: none;
+	background: transparent url(../images/version_navi_div.png) no-repeat left bottom;}
+
+/* version navigation end */
 
 #page {
 
@@ -597,16 +701,11 @@ input.cancel {
 	padding-top: 30px; 
 	padding-bottom: 30px; }
 
-#index_page { 
-	padding-bottom: 313px; 
+#index_page,
+#error_page { 
+	padding-bottom: 329px; 
 	background: url(../images/hdiv_3.png) no-repeat 50% bottom; }
 
-div#action { 
-	float: right; 
-	margin-top: 72px; }
-
-#logo { 
-	float: left; }
 
 
 
@@ -635,7 +734,8 @@ div#action {
 
 #report_navigation { 
 	border-bottom: 1px solid #cacaca; 
-	border-left: 1px solid #cacaca; }
+	border-left: 1px solid #cacaca; 
+	margin-bottom: 0;}
 
 #report_navigation ul { 
 	padding-left: 20px; }
@@ -927,25 +1027,38 @@ td.na {
 
 /* @group toc */
 
-ol.toc ol { 
-		list-style-type: none; 
+ol.toc ol,
+dl.meta_info { 
+	list-style-type: none; 
 	list-style-position: outside; 
 	}
 
 ol.toc a:after { 
 	content: ' >'; }
 
-ol.toc { 
+ol.toc,
+dl.meta_info { 
 	background: url(../images/bt_shade.png) repeat-x 0 bottom; 
 	list-style-type: none; 
 	list-style-position: outside; 
 	margin-left: 0; 
 	padding: 20px 40px; 
-	border-top: 7px solid #ed0089; 
+	border-top-width: 7px;
+	border-top-style: solid;
 	width: 21em; 
 	line-height: 20px; }
+	
+ol.toc {border-top-color: #ed0089;}
 
+dl.meta_info {border-top-color: #9f9f9f;}
 
+.report_head .meta_info,
+.report_head .toc {
+	float: left;
+	min-height: 16em;}
+
+.report_head {
+	overflow: hidden;}
 
 /* @end */
 
