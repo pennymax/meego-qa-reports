@@ -1,4 +1,6 @@
-module StateLoader
+module DBState
+  extend self
+
   def included_tables
     ignored_tables = %w(schema_migrations)
     ActiveRecord::Base.connection.tables.reject { |t| ignored_tables.include?(t) }
@@ -10,10 +12,17 @@ module StateLoader
     state_env = env || 'test'
     config = ActiveRecord::Base.configurations[state_env]
 
-    cmd = "sqlite3 #{config['database']} < #{fpath}"
+    clear_tables(config)
+
+    cmd = "sqlite3 #{config['database']} < #{fpath} >> tmp/sqlite3.log 2>&1"
     system(cmd)
   end
 
+
+  def clear_tables(config)
+    drops = included_tables.map {|t| "delete from #{t};"}.join("\n")
+    system("echo '#{drops}' | sqlite3 #{config['database']} >> tmp/sqlite3.log 2>&1")
+  end
 
   def dump(outfile_base)
     state_env = 'development'
