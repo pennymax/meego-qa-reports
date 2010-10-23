@@ -39,8 +39,10 @@
 
 <% content_for :button_area do %>
     <form id="edit_report" action="">
+      <% if user_signed_in? %>
 		<a href="#" id="delete-button" class="small_btn cancel">Delete</a>
 		<a href="<%=url_for :controller=>'reports', :action=>'edit', :id=>@test_session.id%>" id="edit-button" class="small_btn">Edit</a>
+      <% end %>
 		<a href="<%=url_for :controller=>'reports', :action=>'print', :id=>@test_session.id%>" id="email-button" class="small_btn">Print</a>
 	</form>
 <% end %>
