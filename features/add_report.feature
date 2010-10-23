@@ -16,12 +16,12 @@ Feature:
     And I should see "Publish test report" within "#wizard_progress"
 
   @smoke
-  Scenario: Add new report with valid data
+  Scenario: Add new report with valid data, which contains a testcase with bugzilla id 3921 failing
 
     When I am on the front page
     And I follow "Add report" within "#action"
 
-    And fill in "meego_test_session[target]" with "Core"
+    And I choose "core"
     And fill in "meego_test_session[testtype]" with "Smokey"
     And fill in "meego_test_session[hwproduct]" with "n990"
 

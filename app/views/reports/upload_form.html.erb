@@ -31,10 +31,35 @@
     <%= form_for @test_session, :url=>{:action => "upload"}, :html => {:id => 'upload_report', :multipart => true} do |f| %>
         <h1>Upload test data</h1>
         <div class="field">
+        	<label for="report_meego_version">Meego release:</label>
+        	<input type="radio" name="version" id="v2.0" value="v2.0" class="radio" checked="checked"  />
+        	<label for="id1" class="inline_label">v2.0</label>
+        	<input type="radio" name="version" id="v1.8" value="v2.0" class="radio" />
+        	<label for="id2" class="inline_label">v1.8</label>
+        	<input type="radio" name="version" id="v1.6" value="v2.0" class="radio" />
+        	<label for="id3" class="inline_label">v1.6</label>
+        	<input type="radio" name="version" id="v1.2" value="v2.0" class="radio" />
+        	<label for="id4" class="inline_label">v1.2</label>
+        	<input type="radio" name="version" id="v1.0" value="v2.0" class="radio" />
+        	<label for="id5" class="inline_label">v1.0</label>
+        </div>
+        <div class="field">
+        	<label for="report_test_execution_date">Test execution date:</label>
+        	<input type="text" name="report_test_execution_date" class="date" />
+        </div>
+        <div class="field">
             <label for="report_test_target">Target profile:</label>
-			<%= f.text_field :target, :id => "report_test_target", :class => "text", :tabindex => 2 %>
-            <small class="suggestions">e.g. <%= render :partial=>'suggestion', :collection => @targets[0,3], :spacer_template => 'comma' %></small>
-			<%= f.error_message_on :target %>
+        	<input type="radio" name="meego_test_session[target]" id="core" value="Core" class="radio" checked="checked" />
+        	<label for="id1" class="inline_label">Core</label>
+        	<input type="radio" name="meego_test_session[target]" id="handset" value="Handset" class="radio" />
+        	<label for="id2" class="inline_label">Handset</label>
+        	<input type="radio" name="meego_test_session[target]" id="netbook" value="Netbook" class="radio" />
+        	<label for="id3" class="inline_label">Netbook</label>
+        	<input type="radio" name="meego_test_session[target]" id="IVI" value="IVI" class="radio" />
+        	<label for="id4" class="inline_label">IVI</label>
+
+            <%= f.error_message_on :target %>
+            
         </div>
         <div class="field">
             <label for="report_test_type">Test type:</label>
@@ -92,7 +117,9 @@ $(document).ready(function() {
 	var targetSuggestions = [<%=raw @targets.map{|t| '"%s"' % t}.join(',')%>];
 	var typeSuggestions = [<%=raw @types.map{|t| '"%s"' % t}.join(',')%>];
 	var hardwareSuggestions = [<%=raw @hardware.map{|t| '"%s"' % t}.join(',')%>];
-	
+
+    $(".date").datepicker({});
+
 	$("#report_test_target").autocomplete({
 		source: targetSuggestions
 	});
