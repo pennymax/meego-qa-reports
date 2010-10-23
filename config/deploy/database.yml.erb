@@ -10,7 +10,7 @@ test:
         
 staging:
 	adapter: mysql
-	database: meego-qa-reports-staging 
+	database: meego_qa_reports-staging 
 	username: meego
 	password: #{Capistrano::CLI.ui.ask("Enter MySQL database password: ")}
 	encoding: utf8
@@ -18,7 +18,7 @@ staging:
         
 production:
 	adapter: mysql
-	database: meego-qa-reports-production
+	database: meego_qa_reports_production
 	username: meego
 	password: #{Capistrano::CLI.ui.ask("Enter MySQL database password: ")}
 	encoding: utf8
