@@ -442,10 +442,16 @@ form#edit_report {
 	overflow: hidden; 
 	float: right; }
 
-form h1 { 
+form h1,
+.form_misc_area h1 { 
 	font-weight: bold; 
 	font-size: 20px; 
 	text-indent: 210px; }
+
+.form_misc_area {
+	border-top: 1px solid #dadada;
+	padding-top: 18px;
+	margin-top: 36px;}
 
 .field { 
 	border-bottom: 1px solid #dadada; 
@@ -1152,12 +1158,17 @@ p.next_step {
 	display: block; 
 	text-indent: -9999px; }
 
-#wizard_actions { 
+#wizard_actions,
+.action_btns { 
 	overflow: hidden; 
-	padding-left: 210px; 
-	padding-top: 30px; 
-	border-top: 1px solid #ccc; 
-	margin-top: 30px; }
+	padding-left: 210px; }
+
+#wizard_actions {
+	border-top: 1px solid #ccc;
+	margin-top: 30px;
+	padding-top: 30px;}
+
+
 
 
 
