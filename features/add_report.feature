@@ -15,20 +15,26 @@ Feature:
     Then I should see "Upload test data" within "#upload_report"
     And I should see "Publish test report" within "#wizard_progress"
 
+
   @smoke
-  Scenario: Add new report with valid data
+  Scenario Outline: Add new report with sample data
 
     When I am on the front page
     And I follow "Add report" within "#action"
 
-    And fill in "meego_test_session[target]" with "Core"
-    And fill in "meego_test_session[testtype]" with "Smokey"
-    And fill in "meego_test_session[hwproduct]" with "n990"
-
-    And attach the file "features/resources/sample.csv" to "meego_test_session[uploaded_files][]" within "#browse"
+    And I fill in target "Core", test type "Smokey" and hardware "n990"
+    And I attach the report "<attachment>"
 
     And submit the form at "upload_report_submit"
 
-    Then I should see "Check home screen" within ".testcase"
-    And I should see "Fail" within ".testcase"
-    And I should see "3921" within ".testcase"
+    And I should see "<expected text>" within ".testcase"
+    And I should see "<expected link>" within ".testcase"
+
+  Examples:
+    | attachment     | expected text             | expected link |
+    | sample.csv     | Check home screen         | 3921          |
+    | bluetooth.xml  | NFT-BT-Device_Scan_C-ITER | Pass          |
+    | filesystem.xml | NFT-FS-Read_Data_TMP-THRO | Pass          |
+    | sim.xml        | SMOKE-SIM-Get_Languages   | Pass          |
+
+

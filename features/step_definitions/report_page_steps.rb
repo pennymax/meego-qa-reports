@@ -27,6 +27,19 @@ When /^I click to delete the report$/ do
   When "I follow \"delete-button\" within \".page_content\""
 end
 
+When /^I attach the report "([^"]*)"$/ do |file|
+  And "attach the file \"features/resources/#{file}\" to \"meego_test_session[uploaded_files][]\" within \"#browse\""
+end
+
+
+
+When /^I fill in target "([^"]*)", test type "([^"]*)" and hardware "([^"]*)"$/ do |target, test_type, hardware|
+  When "I fill in \"meego_test_session[target]\" with \"#{target}\""
+  When "I fill in \"meego_test_session[testtype]\" with \"test_type}\""
+  When "I fill in \"meego_test_session[hwproduct]\" with \"#{hardware}\""
+end
+
+
 Then /^I should see the header$/ do
   Then "I should see \"QA Reports\" within \"#header\""
 end
