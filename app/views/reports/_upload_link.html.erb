@@ -1,4 +1,4 @@
-<% unless @no_upload_link %>
+<% unless @no_upload_link or not user_signed_in? %>
 <div id="action">
 	<a href="<%= upload_path %>" class="small_btn add">Add report +</a>
 </div>

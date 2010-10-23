@@ -22,15 +22,9 @@
 # 02110-1301 USA
 #
 %>
-<tr class="<%=row_class(category_summary_counter)%>" >
-	<%if @email%>
-	<td><%= category_summary.name %></td>
-	<%else%>
-	<td><a href="<%= category_summary.test_set_link %>"><%= category_summary.name %></a></td>
-	<%end%>
-	<td class="total"><%= category_summary.total_cases %></td>
-	<td class="pass"><%= category_summary.total_passed %></td>
-	<td class="fail"><%= category_summary.total_failed %></td>
-	<td class="na"><%= category_summary.total_na %></td>
-	<td><%= category_summary.graph_img_tag %></td>
-</tr>
+<strong><%=testtype%></strong>
+<ul>
+	<% hardware_for(target, testtype).each do |hw| %>
+	<li><a href="<%=url_for :controller=>'index', :action=>'filtered_list', :target=>target, :testtype=>testtype, :hwproduct=>hw%>"><%=hw%></a></li>
+	<% end %>
+</ul>

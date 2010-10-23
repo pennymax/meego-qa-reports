@@ -1,9 +1,11 @@
+<%
 #
 # This file is part of meego-test-reports
 #
 # Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
 #
-# Authors: Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
+# Authors: Jussi Jokinen <jussijokinen@iki.fi>
+#          Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public License
@@ -19,9 +21,23 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 # 02110-1301 USA
 #
+%>
+<div id="index_page">
+<%= breadcrumbs %>
 
-class MeegoTestSuite < ActiveRecord::Base
-  belongs_to :meego_test_session
-  has_many :meego_test_sets, :dependent => :destroy
-  #has_many :meego_test_cases, :through => :meego_test_sets
-end
+<!--<img src="<%#=@trend_graph_url%>"/>-->
+
+<table id="report_navigation" class="filtered">
+    <thead>
+    <tr>
+      <th scope="col"><%=@target%></th>
+    </tr>
+    </thead>
+    <tr>
+      <td>
+      	  <%= render :partial=>'month', :collection => @headers %>
+      </td>
+    </tr>
+   
+  </table>
+  </div>
