@@ -27,19 +27,77 @@
 
 <!--<img src="<%#=@trend_graph_url%>"/>-->
 
-<table id="report_navigation" class="filtered">
+<table id="report_filtered_navigation" class="filtered">
     <thead>
     <tr>
-      <th scope="col"><%=@target%></th>
+      <th scope="col" class="filtered"><%=@target%></th>
     </tr>
     </thead>
     <tr>
-      <td>
+      <td class="filtered">	  
+      	  <img src="/images/stack_chart_dummy.png" alt="Stacked chart" />
+      	  <div class="chart_actions stack_chart">
+	      	  <a class="ui_btn inactive">Absolute values</a>
+	      	  <a class="ui_btn">Relative %</a>
+      	  </div>
+      
+      		<table>
+      			<tr>
+      				<td colspan="3"><strong>October 2010</strong></td>
+      			</tr>
+      			<tr class="odd">
+      				<td class="date">12/10</td>
+      				<td class="report_name"><a href="">Handset Test Report: Aava Acceptance 2010-10-19</a></td>
+      				<td class="graph"><img src="/images/bar_chart_dummy.png" alt="" /></td>
+      			</tr>
+      			<tr class="even">
+      				<td class="date">12/10</td>
+      				<td class="report_name"><a href="">Handset Test Report: Aava Acceptance 2010-10-19</a></td>
+      				<td class="graph"><img src="/images/bar_chart_dummy.png" alt="" /></td>
+      			</tr>
+      			<tr class="odd">
+      				<td class="date">12/10</td>
+      				<td class="report_name"><a href="">Handset Test Report: Aava Acceptance 2010-10-19</a></td>
+      				<td class="graph"><img src="/images/bar_chart_dummy.png" alt="" /></td>
+      			</tr>
+      			<tr class="even">
+      				<td class="date">12/10</td>
+      				<td class="report_name"><a href="">Handset Test Report: Aava Acceptance 2010-10-19</a></td>
+      				<td class="graph"><img src="/images/bar_chart_dummy.png" alt="" /></td>
+      			</tr>
+      		</table>
+
+
+      		<table>
+      			<tr>
+      				<td colspan="3"><strong>November 2010</strong></td>
+      			</tr>
+      			<tr class="odd">
+      				<td class="date">12/10</td>
+      				<td class="report_name"><a href="">Handset Test Report: Aava Acceptance 2010-10-19</a></td>
+      				<td class="graph"><img src="/images/bar_chart_dummy.png" alt="" /></td>
+      			</tr>
+      			<tr class="even">
+      				<td class="date">12/10</td>
+      				<td class="report_name"><a href="">Handset Test Report: Aava Acceptance 2010-10-19</a></td>
+      				<td class="graph"><img src="/images/bar_chart_dummy.png" alt="" /></td>
+      			</tr>
+      			<tr class="odd">
+      				<td class="date">12/10</td>
+      				<td class="report_name"><a href="">Handset Test Report: Aava Acceptance 2010-10-19</a></td>
+      				<td class="graph"><img src="/images/bar_chart_dummy.png" alt="" /></td>
+      			</tr>
+      			<tr class="even">
+      				<td class="date">12/10</td>
+      				<td class="report_name"><a href="">Handset Test Report: Aava Acceptance 2010-10-19</a></td>
+      				<td class="graph"><img src="/images/bar_chart_dummy.png" alt="" /></td>
+      			</tr>
+      		</table>
+      
+      
       	  <%= render :partial=>'month', :collection => @headers %>
       	  
-      	  ** DUMMY HTML START **
-      	  
-      	  <img src="/images/stack_chart_dummy.png" alt="stack chart" />
+
       </td>
     </tr>
    
