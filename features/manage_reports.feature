@@ -2,7 +2,7 @@ Feature: Manage reports
 
   Background: 
   	Given I have created the "core_aava_sanity" report
-  	And I view the report id 1
+  	And I view the report "core_aava_sanity"
 
   @smoke
   Scenario: Viewing a report

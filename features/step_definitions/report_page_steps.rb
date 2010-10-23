@@ -4,8 +4,13 @@ Then /^I should see the following table:$/ do |expected_report_front_pages_table
   expected_report_front_pages_table.diff!(tableish('table tr', 'td,th'))
 end
 
-When /I view the report id (\d+)/ do |report_id|
-  visit("report/view/#{report_id}")
+When /I view the report "([^"]*)"$/ do |report_string|
+  target, hardware, test_type = report_string.split('_')
+  report = MeegoTestSession.all.detect do |ts|
+    ts.attributes.values_at('target', 'hwproduct', 'testtype').map(&:downcase) == [target, hardware, test_type]
+  end
+  raise "report not found with given parameters!" unless report
+  visit("report/view/#{report.id}")
 end
 
 Given /^I have created the "([^"]*)" report$/ do |report_name|
