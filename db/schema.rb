@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101017182620) do
+ActiveRecord::Schema.define(:version => 20101023113303) do
 
   create_table "meego_test_cases", :force => true do |t|
     t.integer "meego_test_set_id",                        :null => false
@@ -72,11 +72,8 @@ ActiveRecord::Schema.define(:version => 20101017182620) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "name"
-    t.string   "username"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
 end
