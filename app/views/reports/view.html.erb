@@ -41,7 +41,7 @@
     <form id="edit_report" action="">
 		<a href="#" id="delete-button" class="small_btn cancel">Delete</a>
 		<a href="<%=url_for :controller=>'reports', :action=>'edit', :id=>@test_session.id%>" id="edit-button" class="small_btn">Edit</a>
-		<a href="<%=url_for :controller=>'reports', :action=>'print', :id=>@test_session.id%>" id="email-button" class="small_btn">Print</a>
+		<a href="<%=url_for :controller=>'reports', :action=>'print', :id=>@test_session.id%>" id="print-button" class="small_btn">Print</a>
 	</form>
 <% end %>
 

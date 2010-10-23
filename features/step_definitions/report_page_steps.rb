@@ -19,7 +19,7 @@ When /^I click to edit the report$/ do
 end
 
 When /^I click to print the report$/ do
-  When "I follow \"email-button\" within \".page_content\""
+  When "I follow \"print-button\" within \".page_content\""
 end
 
 
