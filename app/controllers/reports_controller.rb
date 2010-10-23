@@ -197,7 +197,7 @@ class ReportsController < ApplicationController
     
     test_session.destroy
     
-    redirect_to :action => :index
+    redirect_to :controller => :index, :action => :index
   end
   
 protected
