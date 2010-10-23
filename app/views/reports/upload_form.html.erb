@@ -120,7 +120,9 @@ $(document).ready(function() {
 	var targetSuggestions = [<%=raw @targets.map{|t| '"%s"' % t}.join(',')%>];
 	var typeSuggestions = [<%=raw @types.map{|t| '"%s"' % t}.join(',')%>];
 	var hardwareSuggestions = [<%=raw @hardware.map{|t| '"%s"' % t}.join(',')%>];
-	
+
+    $(".date").datepicker({});
+
 	$("#report_test_target").autocomplete({
 		source: targetSuggestions
 	});
