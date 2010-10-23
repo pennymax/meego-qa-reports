@@ -5,7 +5,7 @@ Feature: Manage reports
   	And I view the "sample" report page
 
   Scenario: Viewing a report
-    Then I should see "Publish test" within "#wizard_progress"
+    Then I should see "Meego" within "#version_navi"
 
     And I should see "Check home screen" within ".testcase"
     And I should see "Fail" within ".testcase"
