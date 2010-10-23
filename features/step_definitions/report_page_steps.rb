@@ -26,3 +26,11 @@ end
 When /^I click to delete the report$/ do
   When "I follow \"delete-button\" within \".page_content\""
 end
+
+Then /^I should see the header$/ do
+  Then "I should see \"QA Reports\" within \"#header\""
+end
+
+Then /^I should not see the header$/ do
+  Then "I should not see \"#header\""
+end

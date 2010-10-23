@@ -7,7 +7,7 @@ Feature: Manage reports
   @smoke
   Scenario: Viewing a report
     Then I should see "Meego" within "#version_navi"
-    And I should see "QA Reports" within "#header"
+    And I should see the header
 
     And I should see "Check home screen" within ".testcase"
     And I should see "Fail" within ".testcase"
@@ -17,7 +17,7 @@ Feature: Manage reports
   Scenario: Printing a report
 	When I click to print the report
 
-    And I should not see "#header"
+    And I should not see the header
 
     And I should see "Check home screen" within ".testcase"
     And I should see "Fail" within ".testcase"
