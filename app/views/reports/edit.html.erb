@@ -42,7 +42,7 @@
 <% content_for :wizard_actions do %>
 <div id="wizard_actions">
 	<div id="wizard_buttons">
-	  <a href="<%=url_for :controller=>'reports', :action=>'view', :id=>@test_session.id, :edited=>'true'%>" class="big_btn submit">Done</a>
+	  <a href="<%=url_for :controller=>'reports', :action=>'view', :id=>@test_session.id %>" class="big_btn submit">Done</a>
 	</div>
 </div>
 <% end %>
