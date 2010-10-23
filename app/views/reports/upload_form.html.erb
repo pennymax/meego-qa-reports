@@ -121,7 +121,17 @@ $(document).ready(function() {
 	var typeSuggestions = [<%=raw @types.map{|t| '"%s"' % t}.join(',')%>];
 	var hardwareSuggestions = [<%=raw @hardware.map{|t| '"%s"' % t}.join(',')%>];
 
-    $(".date").datepicker({});
+    $(".date").datepicker({
+			showOn: "both",
+			buttonImage: "images/calendar_icon.png",
+			buttonImageOnly: true,
+			firstDay: 1,
+			selectOtherMonths: true,
+			dateFormat: "yy-mm-dd"
+		});
+    var myDate = new Date();
+    var prettyDate =myDate.getFullYear() + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
+    $(".date").val(prettyDate);
 
 	$("#report_test_target").autocomplete({
 		source: targetSuggestions

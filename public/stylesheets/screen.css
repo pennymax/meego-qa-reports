@@ -260,6 +260,9 @@ tt {
 
 /* @group Helper styles */
 
+.ui-datepicker-trigger {
+	margin: 3px 0 0 10px;}
+
 /* @group editables */
 
 a.bugzilla {
@@ -468,6 +471,9 @@ label { margin-right:10px; display:block;
 	width: 200px; 
 	text-align: right; 
 	font-size: 14px;}
+
+label.small {
+	font-size: 10px;}
 	
 
 label.inline_label {
