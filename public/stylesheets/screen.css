@@ -336,12 +336,15 @@ div.formError {
 .title_form .small_btn { 
 	margin-top: 10px; }
 
-.big_btn.next { 
-	padding-right:48px; 
+.big_btn.next,
+.big_btn.login { 
 	background-image: url(../images/btn_arrow.png);
 	background-repeat: no-repeat;
-	background-position:88% 50%; 
-	float: right; }
+	background-position:88% 50%;
+	padding-right:48px;}
+
+.big_btn.next {
+	float: right;}
 
 .big_btn.submit { 
 	padding-right:48px; 
@@ -449,7 +452,10 @@ form h1 {
 
 .field.last { 
 	border-bottom: none; 
-	padding-bottom: 0; }
+	padding-bottom: 0;}
+
+.field.no_label {
+	margin-left: 210px;}
 
 .field small { 
 	float: left; 
@@ -489,7 +495,7 @@ input.date, input.text, input.title, textarea, select, input.title_field {
 	
 input.text:focus, input.title:focus, textarea:focus, select:focus {border:1px solid #666;}
 input.text, input.title {width: 250px;}
-input.date {width:10em;}
+input.date, input.text.short {width:10em;}
 input.title {font-size:1.5em;}
 
 input.file { 
