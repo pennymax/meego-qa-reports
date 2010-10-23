@@ -4,7 +4,6 @@ db/*.sqlite3
 log/*.log
 tmp/*
 .tmp*~
-Gemfile.lock
 public/reports/**/*
 public/system/*
 config/deploy/production.rb
