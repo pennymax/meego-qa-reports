@@ -67,11 +67,15 @@
 		
 		<dl class="meta_info">
 				<dt>Author:</dt>
-				<dd>John Longername</dd>
+				<dd><%= @report.author.name%><br/>
+                  <span class="un"><%= format_date_to_human_readable @report.created_at %></span>
+                </dd>
 				<dt>Last modified by:</dt>
-				<dd>Jane Doe, <span class="un">24th November 2010</span></dd>
+				<dd><%= @report.editor.name %><br/>
+                  <span class="un"><%= format_date_to_human_readable @report.updated_at %></span>
+                </dd>
 				<dt>Test execution date:</dt>
-				<dd>23th October 2010</dd>
+				<dd><%= format_date_to_human_readable @report.tested_at %></dd>
 		</dl>
 	</div>
 	

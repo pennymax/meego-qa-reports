@@ -62,6 +62,10 @@ module ApplicationHelper
    html += '</div>'
    html.html_safe
  end
+
+  def format_date_to_human_readable(date)
+    date.strftime('%d %B %Y')
+  end
   
 
 end

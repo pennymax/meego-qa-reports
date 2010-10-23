@@ -42,13 +42,7 @@
   	  <h3><a href="<%= root_path %>">MeeGo | QA Reports</a></h3>
   	</div>
 	
-	<div id="session">
-      <% if user_signed_in? %>
-        <span class="username"><%= current_user.name %></span> <%= link_to "Sign out", destroy_user_session_path, :class => "ui_btn" %>
-      <% else %>
-        <%= link_to "Sign In", new_user_session_path, :class => "ui_btn" %>
-      <% end %>
-	</div>
+    <%= render :partial => "shared/session_management" %>
 	
 	<%= render :partial => "reports/upload_link" %>
   </div>
