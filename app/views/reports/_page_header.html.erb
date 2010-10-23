@@ -1,7 +1,11 @@
   <div id="header">
   	<div id="logo">
-  	  <h3><a href="<%=url_for :controller=>'reports', :action=>'index'%>">MeeGo | QA Reports</a></h3>
+  	  <h3><a href="<%=url_for :controller=>'index', :action=>'index'%>">MeeGo | QA Reports</a></h3>
   	</div>
 	
+	<div id="session">
+		<span class="username"><%=current_user.name%></span> <a href="" class="ui_btn">Sign out</a>
+	</div>
+
 	<%= render :partial => "upload_link" %>
   </div>
