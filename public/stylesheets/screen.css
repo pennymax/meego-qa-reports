@@ -427,13 +427,17 @@ div.formError {
 	background-image: url(../images/ui_btn_bg.png);
 	text-decoration: none;
 	padding: 4px 7px;
-	font-size: 10px;}
+	font-size: 10px;
+	cursor: pointer;}
 
 .ui_btn:hover {
 	-webkit-box-shadow: #aaa 0px 0px 2px;
 	-moz-box-shadow: #aaa 0px 0px 2px;
 	box-shadow: #aaa 0px 0px 2px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=0, Color='#aaaaaa')";}
+
+.ui_btn.inactive {
+	color: #999;}
 
 
 /* @end */
@@ -806,7 +810,8 @@ input.cancel {
 	width: 4em; 
 	float: left; }
 
-
+.chart_actions.stack_chart {
+	margin-left: 15px;}
 
 
 
