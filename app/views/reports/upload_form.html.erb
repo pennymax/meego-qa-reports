@@ -49,20 +49,17 @@
         </div>
         <div class="field">
             <label for="report_test_target">Target profile:</label>
-        	<input type="radio" name="profile" id="core" value="Core" class="radio" checked="checked" />
+        	<input type="radio" name="meego_test_session[target]" id="core" value="Core" class="radio" checked="checked" />
         	<label for="id1" class="inline_label">Core</label>
-        	<input type="radio" name="profile" id="handset" value="Handset" class="radio" />
+        	<input type="radio" name="meego_test_session[target]" id="handset" value="Handset" class="radio" />
         	<label for="id2" class="inline_label">Handset</label>
-        	<input type="radio" name="profile" id="netbook" value="Netbook" class="radio" />
+        	<input type="radio" name="meego_test_session[target]" id="netbook" value="Netbook" class="radio" />
         	<label for="id3" class="inline_label">Netbook</label>
-        	<input type="radio" name="profile" id="IVI" value="IVI" class="radio" />
+        	<input type="radio" name="meego_test_session[target]" id="IVI" value="IVI" class="radio" />
         	<label for="id4" class="inline_label">IVI</label>
+
+            <%= f.error_message_on :target %>
             
-<!--
-			<%= f.text_field :target, :id => "report_test_target", :class => "text", :tabindex => 2 %>
-            <small class="suggestions">e.g. <%= render :partial=>'suggestion', :collection => @targets[0,3], :spacer_template => 'comma' %></small>
-			<%= f.error_message_on :target %>
--->
         </div>
         <div class="field">
             <label for="report_test_type">Test type:</label>
