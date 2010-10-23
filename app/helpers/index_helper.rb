@@ -1,8 +1,4 @@
 #
-# This file is part of meego-test-reports
-#
-# Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
-#
 # Authors: Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
 #
 # This program is free software; you can redistribute it and/or
@@ -20,8 +16,7 @@
 # 02110-1301 USA
 #
 
-class MeegoTestSuite < ActiveRecord::Base
-  belongs_to :meego_test_session
-  has_many :meego_test_sets, :dependent => :destroy
-  #has_many :meego_test_cases, :through => :meego_test_sets
+module IndexHelper
+
 end
+

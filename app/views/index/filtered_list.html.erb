@@ -22,9 +22,26 @@
 # 02110-1301 USA
 #
 %>
-<strong><%=testtype%></strong>
-<ul>
-	<% hardware_for(target, testtype).each do |hw| %>
-	<li><a href="<%=url_for :controller=>'reports', :action=>'filtered_list', :target=>target, :testtype=>testtype, :hwproduct=>hw%>"><%=hw%></a></li>
-	<% end %>
-</ul>
+<div id="index_page">
+<%= breadcrumbs %>
+
+<!--<img src="<%#=@trend_graph_url%>"/>-->
+
+<table id="report_navigation" class="filtered">
+    <thead>
+    <tr>
+      <th scope="col"><%=@target%></th>
+    </tr>
+    </thead>
+    <tr>
+      <td>
+      	  <%= render :partial=>'month', :collection => @headers %>
+      	  
+      	  ** DUMMY HTML START **
+      	  
+      	  <img src="/images/stack_chart_dummy.png" alt="stack chart" />
+      </td>
+    </tr>
+   
+  </table>
+  </div>
