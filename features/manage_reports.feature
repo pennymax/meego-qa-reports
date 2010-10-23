@@ -1,8 +1,8 @@
 Feature: Manage reports
 
   Background: 
-  	Given I have created the "sample" report
-  	And I view the "sample" report page
+  	Given I have created the "core_aava_sanity" report
+  	And I view the report id 1
 
   Scenario: Viewing a report
     Then I should see "Meego" within "#version_navi"
