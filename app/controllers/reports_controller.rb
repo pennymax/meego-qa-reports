@@ -26,7 +26,7 @@ require 'open-uri'
 require 'drag_n_drop_uploaded_file'
 
 class ReportsController < ApplicationController
-  before_filter :authenticate_user!, :only => ["upload", "upload_form", "edit", "delete", "update"]
+  #before_filter :authenticate_user!, :only => ["upload", "upload_form", "edit", "delete", "update"] unless ENV['BYPASS_LOGIN']
 
   caches_page :index, :upload_form, :email, :filtered_list
   caches_page :view, :if => proc {|c|!c.just_published?}
