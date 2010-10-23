@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testresults version="1.0" environment="hardware" hwproduct="RX-71" hwbuild="0720">
+ <suite name="mwts-bluetooth" domain="Local Connectivity">
+  <set name="Functional_Tests" description="Functional and Dataflow test cases for Bluetooth" feature="BT" environment="hardware"></set>
+  <set name="Iterative_Tests" description="Iterative test cases for Bluetooth" feature="BT" environment="hardware">
+   <case name="NFT-BT-Device_Scan_C-ITER" description="Purpose             Test basic Bluetooth scan reliability             Method             Test case uses libbluetooth3 library and C-API, scan is made 80 times.             Pre-/Post-Conditions             None             Pass/Fail Criteria             Is able to run the scan uninterrupted.              Test case result can be found from /var/log/tests             " manual="false" insignificant="false" result="PASS" subfeature="Scan">
+    <step command="min -c -t 'NFT-BT-Device_Scan_C-ITER'" result="PASS">
+     <expected_result>0</expected_result>
+     <return_code>0</return_code>
+     <start>2010-09-10 14:36:08</start>
+     <end>2010-09-10 14:47:47</end>
+     <stdout>&lt;testreport&gt;
+ &lt;measures&gt;
+  &lt;measure name=&quot;passed iterations&quot; description=&quot;passed iterations&quot; value=&quot;80&quot; unit=&quot;passed iterations&quot; fail=&quot;79&quot; target=&quot;80&quot; /&gt;
+ &lt;/measures&gt;
+&lt;/testreport&gt;
+</stdout>
+     <stderr>
+     </stderr>
+</step>
+</case>
+</set>
+</suite>
+</testresults>
