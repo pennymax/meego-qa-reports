@@ -12,3 +12,4 @@ config/database.yml
 nbproject/
 .idea
 .rvmrc
+*.swp
