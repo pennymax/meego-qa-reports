@@ -1,10 +1,10 @@
 set :stages, %w(staging production)
 set :default_stage, "staging"
 
-#set :copy_compression, :zip
+set :copy_compression, :zip
 
 require 'capistrano/ext/multistage'
-require 'config/capistrano_database_yml'
+require 'config/deploy/capistrano_database_yml'
 require 'bundler/capistrano'
 
 set :app_env, "production"
@@ -39,7 +39,7 @@ ssh_options[:forward_agent] = true
 set :scm, :git
 
 after "deploy:symlink" do
-  run "ln -nfs #{shared_path}/reports #{current_path}/public/"
+  run "ln -nfs #{shared_path}/reports #{current_path}/public/reports"
 end
 
 namespace :deploy do

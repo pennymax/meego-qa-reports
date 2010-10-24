@@ -1,25 +1,27 @@
 development:
-	database: #{shared_path}/db/development.sqlite3
-	adapter: sqlite3
-	timeout: 5000
+  adapter: sqlite3
+  database: <%= "#{shared_path}/db/development.sqlite3" %>
+  pool: 5
+  timeout: 5000
         
 test:
-        database: #{shared_path}/db/test.sqlite3
-	adapter: sqlite3
-	timeout: 5000
+  adapter: sqlite3
+  database: <%= "#{shared_path}/db/test.sqlite3" %> 
+  pool: 5
+  timeout: 5000
         
 staging:
-	adapter: mysql
-	database: meego_qa_reports-staging 
-	username: meego
-	password: #{Capistrano::CLI.ui.ask("Enter MySQL database password: ")}
-	encoding: utf8
-	timeout: 5000
+  adapter: mysql
+  database: meego_qa_reports_staging 
+  username: meego
+  password: <%= Capistrano::CLI.ui.ask("Enter MySQL database password for staging: ")%>
+  encoding: utf8
+  timeout: 5000
         
 production:
-	adapter: mysql
-	database: meego_qa_reports_production
-	username: meego
-	password: #{Capistrano::CLI.ui.ask("Enter MySQL database password: ")}
-	encoding: utf8
-	timeout: 5000
+  adapter: mysql
+  database: meego_qa_reports_production
+  username: meego
+  password: <%= Capistrano::CLI.ui.ask("Enter MySQL database password for production: ")%>
+  encoding: utf8
+  timeout: 5000
