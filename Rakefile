@@ -3,6 +3,11 @@
 
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
-require 'metric_fu'
+
+# metric_fu is not installed in staging and production environments
+begin
+  require 'metric_fu'
+rescue LoadError
+end
 
 Meegoqa::Application.load_tasks
