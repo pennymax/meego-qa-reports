@@ -4,6 +4,8 @@ gem 'rails', '3.0.0'
 
 group :staging, :production do
   gem 'mysql'
+  gem 'newrelic_rpm'
+  gem 'exception_notifier'
 end
 
 group :development do
@@ -29,5 +31,4 @@ end
 gem 'nokogiri'
 gem 'bitly'
 gem 'devise', '1.1.3'
-gem 'newrelic_rpm'
 
