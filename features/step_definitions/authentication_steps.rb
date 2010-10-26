@@ -7,7 +7,7 @@ Given /^I am a new, authenticated user$/ do
   And %{I go to login}
   And %{I fill in "user_username" with "#{username}"}
   And %{I fill in "user_password" with "#{password}"}
-  And %{I press "Sign in"}
+  And %{I follow "Sign In"}
 end
 
 Given /^I have one\s+user "([^\"]*)" with password "([^\"]*)" and username "([^\"]*)"$/ do |email, password, username|
