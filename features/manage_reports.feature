@@ -2,18 +2,12 @@ Feature: Manage reports
 
   Background:
     Given I am a new, authenticated user
-    And I am on the front page
-    When I follow "Add report"
-
-    And I select target "Core", test type "Sanity" and hardware "Aava"
-    And I attach the report "sample.csv"
-    And I submit the form at "upload_report_submit"
-    And I submit the form at "upload_report_submit"
-
-  	And I view the report "Core/Sanity/Aava"
+    And I have created the "Core/Sanity/Aava" report
 
   @smoke
   Scenario: Viewing a report
+    When I view the report "Core/Sanity/Aava"
+
     Then I should see "Meego" within "#version_navi"
     And I should see the header
 
@@ -23,7 +17,9 @@ Feature: Manage reports
 
   @smoke
   Scenario: Printing a report
-	When I click to print the report
+    When I view the report "Core/Sanity/Aava"
+
+	And I click to print the report
 
     And I should not see the header
 
@@ -33,7 +29,9 @@ Feature: Manage reports
 
   @smoke
   Scenario: Editing a report
-    When I click to edit the report
+    When I view the report "Core/Sanity/Aava"
+
+    And I click to edit the report
 
     Then I should see "Edit the report information" within ".notification"
     And I should see "Test Objective" within "#test_objective"

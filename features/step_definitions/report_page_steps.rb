@@ -3,15 +3,15 @@ Then /^I should see the following table:$/ do |expected_report_front_pages_table
 end
 
 Then /^I should see the main navigation columns$/ do
-  %{And I should see "Core" within "#report_navigation"}
-  %{And I should see "Handset" within "#report_navigation"}
-  %{And I should see "Netbook" within "#report_navigation"}
-  %{And I should see "IVI" within "#report_navigation"}
+  And %{I should see "Core" within "#report_navigation"}
+  And %{I should see "Handset" within "#report_navigation"}
+  And %{I should see "Netbook" within "#report_navigation"}
+  And %{I should see "IVI" within "#report_navigation"}
 end
 
 When /^I should see the sign in link without ability to add report$/ do
-  %{And I should see "Sign In"}
-  %{And I should not see "Add report"}
+  And %{I should see "Sign In"}
+  And %{I should not see "Add report"}
 end
 
 When /I view the report "([^"]*)"$/ do |report_string|
@@ -24,18 +24,19 @@ When /I view the report "([^"]*)"$/ do |report_string|
 end
 
 Given /^I have created the "([^"]*)" report$/ do |report_name|
+
   target, test_type, hardware = report_name.split('/')
-  %{Given I select target "#{target}", test type "#{test_type}" and hardware "#{hardware}"}
-  %{Given I attach the report "sample.csv"}
 
-  %{Given submit the form at "upload_report_submit"}
-  %{Given submit the form at "upload_report_submit"}
-
-  puts "all test sessions: #{MeegoTestSession.all}"
+  And "I am on the front page"
+  When %{I follow "Add report"}
+  And %{I select target "#{target}", test type "#{test_type}" and hardware "#{hardware}"}
+  And %{I attach the report "sample.csv"}
+  And %{I submit the form at "upload_report_submit"}
+  And %{I submit the form at "upload_report_submit"}
 end
 
 When /^I click to edit the report$/ do
-  When "I follow \"edit-button\" within \".page_content\""
+  When "I follow \"edit-button\" within \"#edit_report\""
 end
 
 When /^I click to print the report$/ do
