@@ -15,19 +15,25 @@ When /^I should see the sign in link without ability to add report$/ do
 end
 
 When /I view the report "([^"]*)"$/ do |report_string|
-  target, hardware, test_type = report_string.split('_')
+  target, test_type, hardware = report_string.split('/')
   report = MeegoTestSession.all.detect do |ts|
-    ts.attributes.values_at('target', 'hwproduct', 'testtype').map(&:downcase) == [target, hardware, test_type]
+    ts.attributes.values_at('target', 'hwproduct', 'testtype') == [target, hardware, test_type]
   end
-  raise "report not found with given parameters!" unless report
+  raise "report not found with parameters #{target}/#{hardware}/#{test_type}!" unless report
+  puts report.id
   visit("report/view/#{report.id}")
 end
 
 Given /^I have created the "([^"]*)" report$/ do |report_name|
-  DBState.load(File.join("features/resources/#{report_name}_state.sql"))
-end
+  target, test_type, hardware = report_name.split('/')
+  %{Given I select target "#{target}", test type "#{test_type}" and hardware "#{hardware}"}
+  %{Given I attach the report "sample.csv"}
 
-# Report page actions
+  %{Given submit the form at "upload_report_submit"}
+  %{Given submit the form at "upload_report_submit"}
+
+  puts "all test sessions: #{MeegoTestSession.all}"
+end
 
 When /^I click to edit the report$/ do
   When "I follow \"edit-button\" within \".page_content\""
@@ -46,14 +52,11 @@ When /^I attach the report "([^"]*)"$/ do |file|
   And "attach the file \"features/resources/#{file}\" to \"meego_test_session[uploaded_files][]\" within \"#browse\""
 end
 
-
-
-When /^I select target "([^"]*)", test type "([^"]*)" and hardware "([^"]*)"$/ do |target, test_type, hardware|
+Given /^I select target "([^"]*)", test type "([^"]*)" and hardware "([^"]*)"$/ do |target, test_type, hardware|
   %{When I choose #{target}"}
-  When "I fill in \"meego_test_session[testtype]\" with \"test_type}\""
+  When "I fill in \"meego_test_session[testtype]\" with \"#{test_type}\""
   When "I fill in \"meego_test_session[hwproduct]\" with \"#{hardware}\""
 end
-
 
 Then /^I should see the header$/ do
   Then "I should see \"QA Reports\" within \"#header\""

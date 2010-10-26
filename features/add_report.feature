@@ -25,6 +25,8 @@ Feature:
     And I should see "<expected text>" within ".testcase"
     And I should see "<expected link>" within ".testcase"
 
+    And I should see "Publish"
+
   Examples:
     | attachment     | expected text             | expected link |
     | sample.csv     | Check home screen         | 3921          |
