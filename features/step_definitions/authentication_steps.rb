@@ -7,10 +7,11 @@ Given /^I am a new, authenticated user$/ do
   And %{I go to login}
   And %{I fill in "user_username" with "#{username}"}
   And %{I fill in "user_password" with "#{password}"}
-  And %{I follow "Sign In"}
+  And %{I press "Login"}
 end
 
 Given /^I have one\s+user "([^\"]*)" with password "([^\"]*)" and username "([^\"]*)"$/ do |email, password, username|
+  User.delete_all("email = '#{email}'")
   User.new(:email => email,
            :username => username,
            :password => password,
