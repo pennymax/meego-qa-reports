@@ -16,11 +16,10 @@ end
 
 When /I view the report "([^"]*)"$/ do |report_string|
   target, test_type, hardware = report_string.split('/')
-  report = MeegoTestSession.all.detect do |ts|
-    ts.attributes.values_at('target', 'hwproduct', 'testtype') == [target, hardware, test_type]
-  end
+  report = MeegoTestSession.first(:conditions =>
+   {:target => target, :hwproduct =>hardware, :testtype => test_type}
+  )
   raise "report not found with parameters #{target}/#{hardware}/#{test_type}!" unless report
-  puts report.id
   visit("report/view/#{report.id}")
 end
 
@@ -40,12 +39,12 @@ When /^I click to edit the report$/ do
 end
 
 When /^I click to print the report$/ do
-  When "I follow \"print-button\" within \".page_content\""
+  When "I follow \"print-button\" within \"#edit_report\""
 end
 
 
 When /^I click to delete the report$/ do
-  When "I follow \"delete-button\" within \".page_content\""
+  When "I follow \"delete-button\" within \"#edit_report\""
 end
 
 When /^I attach the report "([^"]*)"$/ do |file|

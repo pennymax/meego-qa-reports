@@ -119,7 +119,7 @@ class ReportsController < ApplicationController
   end
   
   def view
-    @report_id = params[:id] ? params[:id].to_i : nil
+    @report_id = params[:id].try(:to_i)
     unless @report_id
       redirect_to :action => :index
       return
