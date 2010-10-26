@@ -11,3 +11,4 @@ nbproject/
 .idea
 .rvmrc
 *.swp
+db/test.sqlite3-journal
