@@ -25,11 +25,10 @@ require 'open-uri'
 require 'drag_n_drop_uploaded_file'
 
 class ReportsController < ApplicationController
-  
+  before_filter :authenticate_user!, :only => ["upload", "upload_form", "edit", "delete", "update", "update_txt",
+                                               "update_title", "update_case_comment", "update_case_result"]
   caches_page :print
-
-  before_filter :authenticate_user!, :only => ["edit", "delete", "update"]
-
+  caches_page :index, :upload_form, :email, :filtered_list
   caches_page :view, :if => proc {|c|!c.just_published?}
   caches_action :fetch_bugzilla_data,
                 :cache_path => Proc.new { |controller| controller.params },
@@ -176,10 +175,6 @@ class ReportsController < ApplicationController
     render :layout => "report"
   end
   
-  def just_published?
-    @published
-  end
-  
   def fetch_bugzilla_data
     ids = params[:bugids]
     searchUrl = "http://bugs.meego.com/buglist.cgi?bugidtype=include&columnlist=short_desc%2Cbug_status%2Cresolution&query_format=advanced&ctype=csv&bug_id=" + ids.join(',')
@@ -201,6 +196,10 @@ class ReportsController < ApplicationController
   end
   
 protected
+
+  def just_published?
+    @published
+  end  
 
   def expire_index_for(test_session)
     expire_page  :controller => 'index', :action => :index
