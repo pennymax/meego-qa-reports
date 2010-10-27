@@ -16,16 +16,16 @@ Feature: Logging in
     When I log in with email "tester@meego.com" and password "testing4ever"
     Then I should return to report "Handset/Sanity/N900" and see "John Longbottom" and a "Log out" button
 
-  Scenario: Log in with incorrect email or password
-    Given that I am on the login page
-    And I fill in incorrect details
-    When I click "Log in"
-    Then I should be on login page and see error message "The email address or password you entered is incorrect"
-
-  Scenario: Logging out
-    Given that I have logged in
-    And there's MeeGo 1.0, 1.1, and 1.2 releases
-    And I'm viewing MeeGo 1.1 test results
-    When I click "Log out"
-    Then I should be on the home page and see "Log in" button
-    And I should be viewing newest MeeGo release
+#  Scenario: Log in with incorrect email or password
+#    Given that I am on the login page
+#    And I fill in incorrect details
+#    When I click "Log in"
+#    Then I should be on login page and see error message "The email address or password you entered is incorrect"
+#
+#  Scenario: Logging out
+#    Given that I have logged in
+#    And there's MeeGo 1.0, 1.1, and 1.2 releases
+#    And I'm viewing MeeGo 1.1 test results
+#    When I click "Log out"
+#    Then I should be on the home page and see "Log in" button
+#    And I should be viewing newest MeeGo release
