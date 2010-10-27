@@ -20,14 +20,14 @@ When /I view the report "([^"]*)"$/ do |report_string|
    {:target => target, :hwproduct =>hardware, :testtype => test_type}
   )
   raise "report not found with parameters #{target}/#{hardware}/#{test_type}!" unless report
-  visit("report/view/#{report.id}")
+  visit("/report/view/#{report.id}")
 end
 
 Given /^I have created the "([^"]*)" report$/ do |report_name|
 
   target, test_type, hardware = report_name.split('/')
 
-  And "I am on the front page"
+  Given "I am on the front page"
   When %{I follow "Add report"}
   And %{I select target "#{target}", test type "#{test_type}" and hardware "#{hardware}"}
   And %{I attach the report "sample.csv"}

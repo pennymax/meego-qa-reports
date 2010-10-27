@@ -12,3 +12,4 @@ nbproject/
 .rvmrc
 *.swp
 db/test.sqlite3-journal
+capybara-*.html

@@ -30,16 +30,15 @@ Feature: Manage reports
   @smoke
   Scenario: Editing a report
     When I view the report "Core/Sanity/Aava"
-
     And I click to edit the report
 
     Then I should see "Edit the report information" within ".notification"
     And I should see "Test Objective" within "#test_objective"
     And I should see "Edit" within "#test_objective .edit"
 
-  Scenario: Deleting a report
-
-    When I click to delete the report
+  Scenario: Deleting a report    
+    When I view the report "Core/Sanity/Aava"
+    And I click to delete the report
 
     Then I should see "Are you sure you want to delete" within "#delete-dialog"
 

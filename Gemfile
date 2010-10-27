@@ -12,6 +12,7 @@ group :development do
   gem 'sqlite3-ruby', :require => 'sqlite3'
   gem 'capistrano'
   gem 'capistrano-ext'
+  gem 'ruby-debug'
 end
 
 group :test do
@@ -26,6 +27,7 @@ group :test do
   gem 'autotest'
   gem 'autotest-rails'
   gem 'metric_fu', :git => "git://github.com/pyykkis/metric_fu.git"
+  gem 'ruby-debug'
 end
 
 gem 'nokogiri'
