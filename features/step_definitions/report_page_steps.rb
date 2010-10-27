@@ -17,7 +17,7 @@ end
 When /I view the report "([^"]*)"$/ do |report_string|
   target, test_type, hardware = report_string.split('/')
   report = MeegoTestSession.first(:conditions =>
-   {:target => target, :hwproduct =>hardware, :testtype => test_type}
+   {:target => target, :hwproduct => hardware, :testtype => test_type}
   )
   raise "report not found with parameters #{target}/#{hardware}/#{test_type}!" unless report
   visit("/report/view/#{report.id}")
@@ -34,6 +34,25 @@ Given /^I have created the "([^"]*)" report$/ do |report_name|
   And %{I submit the form at "upload_report_submit"}
   And %{I submit the form at "upload_report_submit"}
 end
+
+Given /^there exists a report for "([^"]*)"$/ do |report_name|
+  target, test_type, hardware = report_name.split('/')
+
+  fpath = File.join(Rails.root, "features", "resources", "sample.csv")
+
+  user = User.create!(:name => "John Longbottom",
+    :email => "email@email.com",
+    :password => "password",
+    :password_confirmation => "password")
+
+  session = MeegoTestSession.new(:target => target, :hwproduct => hardware,
+    :testtype => test_type, :uploaded_files => [fpath],
+    :tested_at => Time.now, :author => user, :editor => user
+  )
+  session.generate_defaults! # Is this necessary, or could we just say create! above?
+  session.save!
+end
+
 
 When /^I click to edit the report$/ do
   When "I follow \"edit-button\" within \"#edit_report\""
