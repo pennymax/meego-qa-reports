@@ -9,6 +9,7 @@ end
 Given /^I have (?:one )?user "([^\"]*)" with email "([^\"]*)" and password "([^\"]*)"$/ do
   |name, email, password|
 
+  #Given %{there is no user with email #{email}}
   User.delete_all("email = '#{email}'")
   User.new(:name => name,
            :email => email,
@@ -39,4 +40,8 @@ Then /^I should return to report "([^\"]*)" and see "([^\"]*)" and a "Log out" b
   current_path.should == "/report/view/#{report.id}"
 
   And %{I should see "#{user_name}" within "#session"}
+end
+
+Given /^there is no user with email "([^"]*)"$/ do |email|
+  User.delete_all("email = '#{email}'")
 end
