@@ -20,6 +20,8 @@ module NavigationHelpers
       '/'
     when /login/
       new_user_session_path
+    when /the signing up page/
+      new_user_registration_path
     else
       begin
         page_name =~ /the (.*) page/

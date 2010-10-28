@@ -14,7 +14,7 @@ Feature: Logging in
     And I view the report "Handset/Sanity/N900"
 
     When I log in with email "tester@meego.com" and password "testing4ever"
-    Then I should return to report "Handset/Sanity/N900" and see "John Longbottom" and a "Log out" button
+    Then I should return to report "Handset/Sanity/N900" and see "John Longbottom" and a "Sign out" button
 
   Scenario: Log in with incorrect email
     Given there is no user with email "jamesbond@mi6.co.uk"
