@@ -39,7 +39,10 @@
 <div id="wrapper">
   <div id="header" class="clearfix">
   	<div id="logo">
-  	  <h3><a href="<%= root_path %>">MeeGo | QA Reports</a></h3>
+  	  <h3>
+  	  	<a href="<%= root_path %>">MeeGo | QA Reports</a>
+	    <a href="<%= root_path %>" class="hover"></a>
+  	  </h3>
   	</div>
 	
     <%= render :partial => "shared/session_management" %>
