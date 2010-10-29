@@ -34,7 +34,7 @@ Feature:
     | filesystem.xml | NFT-FS-Read_Data_TMP-THRO | Pass          |
     | sim.xml        | SMOKE-SIM-Get_Languages   | Pass          |
 
-  Scenario Outline: Add new report with invalid filename extension
+  Scenario: Add new report with invalid filename extension
     When I follow "Add report"
     
     And I select target "Core", test type "Smokey" and hardware "n990"

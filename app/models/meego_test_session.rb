@@ -264,13 +264,13 @@ class MeegoTestSession < ActiveRecord::Base
       elsif f.respond_to?(:path)
         f.path
       else
-        f
+        f.gsub(/\#.*/, '')
       end
       filename = filename.downcase
       unless filename =~ /\.csv$/ or filename =~ /\.xml$/
         errors.add :uploaded_files, "You can only upload files with the extension .xml or .csv"
       end
-    end
+    end if @files
   end
   
   def save_uploaded_files
