@@ -259,7 +259,14 @@ class MeegoTestSession < ActiveRecord::Base
   
   def allowed_filename_extensions
     @files.each do |f|
-      filename = f.downcase
+      filename = if f.respond_to?(:original_filename)
+        f.original_filename
+      elsif f.responds_to?(:path)
+        f.path
+      else
+        f
+      end
+      filename = filename.downcase
       unless filename =~ /.csv$/ or filename =~ /.xml$/
         errors.add :uploaded_files, "You can only upload files with the extension .xml or .csv"
       end
