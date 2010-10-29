@@ -43,3 +43,26 @@ Feature:
     And submit the form at "upload_report_submit"
     
     Then I should see "You can only upload files with the extension .xml or .csv"
+
+  Scenario: Add new CSV report with invalid content
+
+    When I follow "Add report"
+    
+    And I select target "Core", test type "Smokey" and hardware "n990"
+    And I attach the report "invalid.csv"
+    
+    And submit the form at "upload_report_submit"
+    
+    Then I should see "Incorrect file format"
+
+  Scenario: Add new XML report with invalid content
+
+    When I follow "Add report"
+    
+    And I select target "Core", test type "Smokey" and hardware "n990"
+    And I attach the report "invalid.xml"
+    
+    And submit the form at "upload_report_submit"
+    
+    Then I should see "Incorrect file format"
+
