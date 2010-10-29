@@ -261,7 +261,7 @@ class MeegoTestSession < ActiveRecord::Base
     @files.each do |f|
       filename = if f.respond_to?(:original_filename)
         f.original_filename
-      elsif f.responds_to?(:path)
+      elsif f.respond_to?(:path)
         f.path
       else
         f
