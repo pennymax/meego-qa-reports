@@ -34,4 +34,12 @@ Feature:
     | filesystem.xml | NFT-FS-Read_Data_TMP-THRO | Pass          |
     | sim.xml        | SMOKE-SIM-Get_Languages   | Pass          |
 
-
+  Scenario Outline: Add new report with invalid filename extension
+    When I follow "Add report"
+    
+    And I select target "Core", test type "Smokey" and hardware "n990"
+    And I attach the report "invalid_ext.txt"
+    
+    And submit the form at "upload_report_submit"
+    
+    Then I should see "You can only upload files with the extension .xml or .csv"

@@ -255,6 +255,19 @@ class MeegoTestSession < ActiveRecord::Base
     @files
   end
   
+  def validate
+    @files.each do |f|
+      filename = if f.respond_to?(:original_filename)
+        f.original_filename
+      else
+        f.path
+      end
+      unless filename.downcase =~ /.csv$/ or filename =~ /.xml$/
+        errors.add :uploaded_files, "You can only upload files with the extension .xml or .csv"
+      end
+    end
+  end
+  
   def save_uploaded_files
     MeegoTestSession.transaction do
       filenames = []
