@@ -39,7 +39,7 @@ class MeegoTestSession < ActiveRecord::Base
   validates_presence_of :hwproduct
   validates_presence_of :uploaded_files
   
-  validate :allowed_filename_extensions
+  validate :allowed_filename_extensions, :on => :create
 
   after_create :save_uploaded_files
   after_destroy :remove_uploaded_files
