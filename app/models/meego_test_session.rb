@@ -37,6 +37,7 @@ class MeegoTestSession < ActiveRecord::Base
   validates_presence_of :target
   validates_presence_of :testtype
   validates_presence_of :hwproduct
+  validates_presence_of :release_version
   validates_presence_of :uploaded_files
   
   validate :allowed_filename_extensions
