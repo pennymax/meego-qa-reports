@@ -28,6 +28,7 @@ class UploadController < ApplicationController
   
   def upload_form
     @test_session = MeegoTestSession.new
+    @release_versions = MeegoTestSession.release_versions
     @no_upload_link = true
     
     @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
@@ -92,5 +93,7 @@ class UploadController < ApplicationController
       render :upload_form
     end
   end
+
   
+
 end

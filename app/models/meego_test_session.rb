@@ -52,6 +52,12 @@ class MeegoTestSession < ActiveRecord::Base
   def prev_summary
     prev_session
   end
+
+  def self.release_versions
+    # Add new release versions to the beginning of the array.
+    ["1.1", "1.0"]
+  end
+
   
   ###############################################
   # List category tags                          #
