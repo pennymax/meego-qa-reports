@@ -26,7 +26,9 @@ require 'nokogiri'
 
 class TestResults
   def initialize(xml)
-    @doc = Nokogiri::XML(xml)
+    @doc = Nokogiri::XML(xml) do |config|
+      config.strict
+    end
     @results = @doc.at_css('testresults')
   end
   
