@@ -38,6 +38,8 @@ class MeegoTestSession < ActiveRecord::Base
   validates_presence_of :testtype
   validates_presence_of :hwproduct
   validates_presence_of :uploaded_files
+  
+  validate :allowed_filename_extensions
 
   after_create :save_uploaded_files
   after_destroy :remove_uploaded_files
@@ -253,6 +255,22 @@ class MeegoTestSession < ActiveRecord::Base
   
   def uploaded_files
     @files
+  end
+  
+  def allowed_filename_extensions
+    @files.each do |f|
+      filename = if f.respond_to?(:original_filename)
+        f.original_filename
+      elsif f.respond_to?(:path)
+        f.path
+      else
+        f.gsub(/\#.*/, '')
+      end
+      filename = filename.downcase
+      unless filename =~ /\.csv$/ or filename =~ /\.xml$/
+        errors.add :uploaded_files, "You can only upload files with the extension .xml or .csv"
+      end
+    end if @files
   end
   
   def save_uploaded_files
