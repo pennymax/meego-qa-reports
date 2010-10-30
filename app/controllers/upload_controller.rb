@@ -29,6 +29,13 @@ class UploadController < ApplicationController
   def upload_form
     @test_session = MeegoTestSession.new
     @no_upload_link = true
+    @test_session.target = if @test_session.target.present?
+      @test_session.target
+    elsif current_user.default_target.present?
+      current_user.default_target
+    else
+      "Core"
+    end
     
     @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
     @types = MeegoTestSession.list_types ["Acceptance", "Sanity", "Weekly", "Milestone"]
@@ -72,6 +79,7 @@ class UploadController < ApplicationController
     )
 
     @test_session = MeegoTestSession.new(params[:meego_test_session])
+    current_user.update_attribute(:default_target, @test_session.target) if @test_session.target.present?
 
     @test_session.generate_defaults!
 
