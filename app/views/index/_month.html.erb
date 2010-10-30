@@ -31,7 +31,7 @@
   <% @sessions[month].each do |s| %>
   <tr class="<%= cycle "odd", "even" %>">
       <td class="date"><%=s.format_date%></td>
-      <td class="report_name"><a href="<%=url_for :controller=>'reports',:action=>'view', :id=>s.id%>"><%=s.title%></a></td>
+      <td class="report_name"><a href="<%=url_for :controller=>'reports',:action=>'view', :release_version=>@selected_release_version, :target=>s.target, :testtype=>s.testtype, :hwproduct=>s.hwproduct, :id=>s.id%>"><%=s.title%></a></td>
       <td class="graph"><img src="/images/bar_chart_dummy.png" alt="" /></td>
     </tr>
   <% end %>
