@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101030084339) do
+ActiveRecord::Schema.define(:version => 20101030143338) do
 
   create_table "meego_test_cases", :force => true do |t|
     t.integer "meego_test_set_id",                     :null => false
@@ -19,6 +19,9 @@ ActiveRecord::Schema.define(:version => 20101030084339) do
     t.string  "comment",               :default => ""
     t.integer "meego_test_session_id", :default => 0,  :null => false
   end
+
+  add_index "meego_test_cases", ["meego_test_session_id"], :name => "index_meego_test_cases_on_meego_test_session_id"
+  add_index "meego_test_cases", ["meego_test_set_id"], :name => "index_meego_test_cases_on_meego_test_set_id"
 
   create_table "meego_test_sessions", :force => true do |t|
     t.string   "environment",                       :default => ""
@@ -54,6 +57,9 @@ ActiveRecord::Schema.define(:version => 20101030084339) do
     t.integer "meego_test_session_id", :default => 0,  :null => false
   end
 
+  add_index "meego_test_sets", ["feature"], :name => "index_meego_test_sets_on_feature"
+  add_index "meego_test_sets", ["meego_test_session_id"], :name => "index_meego_test_sets_on_meego_test_session_id"
+
   create_table "users", :force => true do |t|
     t.string   "email",                              :default => "", :null => false
     t.string   "encrypted_password",  :limit => 128, :default => "", :null => false
@@ -70,5 +76,7 @@ ActiveRecord::Schema.define(:version => 20101030084339) do
     t.datetime "updated_at"
     t.string   "default_target",                     :default => "", :null => false
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
 
 end
