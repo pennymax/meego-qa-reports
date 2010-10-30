@@ -40,9 +40,9 @@ class MeegoTestSession < ActiveRecord::Base
   validates_presence_of :uploaded_files
   
   validate :allowed_filename_extensions, :on => :create
-  #validate :save_uploaded_files, :on => :create
+  validate :save_uploaded_files, :on => :create
 
-  after_create :save_uploaded_files
+  #after_create :save_uploaded_files
   after_destroy :remove_uploaded_files
 
   attr_reader :parsing_failed, :parse_errors
@@ -309,13 +309,11 @@ class MeegoTestSession < ActiveRecord::Base
         rescue
           logger.error "ERROR in file parsing"
           logger.error $!, $!.backtrace
-          #errors.add :uploaded_files, "Incorrect file format for #{origfn}"
-          @parse_errors << "Incorrect file format for #{origfn}"
-          @parsing_failed = true
+          errors.add :uploaded_files, "Incorrect file format for #{origfn}"
         end
       end
       @xmlpath = filenames.join(',')
-      save
+      #save
     end
   end
   
@@ -344,7 +342,7 @@ private
       na = row[5]
       if category != prev_category
         prev_category = category
-        test_set = self.meego_test_sets.create(
+        test_set = self.meego_test_sets.build(
           :feature => category
         )
       end
@@ -358,7 +356,7 @@ private
       if summary == ""
         raise "Missing test case name in CSV"
       end
-      test_case = test_set.meego_test_cases.create(
+      test_case = test_set.meego_test_cases.build(
         :name => summary,
         :result => result,
         :comment => comments || "",
@@ -377,13 +375,13 @@ private
         if sets.has_key? set.feature
           set_model = sets[set.feature]
         else
-          set_model = self.meego_test_sets.create(
+          set_model = self.meego_test_sets.build(
             :feature => set.feature
           )
           sets[set.feature] = set_model
         end
         set.cases.each do |testcase|
-          case_model = set_model.meego_test_cases.create(
+          case_model = set_model.meego_test_cases.build(
             :name => testcase.name,
             :result => MeegoTestSession.map_result(testcase.result),
             :comment => testcase.comment,
