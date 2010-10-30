@@ -84,9 +84,6 @@
            
 			</div>
 			<%= f.error_message_on :uploaded_files %>
-                        <% (@test_session.parse_errors || []).each do |parse_error| %>
-                        <div class="formError"><%=parse_error%></div>
-                        <% end %>
         </div>
         <div id="wizard_actions">
             <div id="wizard_buttons">

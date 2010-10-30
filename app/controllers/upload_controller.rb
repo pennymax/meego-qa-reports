@@ -90,22 +90,15 @@ class UploadController < ApplicationController
     @test_session.editor = current_user
 
     if @test_session.save
-      if @test_session.parsing_failed
-        logger.debug "deleting report because parsing raised an exception"
-        old = @test_session
-        @test_session.destroy
-      else
-        session[:preview_id] = @test_session.id
-        redirect_to :controller => 'reports', :action => 'preview'
-        return
-      end
+      session[:preview_id] = @test_session.id
+      redirect_to :controller => 'reports', :action => 'preview'
+    else
+      @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
+      @types = MeegoTestSession.list_types ["Acceptance", "Sanity", "Weekly", "Milestone"]
+      @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
+      @no_upload_link = true
+      render :upload_form
     end
-    @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
-    @types = MeegoTestSession.list_types ["Acceptance", "Sanity", "Weekly", "Milestone"]
-    @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
-    @no_upload_link = true
-
-    render :upload_form
   end
   
 end
