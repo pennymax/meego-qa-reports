@@ -66,7 +66,7 @@ module ApplicationHelper
   def release_version_navigation(current_version)
     html = '<ul class="clearfix">'
     link_text = ''
-    @meego_releases.each_with_index do |release, index|
+    @meego_releases.each do |release|
       if release == current_version
           html += '<li class="current">'
           link_text = "MeeGo v#{release}"
