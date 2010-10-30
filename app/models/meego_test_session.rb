@@ -38,10 +38,14 @@ class MeegoTestSession < ActiveRecord::Base
   validates_presence_of :testtype
   validates_presence_of :hwproduct
   validates_presence_of :uploaded_files
+  
+  validate :allowed_filename_extensions, :on => :create
 
   after_create :save_uploaded_files
   after_destroy :remove_uploaded_files
-  
+
+  attr_reader :parsing_failed, :parse_errors
+
   XML_DIR = "public/reports"
 
   include ReportSummary
@@ -255,9 +259,27 @@ class MeegoTestSession < ActiveRecord::Base
     @files
   end
   
+  def allowed_filename_extensions
+    @files.each do |f|
+      filename = if f.respond_to?(:original_filename)
+        f.original_filename
+      elsif f.respond_to?(:path)
+        f.path
+      else
+        f.gsub(/\#.*/, '')
+      end
+      filename = filename.downcase
+      unless filename =~ /\.csv$/ or filename =~ /\.xml$/
+        errors.add :uploaded_files, "You can only upload files with the extension .xml or .csv"
+      end
+    end if @files
+  end
+  
   def save_uploaded_files
+    @parsing_failed = false
     MeegoTestSession.transaction do
       filenames = []
+      @parse_errors = []
       @files.each do |f|
         datepart = Time.now.strftime("%Y%m%d")
         dir = File.join(XML_DIR, datepart)
@@ -265,7 +287,8 @@ class MeegoTestSession < ActiveRecord::Base
         f = f.respond_to?(:original_filename) ? f : File.new(f.gsub(/\#.*/, ''))
 
         filename = sanitize_filename(f)
-        filename = ("%05i-" % self.id.to_s) + filename
+        origfn = File.basename(filename)
+        filename = ("%06i-" % Time.now.usec) + filename
         path_to_file = File.join(dir, filename)
         filenames << path_to_file
         if !File.exists?(dir)
@@ -276,10 +299,18 @@ class MeegoTestSession < ActiveRecord::Base
         else
           FileUtils.copy(f.local_path, path_to_file)
         end
-        if filename =~ /.csv$/
-          parse_csv_file(path_to_file)
-        else
-          parse_xml_file(path_to_file)
+        begin
+          if filename =~ /.csv$/
+            parse_csv_file(path_to_file)
+          else
+            parse_xml_file(path_to_file)
+          end
+        rescue
+          logger.error "ERROR in file parsing"
+          logger.error $!, $!.backtrace
+          #errors.add :uploaded_files, "Incorrect file format for #{origfn}"
+          @parse_errors << "Incorrect file format for #{origfn}"
+          @parsing_failed = true
         end
       end
       @xmlpath = filenames.join(',')
@@ -304,16 +335,16 @@ private
     rows = CSV.read(filename);
     rows.shift
     rows.each do |row|
-      category = row[0].toutf8
-      summary = row[1].toutf8
-      comments = row[2].toutf8 if row[2]
+      category = row[0].toutf8.strip
+      summary = row[1].toutf8.strip
+      comments = row[2].toutf8.strip if row[2]
       passed = row[3]
       failed = row[4]
       na = row[5]
       if category != prev_category
         prev_category = category
         test_set = self.meego_test_sets.create(
-          :feature => category.strip
+          :feature => category
         )
       end
       if passed
@@ -323,10 +354,13 @@ private
       else
         result = 0
       end
+      if summary == ""
+        raise "Missing test case name in CSV"
+      end
       test_case = test_set.meego_test_cases.create(
-        :name => summary.strip,
+        :name => summary,
         :result => result,
-        :comment => (comments || "").strip,
+        :comment => comments || "",
         :meego_test_session => self
       )
     end

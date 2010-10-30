@@ -1,0 +1,51 @@
+Category,Check points,Notes (bugs),Pass,Fail,N/A
+Create Image,Create image with MIC2,,1,,
+System startup,Image boot from SD card,5705- [REG] Unable to display home screen automatically unless tapping the screen,,1,
+Home sc
+,,,asda
+
+ree,"n,"Check if core applications* (Dialer, SMS, fennec browser, photo viewer, audio player, video player, contacts, email, Terminal) can be launched from app-launcher",[[5856]] [[3551]] [[3551]],,1,
+Home screen,Switch between different applications,,1,,
+Ho
+me screen,Check home screen theme and layout,[[3921]],,1,
+Home screen,Display orientation detection,,1,,
+Fennec browser,Open 2 tabs to surf 2 websites contains flash plugin,,1,,
+Fennec browser,Browsing website over 3G (WCDMA),Not support in meego 1.1 release.,,,1
+Fen
+nec browser,Browser gesture support,[[4021]],1,,
+Dialer,"Dial one outgoing call, accept by other party, terminate this call (phonesim, GSM & WCDMA) (GSM and WCDMA cannot be covered until real modem supported,Will use phonesim to test before real modem support)",Bug 5856- - Launching dialer fails,,1,
+Dialer,"Receive a call, accept the call, terminate this call (phonesim, GSM & WCDMA) (GSM and WCDMA cannot be covered until real modem supported,Will use phonesim to test before real modem support)",SIM function is not implemented yet.,,,1
+Dialer,"Receive one call, reject this call without accepting the call(phonesim, GSM & WCDMA)(GSM and WCDMA cannot be covered until real modem supported,Will use phonesim to test before real modem support)",SIM function is not implemented yet.,,,1
+Dialer,Display PhoneBook,[[5856]],,1,
+Dialer,Check call history,[[5856]],,1,
+SMS,"Send SMS ( phonesim, 2G & 3G ) (2G and 3G cannot be covered until real modem supported,Will use phonesim to test before real modem support)","SMS application can be launched and SMS can be composed, SIM function is not implemented to test send/receive message function.",1,,
+SMS,"Receive SMS ( phonesim, 2G & 3G ) (2G and 3G cannot be covered until real modem supported,Will use phonesim to test before real modem support)",SMS application can be launched and SMS can be composed . SIM function is not implemented to test send/receive function.,,,1
+SMS,"Check message history (received, sent, draft)",[[3670]],,1,
+Connectivity,"Scan wifi, check wifi connection (open/wep/wpa) and disconnection",[[3291]],,1,
+Connectivity,Browse website and download some files through wifi,Mp3 file can be downloaced but can not be played,1,,
+Connectivity,Check if wifi On/Off works,[[Bug 811]],,1,
+Connectivity,Check bluetooth connection (pairing and connect to bluetooth handset),"Sometimes Bluetooth settings displayed properly and could be paired, but most of the time it was not displayed properly. [[5790]]",,1,
+Connectivity,"Connect device to computer with usb cable, check the usb mass storage device is detected by computer","Device could be detected after running ""insmod g_file_storage.ko file=/dev/mmcblk0p1"".",1,,
+Connectivity,Check sshd connection: connect board using usb gadget,Blocked by [[6360]],,1,
+Run time status/Settings/Control Panel,Check if runtime status are correct on tiny toolbar/runtime status panel,[[5301]],,1,
+Run time status/Settings/Control Panel,Check if volume could be adjusted,,,,1
+Run time status/Settings/Control Panel,Check if time/date could be updated,,,,1
+Run time status/Settings/Control Panel,"Check if phone setting mode (offline, etc) could be updated",,,,1
+Virtual keyboard,"Check if virtual keyboard can be launched automatically with apps which need input text field (fennec, SMS)",VKB launched successful.,1,,
+Virtual keyboard,Support text input,[[6017]],,1,
+Photo viewer,"Check if the UI is correct (top bar, menu, button, etc.)",,1,,
+Photo viewer,Check if photo thumbnail index works,"After tapped ""All Photos"", ""Albums"" etc buttons, correspond picture thumnails can be displayed.",1,,
+Photo viewer,Check if photo could be played,,1,,
+Audio,"Check if the UI is correct (top bar, menu, button, play queue etc.)",[[6558]],,1,
+Audio,"Check if music could be played (WAV, AAC & MP3 format ) on loudspeaker (play music by command line if audio player is not ready. aplay to play music file)",[[6782]],,1,
+Video,"Check if the UI is correct (top bar, menu, button, play queue etc.)",,1,,
+Video,Check if video thumbnail index works,"Unable to copy video clips to device, for openssh-server installation was blocked by [[6360]]",,,1
+Video,"Check if video could be played (MP4, WMV & 3GP-H264)","Unable to copy video clips to device, for openssh-server installation was blocked by [[6360]]",,1,
+Contacts,"Check if it works with dialer, SMS",,1,,
+Security & Power,Check PIN activation/deactivation (Need GUI support),,,,1
+Security & Power,PIN requested at boot,,,,1
+Security & Power,Power Off / Power On,[[2090]],,1,
+Touchscreen,Use touch screen to operate the system,,,1,
+Device Battery charging,Charging with Normal USB charger,,1,,
+Device Battery charging,Charging with USB(OTG) cable,[[2260]],,1,
+Installation ,Use zypper to install a package ,[[2260]],,1,
