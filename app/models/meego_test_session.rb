@@ -53,7 +53,7 @@ class MeegoTestSession < ActiveRecord::Base
 
   def self.release_versions
     # Add new release versions to the beginning of the array.
-    ["1.1", "1.0"]
+    ["1.2", "1.1", "1.0"]
   end
 
   def self.latest_release_version
