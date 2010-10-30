@@ -17,7 +17,7 @@ Feature:
   Scenario Outline: Add new report with valid data
     When I follow "Add report"
 
-    And I select target "Core", test type "Smokey" and hardware "n990"
+    And I select target "Core", test type "Smokey" and hardware "n990" with date "2010-11-22"
     And I attach the report "<attachment>"
 
     And submit the form at "upload_report_submit"
