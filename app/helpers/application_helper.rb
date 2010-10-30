@@ -30,7 +30,7 @@ module ApplicationHelper
   end
   
   def hardware_for(target, testtype)
-    MeegoTestSession.list_hardware_for(target, testtype)
+    MeegoTestSession.list_hardware_for(@selected_release_version, target, testtype)
   end
 
  def breadcrumbs
@@ -62,6 +62,26 @@ module ApplicationHelper
    html += '</div>'
    html.html_safe
  end
+
+  def release_version_navigation(current_version)
+    html = '<ul class="clearfix">'
+    link_text = ''
+    @meego_releases.each do |release|
+      if release == current_version
+          html += '<li class="current">'
+          link_text = "MeeGo v#{release}"
+      else
+          html += '<li>'
+          link_text = "v#{release}"
+      end
+
+      html += link_to link_text, root_url + release
+      html += '</li>'
+    end
+    
+    html += '</ul>'
+    html.html_safe
+  end
 
   def format_date_to_human_readable(date)
     date.strftime('%d %B %Y')

@@ -15,17 +15,17 @@ When /^I should see the sign in link without ability to add report$/ do
 end
 
 When /I view the report "([^"]*)"$/ do |report_string|
-  target, test_type, hardware = report_string.split('/')
+  version, target, test_type, hardware = report_string.split('/')
   report = MeegoTestSession.first(:conditions =>
-   {:target => target, :hwproduct => hardware, :testtype => test_type}
+   {:release_version => version, :target => target, :hwproduct => hardware, :testtype => test_type}
   )
-  raise "report not found with parameters #{target}/#{hardware}/#{test_type}!" unless report
-  visit("/report/view/#{report.id}")
+  raise "report not found with parameters #{version}/#{target}/#{hardware}/#{test_type}!" unless report
+  visit("/#{version}/#{target}/#{test_type}/#{hardware}/#{report.id}")
 end
 
 Given /^I have created the "([^"]*)" report$/ do |report_name|
 
-  target, test_type, hardware = report_name.split('/')
+  version, target, test_type, hardware = report_name.split('/')
 
   Given "I am on the front page"
   When %{I follow "Add report"}
@@ -36,7 +36,7 @@ Given /^I have created the "([^"]*)" report$/ do |report_name|
 end
 
 Given /^there exists a report for "([^"]*)"$/ do |report_name|
-  target, test_type, hardware = report_name.split('/')
+  version, target, test_type, hardware = report_name.split('/')
 
   fpath = File.join(Rails.root, "features", "resources", "sample.csv")
 
@@ -47,7 +47,7 @@ Given /^there exists a report for "([^"]*)"$/ do |report_name|
 
   session = MeegoTestSession.new(:target => target, :hwproduct => hardware,
     :testtype => test_type, :uploaded_files => [fpath],
-    :tested_at => Time.now, :author => user, :editor => user
+    :tested_at => Time.now, :author => user, :editor => user, :release_version => version
   )
   session.generate_defaults! # Is this necessary, or could we just say create! above?
   session.save!

@@ -32,20 +32,10 @@
         <h1>Upload test data</h1>
         <div class="field">
         	<label for="report_meego_version">Meego release:</label>
-        	<input type="radio" name="version" id="v2.0" value="v2.0" class="radio" checked="checked"  />
-        	<label for="id1" class="inline_label">v2.0</label>
-        	<input type="radio" name="version" id="v1.8" value="v2.0" class="radio" />
-        	<label for="id2" class="inline_label">v1.8</label>
-        	<input type="radio" name="version" id="v1.6" value="v2.0" class="radio" />
-        	<label for="id3" class="inline_label">v1.6</label>
-        	<input type="radio" name="version" id="v1.2" value="v2.0" class="radio" />
-        	<label for="id4" class="inline_label">v1.2</label>
-        	<input type="radio" name="version" id="v1.0" value="v2.0" class="radio" />
-        	<label for="id5" class="inline_label">v1.0</label>
-        </div>
-        <div class="field">
-        	<label for="report_test_execution_date">Test execution date:</label>
-        	<input type="text" name="report_test_execution_date" class="date" />
+        	<% @release_versions.each do |release_version| %>
+                  <%= f.radio_button :release_version, release_version, :id => release_version %>
+                  <%= f.label :release_version, release_version, :for => release_version, :class => "inline_label" %>
+        	<% end %>
         </div>
         <div class="field">
             <label for="report_test_target">Target profile:</label>
@@ -70,6 +60,10 @@
 
             <%= f.error_message_on :target %>
             
+        </div>
+        <div class="field">
+            <label for="report_test_execution_date">Test execution date:</label>
+            <input type="text" name="report_test_execution_date" class="date" />
         </div>
         <div class="field">
             <label for="report_test_type">Test type:</label>

@@ -114,7 +114,7 @@ class ReportsController < ApplicationController
     expire_caches_for(test_session, true)
     expire_index_for(test_session)
     
-    redirect_to :action => 'view', :id => report_id
+    redirect_to :action => 'view', :id => report_id, :release_version => @selected_release_version, :target => test_session.target, :testtype => test_session.testtype, :hwproduct => test_session.hwproduct
   end
   
   def view
