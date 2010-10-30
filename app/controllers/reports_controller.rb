@@ -29,7 +29,7 @@ class ReportsController < ApplicationController
                                                "update_title", "update_case_comment", "update_case_result"]
   caches_page :print
   caches_page :index, :upload_form, :email, :filtered_list
-  caches_page :view, :if => proc {|c|!c.just_published?}
+  #caches_page :view, :if => proc {|c|!c.just_published?}
   caches_action :fetch_bugzilla_data,
                 :cache_path => Proc.new { |controller| controller.params },
                 :expires_in => 1.hour
@@ -210,23 +210,27 @@ protected
   end
 
   def expire_caches_for(test_session, results=false)
-    expire_page :controller => 'reports', :action => 'view', :id => test_session.id
-    expire_page :controller => 'reports', :action => 'print', :id => test_session.id
-    
+    %w{view print}.each do |action|
+      expire_page :controller => 'reports', :action => action, :id => test_session.id
+      expire_fragment :controller => 'reports', :action => action, :id => test_session.id, :action_suffix => 'test_results'
+    end
+
     if results
-      prev = test_session.prev_session
-      if prev
-        expire_page  :controller => 'reports', :action => 'view', :id => prev.id
-        expire_page  :controller => 'reports', :action => 'print', :id => prev.id
+      prev_session = test_session.prev_session
+      next_session = test_session.next_session
+
+      if prev_session
+        expire_page  :controller => 'reports', :action => 'view', :id => prev_session.id
+        expire_page  :controller => 'reports', :action => 'print', :id => prev_session.id
       end
-      next_ = test_session.next_session
-      if next_
-        expire_page  :controller => 'reports', :action => 'view', :id => next_.id
-        expire_page  :controller => 'reports', :action => 'print', :id => next_.id
-        next_ = next_.next_session
-        if next_
-          expire_page  :controller => 'reports', :action => 'view', :id => next_.id
-          expire_page  :controller => 'reports', :action => 'print', :id => next_.id
+
+      if next_session
+        expire_page  :controller => 'reports', :action => 'view', :id => next_session.id
+        expire_page  :controller => 'reports', :action => 'print', :id => next_session.id
+        next_session = next_session.next_session
+        if next_session
+          expire_page  :controller => 'reports', :action => 'view', :id => next_session.id
+          expire_page  :controller => 'reports', :action => 'print', :id => next_session.id
         end
       end
     end

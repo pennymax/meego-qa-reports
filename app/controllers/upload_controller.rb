@@ -54,7 +54,6 @@ class UploadController < ApplicationController
   end
   
   def upload
-
     files = params[:meego_test_session][:uploaded_files] || []
 
     dnd = params[:drag_n_drop_attachments]
