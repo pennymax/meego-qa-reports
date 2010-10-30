@@ -30,7 +30,7 @@ module ApplicationHelper
   end
   
   def hardware_for(target, testtype)
-    MeegoTestSession.list_hardware_for(target, testtype)
+    MeegoTestSession.list_hardware_for(@selected_release_version, target, testtype)
   end
 
  def breadcrumbs

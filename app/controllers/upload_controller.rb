@@ -31,9 +31,9 @@ class UploadController < ApplicationController
     @release_versions = MeegoTestSession.release_versions
     @no_upload_link = true
     
-    @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
-    @types = MeegoTestSession.list_types ["Acceptance", "Sanity", "Weekly", "Milestone"]
-    @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
+    @targets = MeegoTestSession.list_targets @selected_release_version, ["Core","Handset","Netbook","IVI"]
+    @types = MeegoTestSession.list_types @selected_release_version, ["Acceptance", "Sanity", "Weekly", "Milestone"]
+    @hardware = MeegoTestSession.list_hardware @selected_release_version, ["N900", "Aava", "Aava DV2"]
   end
 
   def upload_attachment
@@ -85,9 +85,9 @@ class UploadController < ApplicationController
       session[:preview_id] = @test_session.id
       redirect_to :controller => 'reports', :action => 'preview'
     else
-      @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
-      @types = MeegoTestSession.list_types ["Acceptance", "Sanity", "Weekly", "Milestone"]
-      @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
+      @targets = MeegoTestSession.list_targets @selected_release_version, ["Core","Handset","Netbook","IVI"]
+      @types = MeegoTestSession.list_types @selected_release_version, ["Acceptance", "Sanity", "Weekly", "Milestone"]
+      @hardware = MeegoTestSession.list_hardware @selected_release_version, ["N900", "Aava", "Aava DV2"]
       @no_upload_link = true
       
       render :upload_form
