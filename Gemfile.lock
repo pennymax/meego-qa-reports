@@ -239,6 +239,7 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri
   rails (= 3.0.0)
+  rcov
   rspec-rails (>= 2.0.0.beta)
   ruby-debug
   sqlite3-ruby

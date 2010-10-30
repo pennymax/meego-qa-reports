@@ -17,6 +17,7 @@ end
 group :test do
   gem 'capybara'
   gem 'cucumber'
+  gem 'rcov', :require => false
   gem 'culerity'
   gem 'celerity', :require => false
   gem 'launchy'

@@ -32,34 +32,38 @@
         <h1>Upload test data</h1>
         <div class="field">
         	<label for="report_meego_version">Meego release:</label>
-        	<input type="radio" name="version" id="v2.0" value="v2.0" class="radio" checked="checked"  />
-        	<label for="id1" class="inline_label">v2.0</label>
-        	<input type="radio" name="version" id="v1.8" value="v2.0" class="radio" />
-        	<label for="id2" class="inline_label">v1.8</label>
-        	<input type="radio" name="version" id="v1.6" value="v2.0" class="radio" />
-        	<label for="id3" class="inline_label">v1.6</label>
-        	<input type="radio" name="version" id="v1.2" value="v2.0" class="radio" />
-        	<label for="id4" class="inline_label">v1.2</label>
-        	<input type="radio" name="version" id="v1.0" value="v2.0" class="radio" />
-        	<label for="id5" class="inline_label">v1.0</label>
-        </div>
-        <div class="field">
-        	<label for="report_test_execution_date">Test execution date:</label>
-        	<input type="text" name="report_test_execution_date" class="date" />
+        	<% @release_versions.each do |release_version| %>
+                  <%= f.radio_button :release_version, release_version, :id => release_version %>
+                  <%= f.label :release_version, release_version, :for => release_version, :class => "inline_label" %>
+        	<% end %>
         </div>
         <div class="field">
             <label for="report_test_target">Target profile:</label>
-        	<input type="radio" name="meego_test_session[target]" id="core" value="Core" class="radio" checked="checked" />
+
+                <%= f.radio_button :target, "Core", :id => 'core_target' %>
+        	<label for="core_target" class="inline_label">Core</label>
+                <%= f.radio_button :target, "Handset", :id => 'handset_target' %>
+        	<label for="handset_target" class="inline_label">Handset</label>
+                <%= f.radio_button :target, "Netbook", :id => 'netbook_target' %>
+        	<label for="netbook_target" class="inline_label">Netbook</label>
+                <%= f.radio_button :target, "IVI", :id => 'ivi_target' %>
+        	<label for="ivi_target" class="inline_label">IVI</label>
+
+        	<!--<input type="radio" name="meego_test_session[target]" id="core" value="Core" class="radio" checked="checked" />
         	<label for="id1" class="inline_label">Core</label>
         	<input type="radio" name="meego_test_session[target]" id="handset" value="Handset" class="radio" />
         	<label for="id2" class="inline_label">Handset</label>
         	<input type="radio" name="meego_test_session[target]" id="netbook" value="Netbook" class="radio" />
         	<label for="id3" class="inline_label">Netbook</label>
         	<input type="radio" name="meego_test_session[target]" id="IVI" value="IVI" class="radio" />
-        	<label for="id4" class="inline_label">IVI</label>
+        	<label for="id4" class="inline_label">IVI</label>-->
 
             <%= f.error_message_on :target %>
             
+        </div>
+        <div class="field">
+            <label for="report_test_execution_date">Test execution date:</label>
+            <input type="text" name="report_test_execution_date" class="date" />
         </div>
         <div class="field">
             <label for="report_test_type">Test type:</label>
@@ -84,9 +88,6 @@
            
 			</div>
 			<%= f.error_message_on :uploaded_files %>
-                        <% (@test_session.parse_errors || []).each do |parse_error| %>
-                        <div class="formError"><%=parse_error%></div>
-                        <% end %>
         </div>
         <div id="wizard_actions">
             <div id="wizard_buttons">

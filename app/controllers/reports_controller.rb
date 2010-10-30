@@ -27,9 +27,9 @@ require 'drag_n_drop_uploaded_file'
 class ReportsController < ApplicationController
   before_filter :authenticate_user!, :only => ["upload", "upload_form", "edit", "delete", "update", "update_txt",
                                                "update_title", "update_case_comment", "update_case_result"]
-  caches_page :print
-  caches_page :index, :upload_form, :email, :filtered_list
-  caches_page :view, :if => proc {|c|!c.just_published?}
+  #caches_page :print
+  #caches_page :index, :upload_form, :email, :filtered_list
+  #caches_page :view, :if => proc {|c|!c.just_published?}
   caches_action :fetch_bugzilla_data,
                 :cache_path => Proc.new { |controller| controller.params },
                 :expires_in => 1.hour
@@ -114,7 +114,12 @@ class ReportsController < ApplicationController
     expire_caches_for(test_session, true)
     expire_index_for(test_session)
     
-    redirect_to :action => 'view', :id => report_id
+    redirect_to :action => 'view',
+                :id => report_id,
+                :release_version => @selected_release_version,
+                :target => test_session.target,
+                :testtype => test_session.testtype,
+                :hwproduct => test_session.hwproduct
   end
   
   def view
@@ -204,30 +209,35 @@ protected
   def expire_index_for(test_session)
     expire_page  :controller => 'index', :action => :index
     expire_page  :controller => 'upload', :action => :upload_form
-    expire_page  :controller => 'index', :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype, :hwproduct => test_session.hwproduct
-    expire_page  :controller => 'index', :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype
-    expire_page  :controller => 'index', :action => :filtered_list, :target => test_session.target
+    expire_page  :controller => 'index', :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype, :hwproduct => test_session.hwproduct, :release_version => @selected_release_version
+    expire_page  :controller => 'index', :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype, :release_version => @selected_release_version
+    expire_page  :controller => 'index', :action => :filtered_list, :target => test_session.target, :release_version => @selected_release_version
   end
 
   def expire_caches_for(test_session, results=false)
-    expire_page :controller => 'reports', :action => 'view', :id => test_session.id
-    expire_page :controller => 'reports', :action => 'print', :id => test_session.id
-    
-    if results
-      prev = test_session.prev_session
-      if prev
-        expire_page  :controller => 'reports', :action => 'view', :id => prev.id
-        expire_page  :controller => 'reports', :action => 'print', :id => prev.id
-      end
-      next_ = test_session.next_session
-      if next_
-        expire_page  :controller => 'reports', :action => 'view', :id => next_.id
-        expire_page  :controller => 'reports', :action => 'print', :id => next_.id
-        next_ = next_.next_session
-        if next_
-          expire_page  :controller => 'reports', :action => 'view', :id => next_.id
-          expire_page  :controller => 'reports', :action => 'print', :id => next_.id
-        end
+    route_params = {
+      :controller => 'reports',
+      :id => test_session.id,
+      :action_suffix => 'test_results',
+      :release_version => @selected_release_version,
+      :target => test_session.target,
+      :testtype => test_session.testtype,
+      :hwproduct => test_session.hwproduct
+    }
+
+    %w{view print}.each do |action|
+      expire_fragment route_params.merge(:action => action, :id => test_session.id)
+
+      # TODO: Add expire_fragments here as well!
+      if results
+        prev_session = test_session.prev_session
+        next_session = test_session.next_session
+
+        expire_fragment route_params.merge(:action => action, :id => prev_session.id) if prev_session
+        expire_fragment route_params.merge(:action => action, :id => next_session.id) if next_session
+
+        next_session = next_session.try(:next_session)
+        expire_fragment route_params.merge(:action => action, :id => next_session.id) if next_session
       end
     end
   end

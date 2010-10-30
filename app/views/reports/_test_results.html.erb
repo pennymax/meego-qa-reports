@@ -1,0 +1,71 @@
+<div class="test_results">
+
+  <h2 id="test_results">Test Results<span class="heading_actions"><%= back_to_top %></span></h2>
+
+  <div class="container">
+
+    <%= yield :test_result_navigation %>
+
+    <h3>Result Summary</h3>
+
+    <div class="wrap">
+      <table id="test_result_overview">
+        <tr class="even">
+          <td class="title">Total test cases</td>
+          <td class="value"><strong><%= @report.total_cases %></strong></td>
+          <td class="change <%= @report.total_change_class %>"><em><%= @report.total_change %></em></td>
+          <td rowspan="7" style="background-color: white;"><%= @report.graph_img_tag(@email) %></td>
+        </tr>
+        <tr class="odd">
+          <td>Passed</td>
+          <td><strong class="pass"><%= @report.total_passed %></strong></td>
+          <td class="<%= @report.passed_change_class %>"><em><%= @report.passed_change %></em></td>
+        </tr>
+        <tr class="even">
+          <td>Failed</td>
+          <td><strong class="fail"><%= @report.total_failed %></strong></td>
+          <td class="<%= @report.failed_change_class %>"><em><%= @report.failed_change %></em></td>
+        </tr>
+        <tr class="odd">
+          <td>Not testable</td>
+          <td><strong><%= @report.total_na %></strong></td>
+          <td class="<%= @report.na_change_class %>"><em><%= @report.na_change %></em></td>
+        </tr>
+        <tr class="even">
+          <td>Run rate</td>
+          <td><strong><%= @report.run_rate %></strong></td>
+          <td class="<%= @report.run_rate_change_class %>"><em><%= @report.run_rate_change %></em></td>
+        </tr>
+        <tr class="odd">
+          <td>Pass rate of total</td>
+          <td><strong><%= @report.total_pass_rate %></strong></td>
+          <td class="<%= @report.total_pass_rate_change_class %>"><em><%= @report.total_pass_rate_change %></em></td>
+        </tr>
+        <tr class="even">
+          <td>Pass rate of executed</td>
+          <td><strong><%= @report.executed_pass_rate %></strong></td>
+          <td class="<%= @report.executed_pass_rate_change_class %>"><em><%= @report.executed_pass_rate_change %></em>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <h3 id="test_categories">Test Results by Category</h3>
+
+    <table id="test_results">
+      <thead class="even">
+      <tr>
+        <th class="th_category">Category</th>
+        <th class="th_total">Total</th>
+        <th class="th_passed">Passed</th>
+        <th class="th_failed">Failed</th>
+        <th class="th_not_testable">Not testable</th>
+        <th class="th_graph">&nbsp;</th>
+      </tr>
+      </thead>
+
+      <%= render :partial => 'category_summary', :collection => @test_session.meego_test_sets %>
+
+    </table>
+  </div>
+</div>

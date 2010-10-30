@@ -23,29 +23,29 @@
 
 
 class IndexController < ApplicationController
-  caches_page :index, :filtered_list
+  #caches_page :index, :filtered_list
 
   def index
     @types = {}
-    @types["Core"] = MeegoTestSession.list_types_for "Core", ["Sanity", "Core", "Milestone"]
-    @types["Handset"] = MeegoTestSession.list_types_for "Handset", ["Acceptance", "Sanity", "Weekly", "Milestone"]
-    @types["Netbook"] = MeegoTestSession.list_types_for "Netbook", ["Sanity", "Weekly", "System Functional"]
-    @types["IVI"] = MeegoTestSession.list_types_for "IVI", []
+    @types["Core"] = MeegoTestSession.list_types_for @selected_release_version, "Core"
+    @types["Handset"] = MeegoTestSession.list_types_for @selected_release_version, "Handset"
+    @types["Netbook"] = MeegoTestSession.list_types_for @selected_release_version, "Netbook"
+    @types["IVI"] = MeegoTestSession.list_types_for @selected_release_version, "IVI"
 
-    @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
+    @hardware = MeegoTestSession.list_hardware @selected_release_version
   end
-  
+
   def filtered_list
     @target = params[:target]
     @testtype = params[:testtype]
     @hwproduct = params[:hwproduct]
-    
+
     if @hwproduct
-      sessions = MeegoTestSession.where(['target = ? AND testtype = ? AND hwproduct = ? AND published = ?', @target, @testtype, @hwproduct, true]).order("created_at DESC")
+      sessions = MeegoTestSession.by_release_version_target_test_type_product(@selected_release_version, @target, @testtype, @hwproduct)
     elsif @testtype
-      sessions = MeegoTestSession.where(['target = ? AND testtype = ? AND published = ?', @target, @testtype, true]).order("created_at DESC")
+      sessions = MeegoTestSession.published_by_release_version_target_test_type(@selected_release_version, @target, @testtype)
     else
-      sessions = MeegoTestSession.where(['target = ? AND published = ?', @target, true]).order("created_at DESC")
+      sessions = MeegoTestSession.published_by_release_version_target(@selected_release_version, @target)
     end
     # .group_by{|s| s.created_at.beginning_of_month}
     
@@ -67,7 +67,6 @@ class IndexController < ApplicationController
   end
   
 private
-
 
   def generate_trend_graph(sessions)
     passed = []
