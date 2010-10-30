@@ -5,7 +5,6 @@ gem 'rails', '3.0.0'
 group :staging, :production do
   gem 'mysql'
   gem 'newrelic_rpm'
-  gem 'exception_notifier'
 end
 
 group :development do
@@ -18,6 +17,7 @@ end
 group :test do
   gem 'capybara'
   gem 'cucumber'
+  gem 'rcov', :require => false
   gem 'culerity'
   gem 'celerity', :require => false
   gem 'launchy'

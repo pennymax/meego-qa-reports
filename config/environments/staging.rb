@@ -2,7 +2,7 @@ Meegoqa::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
   # Send exception notifications
-  config.middleware.use ExceptionNotifier,
+  config.middleware.use "::ExceptionNotifier",
     :email_prefix => "[MeeGo QA Reports, staging] ",
     :sender_address => %{"Exception Notifier" <notifier@qa-reports.meego.com>},
     :exception_recipients => %w{it@leonidasoy.fi}
@@ -13,7 +13,7 @@ Meegoqa::Application.configure do
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = true
+  config.action_controller.perform_caching = false
 
   # Specifies the header that your server uses for sending files
   config.action_dispatch.x_sendfile_header = "X-Sendfile"

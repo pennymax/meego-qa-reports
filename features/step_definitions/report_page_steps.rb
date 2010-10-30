@@ -62,7 +62,6 @@ When /^I click to print the report$/ do
   When "I follow \"print-button\" within \"#edit_report\""
 end
 
-
 When /^I click to delete the report$/ do
   When "I follow \"delete-button\" within \"#edit_report\""
 end
@@ -71,10 +70,20 @@ When /^I attach the report "([^"]*)"$/ do |file|
   And "attach the file \"features/resources/#{file}\" to \"meego_test_session[uploaded_files][]\" within \"#browse\""
 end
 
+When /^I select target "([^\"]*)", test type "([^\"]*)" and hardware "([^\"]*)" with date "([^\"]*)"$/ do |tgt, ttype, hw, date|
+  When %{I fill in "report_test_execution_date" with "#{date}"}
+  When %{I select target "#{tgt}", test type "#{ttype}" and hardware "#{hw}"}
+end
+
 Given /^I select target "([^"]*)", test type "([^"]*)" and hardware "([^"]*)"$/ do |target, test_type, hardware|
-  %{When I choose #{target}"}
+  When %{I choose "#{target}"}
   When "I fill in \"meego_test_session[testtype]\" with \"#{test_type}\""
   When "I fill in \"meego_test_session[hwproduct]\" with \"#{hardware}\""
+end
+
+Given /^I select test type "([^"]*)" and hardware "([^"]*)"$/ do |test_type, hardware|
+  When %{I fill in "meego_test_session[testtype]" with "#{test_type}"}
+  When %{I fill in "meego_test_session[hwproduct]" with "#{hardware}"}
 end
 
 Then /^I should see the header$/ do

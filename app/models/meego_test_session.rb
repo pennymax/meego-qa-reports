@@ -40,11 +40,14 @@ class MeegoTestSession < ActiveRecord::Base
   validates_presence_of :release_version
   validates_presence_of :uploaded_files
   
-  validate :allowed_filename_extensions
+  validate :allowed_filename_extensions, :on => :create
+  validate :save_uploaded_files, :on => :create
 
-  after_create :save_uploaded_files
+  #after_create :save_uploaded_files
   after_destroy :remove_uploaded_files
-  
+
+  attr_reader :parsing_failed, :parse_errors
+
   XML_DIR = "public/reports"
 
   include ReportSummary
@@ -60,6 +63,20 @@ class MeegoTestSession < ActiveRecord::Base
 
   def self.latest_release_version
     release_versions[0]
+  end
+
+  class << self
+    def by_release_version_target_test_type_product(release_version, target, testtype, hwproduct)
+      MeegoTestSession.where(['release_version = ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ?', release_version, target, testtype, hwproduct, true]).order("created_at DESC")
+    end
+
+    def published_by_release_version_target_test_type(release_version, target, testtype)
+      MeegoTestSession.where(['release_version = ? AND target = ? AND testtype = ? AND published = ?', release_version, target, testtype, true]).order("created_at DESC")
+    end
+
+    def published_by_release_version_target(release_version, target)
+      MeegoTestSession.where(['release_version = ? AND target = ? AND published = ?', release_version, target, true]).order("created_at DESC")
+    end
   end
   
   ###############################################
@@ -276,24 +293,39 @@ class MeegoTestSession < ActiveRecord::Base
       else
         f.gsub(/\#.*/, '')
       end
-      filename = filename.downcase
+      filename = filename.downcase.strip
+      if filename == ""
+        errors.add :uploaded_files, "can't be blank"
+        return
+      end
       unless filename =~ /\.csv$/ or filename =~ /\.xml$/
         errors.add :uploaded_files, "You can only upload files with the extension .xml or .csv"
+        return
       end
     end if @files
   end
   
   def save_uploaded_files
+    @parsing_failed = false
+    return unless @files
     MeegoTestSession.transaction do
       filenames = []
+      @parse_errors = []
       @files.each do |f|
         datepart = Time.now.strftime("%Y%m%d")
         dir = File.join(XML_DIR, datepart)
 
-        f = f.respond_to?(:original_filename) ? f : File.new(f.gsub(/\#.*/, ''))
+        begin
+          f = f.respond_to?(:original_filename) ? f : File.new(f.gsub(/\#.*/, ''))
+        rescue
+          errors.add :uploaded_files, "can't be blank"
+          return
+        end
 
         filename = sanitize_filename(f)
-        filename = ("%05i-" % self.id.to_s) + filename
+        
+        origfn = File.basename(filename)
+        filename = ("%06i-" % Time.now.usec) + filename
         path_to_file = File.join(dir, filename)
         filenames << path_to_file
         if !File.exists?(dir)
@@ -304,14 +336,20 @@ class MeegoTestSession < ActiveRecord::Base
         else
           FileUtils.copy(f.local_path, path_to_file)
         end
-        if filename =~ /.csv$/
-          parse_csv_file(path_to_file)
-        else
-          parse_xml_file(path_to_file)
+        begin
+          if filename =~ /.csv$/
+            parse_csv_file(path_to_file)
+          else
+            parse_xml_file(path_to_file)
+          end
+        rescue
+          logger.error "ERROR in file parsing"
+          logger.error $!, $!.backtrace
+          errors.add :uploaded_files, "Incorrect file format for #{origfn}"
         end
       end
       @xmlpath = filenames.join(',')
-      save
+      #save
     end
   end
   
@@ -332,16 +370,16 @@ private
     rows = CSV.read(filename);
     rows.shift
     rows.each do |row|
-      category = row[0].toutf8
-      summary = row[1].toutf8
-      comments = row[2].toutf8 if row[2]
+      category = row[0].toutf8.strip
+      summary = row[1].toutf8.strip
+      comments = row[2].toutf8.strip if row[2]
       passed = row[3]
       failed = row[4]
       na = row[5]
       if category != prev_category
         prev_category = category
-        test_set = self.meego_test_sets.create(
-          :feature => category.strip
+        test_set = self.meego_test_sets.build(
+          :feature => category
         )
       end
       if passed
@@ -351,10 +389,13 @@ private
       else
         result = 0
       end
-      test_case = test_set.meego_test_cases.create(
-        :name => summary.strip,
+      if summary == ""
+        raise "Missing test case name in CSV"
+      end
+      test_case = test_set.meego_test_cases.build(
+        :name => summary,
         :result => result,
-        :comment => (comments || "").strip,
+        :comment => comments || "",
         :meego_test_session => self
       )
     end
@@ -370,13 +411,13 @@ private
         if sets.has_key? set.feature
           set_model = sets[set.feature]
         else
-          set_model = self.meego_test_sets.create(
+          set_model = self.meego_test_sets.build(
             :feature => set.feature
           )
           sets[set.feature] = set_model
         end
         set.cases.each do |testcase|
-          case_model = set_model.meego_test_cases.create(
+          case_model = set_model.meego_test_cases.build(
             :name => testcase.name,
             :result => MeegoTestSession.map_result(testcase.result),
             :comment => testcase.comment,
