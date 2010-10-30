@@ -7,6 +7,6 @@
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
 if Rails.env == "development":
-  User.create! :username => 'testuser', :password => 'testpass', :email => 'test@leonidasoy.fi', :name => "Jean-Claude Van Damme"
+  User.create! :password => 'testpass', :email => 'test@leonidasoy.fi', :name => "Jean-Claude Van Damme"
 end
 
