@@ -74,6 +74,26 @@ Feature:
     
     And submit the form at "upload_report_submit"
     
-    Then show me the page
     Then I should see "be blank"
+
+  Scenario: Add new report with saved default target
+    When I follow "Add report"
+    And I select target "handset_target", test type "Smokey" and hardware "n990"
+    And I attach the report "sample.csv"
+    And submit the form at "upload_report_submit"
+    And submit the form at "upload_report_submit"
+
+    Then I should see "Check home screen" within ".testcase"
+    Then show me the page
+    And I should see "Handset" within "h1"
+
+    When I follow "Add report"
+    And I select test type "Smokey" and hardware "n990"
+    And I attach the report "sample.csv"
+    And submit the form at "upload_report_submit"
+
+    Then I should see "Check home screen" within ".testcase"
+    Then show me the page
+    And I should see "Handset" within "h1"
+
 

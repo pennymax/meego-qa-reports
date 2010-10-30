@@ -72,7 +72,12 @@ When /^I attach the report "([^"]*)"$/ do |file|
 end
 
 Given /^I select target "([^"]*)", test type "([^"]*)" and hardware "([^"]*)"$/ do |target, test_type, hardware|
-  %{When I choose #{target}"}
+  When %{I choose "#{target}"}
+  When "I fill in \"meego_test_session[testtype]\" with \"#{test_type}\""
+  When "I fill in \"meego_test_session[hwproduct]\" with \"#{hardware}\""
+end
+
+Given /^I select test type "([^"]*)" and hardware "([^"]*)"$/ do |test_type, hardware|
   When "I fill in \"meego_test_session[testtype]\" with \"#{test_type}\""
   When "I fill in \"meego_test_session[hwproduct]\" with \"#{hardware}\""
 end
