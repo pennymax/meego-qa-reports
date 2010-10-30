@@ -34,18 +34,18 @@ class IndexController < ApplicationController
 
     @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
   end
-  
+
   def filtered_list
     @target = params[:target]
     @testtype = params[:testtype]
     @hwproduct = params[:hwproduct]
     
     if @hwproduct
-      sessions = MeegoTestSession.where(['target = ? AND testtype = ? AND hwproduct = ? AND published = ?', @target, @testtype, @hwproduct, true]).order("created_at DESC")
+      sessions = MeegoTestSession.by_target_test_type_product(@target, @testtype, @hwproduct)
     elsif @testtype
-      sessions = MeegoTestSession.where(['target = ? AND testtype = ? AND published = ?', @target, @testtype, true]).order("created_at DESC")
+      sessions = MeegoTestSession.published_by_target_test_type(@target, @testtype)
     else
-      sessions = MeegoTestSession.where(['target = ? AND published = ?', @target, true]).order("created_at DESC")
+      sessions = MeegoTestSession.published_by_target(@target)
     end
     # .group_by{|s| s.created_at.beginning_of_month}
     
