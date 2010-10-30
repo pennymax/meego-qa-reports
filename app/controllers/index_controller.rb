@@ -43,11 +43,11 @@ class IndexController < ApplicationController
     get_selected_meego_version
 
     if @hwproduct
-      sessions = MeegoTestSession.where(['target = ? AND testtype = ? AND hwproduct = ? AND published = ?', @target, @testtype, @hwproduct, true]).order("created_at DESC")
+      sessions = MeegoTestSession.where(['release_version = ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ?', get_selected_meego_version, @target, @testtype, @hwproduct, true]).order("created_at DESC")
     elsif @testtype
-      sessions = MeegoTestSession.where(['target = ? AND testtype = ? AND published = ?', @target, @testtype, true]).order("created_at DESC")
+      sessions = MeegoTestSession.where(['release_version = ? AND target = ? AND testtype = ? AND published = ?', get_selected_meego_version, @target, @testtype, true]).order("created_at DESC")
     else
-      sessions = MeegoTestSession.where(['target = ? AND published = ?', @target, true]).order("created_at DESC")
+      sessions = MeegoTestSession.where(['release_version = ? AND target = ? AND published = ?', get_selected_meego_version, @target, true]).order("created_at DESC")
     end
     # .group_by{|s| s.created_at.beginning_of_month}
     

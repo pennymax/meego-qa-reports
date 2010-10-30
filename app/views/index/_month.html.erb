@@ -24,7 +24,8 @@
 %>
 <strong><%=month%></strong>
 <ul>
-	<% @sessions[month].each do |s| %>
-	<li><span><%=s.format_date%></span><a href="<%=url_for :controller=>'reports',:action=>'view', :id=>s.id%>"><%=s.title%></a></li>
-	<% end %>
+  <% @sessions[month].each do |s| %>
+    <li><span><%=s.format_date%></span>
+    <a href="<%=url_for :controller=>'reports',:action=>'view', :id=>s.id%>"><%=s.title%></a></li>
+  <% end %>
 </ul>

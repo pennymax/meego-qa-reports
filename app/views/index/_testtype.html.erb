@@ -25,6 +25,6 @@
 <strong><%=testtype%></strong>
 <ul>
 	<% hardware_for(target, testtype).each do |hw| %>
-	<li><a href="<%=url_for :controller=>'index', :action=>'filtered_list', :target=>target, :testtype=>testtype, :hwproduct=>hw%>"><%=hw%></a></li>
+	<li><a href="<%=url_for :controller=>'index', :action=>'filtered_list', :release_version=>@selected_release_version, :target=>target, :testtype=>testtype, :hwproduct=>hw%>"><%=hw%></a></li>
 	<% end %>
 </ul>

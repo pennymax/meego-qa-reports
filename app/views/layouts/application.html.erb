@@ -50,7 +50,6 @@
     <ul class="clearfix">
       <% @meego_releases.each_with_index do |release, index| %>
 
-
         <% if release == @selected_release_version %>
           <li class="current">
         <% else %>
@@ -58,7 +57,7 @@
         <% end %>
 
         <% link_text = index == 0 ? "MeeGo v#{release}" : "v#{release}" %>        
-        <%= link_to link_text, release %>
+        <%= link_to link_text, root_url + release %>
         </li>
             
       <% end %>
