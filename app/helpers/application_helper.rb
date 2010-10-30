@@ -63,6 +63,24 @@ module ApplicationHelper
    html.html_safe
  end
 
+  def release_version_navigation(current_version)
+    html = '<ul class="clearfix">'
+    @meego_releases.each_with_index do |release, index|
+      if release == current_version
+          html += '<li class="current">'
+      else
+          html += '<li>'
+      end
+
+      link_text = index == 0 ? "MeeGo v#{release}" : "v#{release}"
+      html += link_to link_text, root_url + release
+      html += '</li>'
+    end
+    
+    html += '</ul>'
+    html.html_safe
+  end
+
   def format_date_to_human_readable(date)
     date.strftime('%d %B %Y')
   end

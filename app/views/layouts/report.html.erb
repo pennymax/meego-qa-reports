@@ -37,15 +37,7 @@
   <%= yield :page_header %>
   
   <div id="version_navi">
-  	<ul class="clearfix">
-		<li class="current"><a>Meego v2.5</a></li>
-		<li><a href="">v2.0</a></li>
-		<li><a href="">v1.7</a></li>
-		<li><a href="">v1.5</a></li>
-		<li><a href="">v1.0</a></li>
-		<li><a href="">v0.9</a></li>
-		<li><a href="">v0.8</a></li>
-	</ul>
+    <%= release_version_navigation(@test_session.release_version) %>
   </div>
 
 
