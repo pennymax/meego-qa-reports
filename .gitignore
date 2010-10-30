@@ -1,6 +1,6 @@
 .bundle
 .project
-db/*.sqlite3
+db/*.sqlite3*
 log/*.log
 tmp/*
 .tmp*~
