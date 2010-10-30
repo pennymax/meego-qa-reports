@@ -63,7 +63,7 @@ class UploadController < ApplicationController
     end
 
     # TODO: quick hack done because mysql doesn't obey the :default => "" given in migration - for some reason
-    params.reverse_merge!(
+    params[:meego_test_session].reverse_merge!(
       :objective_txt => "",
       :build_txt => "",
       :qa_summary_txt => "",
