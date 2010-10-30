@@ -29,6 +29,7 @@ Given /^I have created the "([^"]*)" report$/ do |report_name|
 
   Given "I am on the front page"
   When %{I follow "Add report"}
+  And %{I fill in "report_test_execution_date" with "2010-02-02"}
   And %{I select target "#{target}", test type "#{test_type}" and hardware "#{hardware}"}
   And %{I attach the report "sample.csv"}
   And %{I submit the form at "upload_report_submit"}
@@ -70,18 +71,14 @@ When /^I attach the report "([^"]*)"$/ do |file|
   And "attach the file \"features/resources/#{file}\" to \"meego_test_session[uploaded_files][]\" within \"#browse\""
 end
 
-When /^I select target "([^\"]*)", test type "([^\"]*)" and hardware "([^\"]*)" with date "([^\"]*)"$/ do |tgt, ttype, hw, date|
-  When %{I fill in "report_test_execution_date" with "#{date}"}
-  When %{I select target "#{tgt}", test type "#{ttype}" and hardware "#{hw}"}
-end
-
-Given /^I select target "([^"]*)", test type "([^"]*)" and hardware "([^"]*)"$/ do |target, test_type, hardware|
+Given /^I select target "([^"]*)", test type "([^"]*)" and hardware "([^"]*)"(?: with date "([^\"]*)")?/ do |target, test_type, hardware, date|
+  When %{I fill in "report_test_execution_date" with "#{date}"} if date
   When %{I choose "#{target}"}
-  When "I fill in \"meego_test_session[testtype]\" with \"#{test_type}\""
-  When "I fill in \"meego_test_session[hwproduct]\" with \"#{hardware}\""
+  And %{I select test type "#{test_type}" and hardware "#{hardware}"}
 end
 
-Given /^I select test type "([^"]*)" and hardware "([^"]*)"$/ do |test_type, hardware|
+Given /^I select test type "([^"]*)" and hardware "([^"]*)"(?: with date "([^\"]*)")?$/ do |test_type, hardware, date|
+  When %{I fill in "report_test_execution_date" with "#{date}"} if date
   When %{I fill in "meego_test_session[testtype]" with "#{test_type}"}
   When %{I fill in "meego_test_session[hwproduct]" with "#{hardware}"}
 end

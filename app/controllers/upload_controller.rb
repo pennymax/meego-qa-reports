@@ -89,7 +89,7 @@ class UploadController < ApplicationController
       @test_session.issue_summary_txt = prev.issue_summary_txt
     end
 
-    @test_session.tested_at = Time.now
+    @test_session.tested_at ||= Time.now
     @test_session.author = current_user
     @test_session.editor = current_user
 

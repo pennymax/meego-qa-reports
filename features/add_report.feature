@@ -79,7 +79,8 @@ Feature:
 
   Scenario: Add new report with saved default target
     When I follow "Add report"
-    And I select target "handset_target", test type "Smokey" and hardware "n990"
+	
+    And I select target "handset_target", test type "Smokey" and hardware "n990" with date "2010-02-12"
     And I attach the report "sample.csv"
     And submit the form at "upload_report_submit"
     And submit the form at "upload_report_submit"
@@ -88,7 +89,8 @@ Feature:
     And I should see "Handset" within "h1"
 
     When I follow "Add report"
-    And I select test type "Smokey" and hardware "n990"
+    And I select test type "Smokey" and hardware "n990" with date "2010-02-12"
+
     And I attach the report "sample.csv"
     And submit the form at "upload_report_submit"
 
