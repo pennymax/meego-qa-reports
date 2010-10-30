@@ -46,7 +46,11 @@ class MeegoTestSession < ActiveRecord::Base
   XML_DIR = "public/reports"
 
   include ReportSummary
-  
+
+  def tested_at=(t)
+    self[:tested_at] = t.respond_to?(:day) ? t : DateTime.parse(t) if t.present?
+  end
+
   def prev_summary
     prev_session
   end
@@ -238,7 +242,8 @@ class MeegoTestSession < ActiveRecord::Base
   end
   
   def generate_defaults!
-    self.title = target + " Test Report: " + hwproduct + " " + testtype + " " + Time.now.strftime("%Y-%m-%d")
+    time = tested_at || Time.now
+    self.title = "%s Test Report: %s %s %s" % [target, hwproduct, testtype, time.strftime('%Y-%m-%d')]
     self.environment_txt = "* Hardware: " + hwproduct
   end
   

@@ -63,7 +63,10 @@
         </div>
         <div class="field">
             <label for="report_test_execution_date">Test execution date:</label>
-            <input type="text" name="report_test_execution_date" class="date" />
+            <%= f.text_field :tested_at,
+                             :id =>'report_test_execution_date',
+                             :class => 'date' %>
+          <!--  <input type="text" name="report_test_execution_date" class="date" /> -->
         </div>
         <div class="field">
             <label for="report_test_type">Test type:</label>
