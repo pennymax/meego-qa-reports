@@ -54,6 +54,21 @@ class MeegoTestSession < ActiveRecord::Base
   def prev_summary
     prev_session
   end
+
+  class << self
+    def by_target_test_type_product(target, testtype, hwproduct)
+      MeegoTestSession.where(['target = ? AND testtype = ? AND hwproduct = ? AND published = ?', target, testtype, hwproduct, true]).order("created_at DESC")
+    end
+
+    def published_by_target_test_type(target, testtype)
+      MeegoTestSession.where(['target = ? AND testtype = ? AND published = ?', target, testtype, true]).order("created_at DESC")
+    end
+
+    def published_by_target(target)
+      MeegoTestSession.where(['target = ? AND published = ?', target, true]).order("created_at DESC")
+    end
+
+  end
   
   ###############################################
   # List category tags                          #
@@ -269,15 +284,21 @@ class MeegoTestSession < ActiveRecord::Base
       else
         f.gsub(/\#.*/, '')
       end
-      filename = filename.downcase
+      filename = filename.downcase.strip
+      if filename == ""
+        errors.add :uploaded_files, "can't be blank"
+        return
+      end
       unless filename =~ /\.csv$/ or filename =~ /\.xml$/
         errors.add :uploaded_files, "You can only upload files with the extension .xml or .csv"
+        return
       end
     end if @files
   end
   
   def save_uploaded_files
     @parsing_failed = false
+    return unless @files
     MeegoTestSession.transaction do
       filenames = []
       @parse_errors = []
@@ -285,9 +306,15 @@ class MeegoTestSession < ActiveRecord::Base
         datepart = Time.now.strftime("%Y%m%d")
         dir = File.join(XML_DIR, datepart)
 
-        f = f.respond_to?(:original_filename) ? f : File.new(f.gsub(/\#.*/, ''))
+        begin
+          f = f.respond_to?(:original_filename) ? f : File.new(f.gsub(/\#.*/, ''))
+        rescue
+          errors.add :uploaded_files, "can't be blank"
+          return
+        end
 
         filename = sanitize_filename(f)
+        
         origfn = File.basename(filename)
         filename = ("%06i-" % Time.now.usec) + filename
         path_to_file = File.join(dir, filename)

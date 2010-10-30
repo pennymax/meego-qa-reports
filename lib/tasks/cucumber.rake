@@ -4,6 +4,7 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
+#$:.unshift(RAILS_ROOT + '/vendor/plugins/cucumber/lib')
 
 unless ARGV.any? {|a| a =~ /^gems/} # Don't load anything when running the gems:* tasks
 
@@ -30,6 +31,13 @@ begin
       t.binary = vendored_cucumber_bin
       t.fork = true # You may get faster startup if you set this to false
       t.profile = 'rerun'
+    end
+
+    Cucumber::Rake::Task.new({:rcov => 'db:test:prepare'}, 'Run rcov for cucs') do |t|
+      t.binary = vendored_cucumber_bin
+      t.fork = true # You may get faster startup if you set this to false
+      t.profile = 'default'
+      t.rcov = true
     end
 
     desc 'Run all features'
