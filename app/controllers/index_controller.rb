@@ -23,7 +23,7 @@
 
 
 class IndexController < ApplicationController
-  caches_page :index, :filtered_list
+  #caches_page :index, :filtered_list
 
   def index
     @types = {}
