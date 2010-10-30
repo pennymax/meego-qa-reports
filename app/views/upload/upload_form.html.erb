@@ -38,10 +38,6 @@
         	<% end %>
         </div>
         <div class="field">
-        	<label for="report_test_execution_date">Test execution date:</label>
-        	<input type="text" name="report_test_execution_date" class="date" />
-        </div>
-        <div class="field">
             <label for="report_test_target">Target profile:</label>
         	<input type="radio" name="meego_test_session[target]" id="core" value="Core" class="radio" checked="checked" />
         	<label for="id1" class="inline_label">Core</label>
@@ -54,6 +50,10 @@
 
             <%= f.error_message_on :target %>
             
+        </div>
+        <div class="field">
+            <label for="report_test_execution_date">Test execution date:</label>
+            <input type="text" name="report_test_execution_date" class="date" />
         </div>
         <div class="field">
             <label for="report_test_type">Test type:</label>
