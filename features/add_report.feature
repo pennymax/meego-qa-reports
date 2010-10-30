@@ -84,7 +84,6 @@ Feature:
     And submit the form at "upload_report_submit"
 
     Then I should see "Check home screen" within ".testcase"
-    Then show me the page
     And I should see "Handset" within "h1"
 
     When I follow "Add report"
@@ -93,7 +92,6 @@ Feature:
     And submit the form at "upload_report_submit"
 
     Then I should see "Check home screen" within ".testcase"
-    Then show me the page
     And I should see "Handset" within "h1"
 
 
