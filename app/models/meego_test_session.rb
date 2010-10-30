@@ -58,6 +58,9 @@ class MeegoTestSession < ActiveRecord::Base
     ["1.1", "1.0"]
   end
 
+  def self.latest_release_version
+    release_versions[0]
+  end
   
   ###############################################
   # List category tags                          #

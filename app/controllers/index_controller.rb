@@ -33,13 +33,15 @@ class IndexController < ApplicationController
     @types["IVI"] = MeegoTestSession.list_types_for "IVI", []
 
     @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
+    get_selected_meego_version
   end
   
   def filtered_list
     @target = params[:target]
     @testtype = params[:testtype]
     @hwproduct = params[:hwproduct]
-    
+    get_selected_meego_version
+
     if @hwproduct
       sessions = MeegoTestSession.where(['target = ? AND testtype = ? AND hwproduct = ? AND published = ?', @target, @testtype, @hwproduct, true]).order("created_at DESC")
     elsif @testtype
@@ -68,6 +70,9 @@ class IndexController < ApplicationController
   
 private
 
+  def get_selected_meego_version
+    @selected_release_version = params[:release_version] || MeegoTestSession.latest_release_version
+  end
 
   def generate_trend_graph(sessions)
     passed = []

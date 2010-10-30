@@ -47,15 +47,22 @@
 	<%= render :partial => "reports/upload_link" %>
   </div>
   <div id="version_navi">
-  	<ul class="clearfix">
-		<li class="current"><a>Meego v2.5</a></li>
-		<li><a href="">v2.0</a></li>
-		<li><a href="">v1.7</a></li>
-		<li><a href="">v1.5</a></li>
-		<li><a href="">v1.0</a></li>
-		<li><a href="">v0.9</a></li>
-		<li><a href="">v0.8</a></li>
-	</ul>
+    <ul class="clearfix">
+      <% @meego_releases.each_with_index do |release, index| %>
+
+
+        <% if release == @selected_release_version %>
+          <li class="current">
+        <% else %>
+          <li>
+        <% end %>
+
+        <% link_text = index == 0 ? "MeeGo v#{release}" : "v#{release}" %>        
+        <%= link_to link_text, release %>
+        </li>
+            
+      <% end %>
+    </ul>
   </div>
   <div id="page">
 

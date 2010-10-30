@@ -14,7 +14,9 @@ Meegoqa::Application.routes.draw do
   match '/delete' => 'reports#delete', :via => "post"
   match '/report/view/(:id)' => 'reports#view', :via => "get"
   match '/report/print/(:id)' => 'reports#print', :via => "get"
-  
+
+
+  match '/:release_version' => 'index#filtered_list', :via => "get", :constraints => { :release_version => /\d+\.{1}\d+/ }
   match '/report/list/:target-:testtype-:hwproduct' => 'index#filtered_list', :via => "get"
   match '/report/list/:target-:testtype' => 'index#filtered_list', :via => "get"
   match '/report/list/:target' => 'index#filtered_list', :via => "get"
