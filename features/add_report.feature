@@ -66,3 +66,13 @@ Feature:
     
     Then I should see "Incorrect file format"
 
+  Scenario: Try to submit without uploading a file
+
+    When I follow "Add report"
+    
+    And I select target "Core", test type "Smokey" and hardware "n990"
+    
+    And submit the form at "upload_report_submit"
+    
+    Then I should see "be blank"
+
