@@ -5,7 +5,6 @@ gem 'rails', '3.0.0'
 group :staging, :production do
   gem 'mysql'
   gem 'newrelic_rpm'
-  gem 'exception_notifier'
 end
 
 group :development do
