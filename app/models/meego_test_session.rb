@@ -65,24 +65,24 @@ class MeegoTestSession < ActiveRecord::Base
   ###############################################
   # List category tags                          #
   ###############################################
-  def self.list_targets(release_version, seed=[])
-    (seed + MeegoTestSession.all(:select => 'DISTINCT target', :conditions=>{:published=>true, :release_version => release_version}).map{|s| s.target.gsub(/\b\w/){$&.upcase}}).uniq
+  def self.list_targets(release_version)
+    (MeegoTestSession.all(:select => 'DISTINCT target', :conditions=>{:published=>true, :release_version => release_version}).map{|s| s.target.gsub(/\b\w/){$&.upcase}}).uniq
   end
 
-  def self.list_types(release_version, seed=[])
-    (seed + MeegoTestSession.all(:select => 'DISTINCT testtype', :conditions=>{:published=>true, :release_version => release_version}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
+  def self.list_types(release_version)
+    (MeegoTestSession.all(:select => 'DISTINCT testtype', :conditions=>{:published=>true, :release_version => release_version}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
   end
 
-  def self.list_types_for(release_version, target, seed=[])
-    (seed + MeegoTestSession.all(:select => 'DISTINCT testtype', :conditions => {:target => target, :published => true, :release_version => release_version}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
+  def self.list_types_for(release_version, target)
+    (MeegoTestSession.all(:select => 'DISTINCT testtype', :conditions => {:target => target, :published => true, :release_version => release_version}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
-  def self.list_hardware(release_version, seed=[])
-    (seed + MeegoTestSession.all(:select => 'DISTINCT hwproduct', :conditions=>{:published=>true, :release_version => release_version}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
+  def self.list_hardware(release_version)
+    (MeegoTestSession.all(:select => 'DISTINCT hwproduct', :conditions=>{:published=>true, :release_version => release_version}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
-  def self.list_hardware_for(release_version, target, testtype, seed=[])
-    (seed + MeegoTestSession.all(:select => 'DISTINCT hwproduct', :conditions => {:target => target, :testtype=> testtype, :published=>true, :release_version => release_version}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
+  def self.list_hardware_for(release_version, target, testtype)
+    (MeegoTestSession.all(:select => 'DISTINCT hwproduct', :conditions => {:target => target, :testtype=> testtype, :published=>true, :release_version => release_version}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
 
