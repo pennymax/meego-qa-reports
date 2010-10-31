@@ -806,7 +806,7 @@ div.formError {
 
 #version_navi ul li.current a {
 	border-right: 1px solid #cacaca;
-	background: #515151 url(../images/version_navi_active_bg.png) repeat-x 0 bottom;
+	background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;
 	color: #f20089;
 	height: 1.0833em;
 	margin-right: -1px;}
