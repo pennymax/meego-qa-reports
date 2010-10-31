@@ -509,7 +509,8 @@ input#report_test_data.file {
 
 .small_btn.cancel,
 .dialog-cancel,
-#edit-button { 
+#edit-button,
+.small_btn.save { 
 	margin-right: 14px; }
 
 .big_btn.cancel:hover,
