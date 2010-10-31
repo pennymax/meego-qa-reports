@@ -1,6 +1,5 @@
 set :application, "qa-reports.meego.com"
 set :user, "www-data"
-set :use_sudo, false
 set :rails_env, "production"
 
 # Use absolute paths in order to avoid problems with scp
