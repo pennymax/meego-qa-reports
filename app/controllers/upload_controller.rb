@@ -23,55 +23,67 @@
 
 
 class UploadController < ApplicationController
-  
+
   before_filter :authenticate_user!
-  
+
   def upload_form
     @test_session = MeegoTestSession.new
-    @test_session.target = if @test_session.target.present?
+    @test_session.target = get_test_session_target
+
+    init_form_values
+  end
+
+  def get_test_session_target
+    if @test_session.target.present?
       @test_session.target
     elsif current_user.default_target.present?
       current_user.default_target
     else
       "Core"
     end
-    
-    init_form_values
   end
+  private :get_test_session_target
 
   def upload_attachment
     raw_filename = env['HTTP_X_FILE_NAME']
     extension = File.extname(raw_filename)
-    fileid = env['HTTP_X_FILE_ID']
-    raw_filename_wo_extension = File.basename(env['HTTP_X_FILE_NAME'], extension)
+    file_id = env['HTTP_X_FILE_ID']
+    raw_filename_wo_extension = File.basename(file_id, extension)
 
     url      = "/system/#{raw_filename_wo_extension.parameterize}#{extension}"
     filename = "#{Rails.root}/public#{url}"
 
     value = env['rack.input'].read()
-    File.open(filename, 'wb') {|f| f.write( value ) }
-    render :json => { :ok => '1', :fileid => fileid, :url => url }
+    File.open(filename, 'wb') { |f| f.write(value) }
+    render :json => {:ok => '1', :fileid => file_id, :url => url}
   end
-  
+
+  def copy_session_properties_from!(prev)
+    @test_session.objective_txt = prev.objective_txt
+    @test_session.build_txt = prev.build_txt
+    @test_session.qa_summary_txt = prev.qa_summary_txt
+    @test_session.issue_summary_txt = prev.issue_summary_txt
+  end
+
   def upload
     files = params[:meego_test_session][:uploaded_files] || []
 
     dnd = params[:drag_n_drop_attachments]
     if dnd
       dnd.each do |name|
-        files.push( DragnDropUploadedFile.new("public" + name, "rb") )
+        files.push(DragnDropUploadedFile.new("public" + name, "rb"))
       end
-  
+
       params[:meego_test_session][:uploaded_files] = files
     end
 
     # TODO: quick hack done because mysql doesn't obey the :default => "" given in migration - for some reason
     params[:meego_test_session].reverse_merge!(
-      :objective_txt => "",
-      :build_txt => "",
-      :qa_summary_txt => "",
-      :issue_summary_txt => "",
-      :environment_txt => ""
+        :objective_txt => "",
+            :build_txt => "",
+            :qa_summary_txt => "",
+            :issue_summary_txt => "",
+            :environment_txt => ""
     )
 
     @test_session = MeegoTestSession.new(params[:meego_test_session])
@@ -82,12 +94,7 @@ class UploadController < ApplicationController
     # See if there is a previous report with the same test target and type
     prev = @test_session.prev_session
 
-    if prev
-      @test_session.objective_txt = prev.objective_txt
-      @test_session.build_txt = prev.build_txt
-      @test_session.qa_summary_txt = prev.qa_summary_txt
-      @test_session.issue_summary_txt = prev.issue_summary_txt
-    end
+    copy_session_properties_from!(prev) if prev
 
     @test_session.tested_at ||= Time.now
     @test_session.author = current_user
@@ -102,7 +109,7 @@ class UploadController < ApplicationController
     end
   end
 
-private
+  private
 
   def init_form_values
     @targets = MeegoTestSession.list_targets @selected_release_version
