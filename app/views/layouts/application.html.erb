@@ -39,8 +39,12 @@
 <div id="wrapper">
   <div id="header" class="clearfix">
   	<div id="logo">
-          <h3><%= link_to "MeeGo | QA Reports", root_path %></h3>
-          <!--<a href="<%= root_path %>" class="hover"></a>-->
+          <h3>
+          	<%= link_to "MeeGo | QA Reports", root_path %>
+          	<%= link_to "MeeGo | QA Reports", root_path, :class=> 'hover' %>
+          
+          </h3>
+          <a href="<%= root_path %>" class="hover"></a>-->
 
   	</div>
 	

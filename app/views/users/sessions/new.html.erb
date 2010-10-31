@@ -3,8 +3,10 @@
 	
 	<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
 		<h1>Login to MeeGo QA Reports</h1>
-      <%= flash[:alert]  %>
-		
+
+	      <%= flash[:alert]  %>
+
+	 	
 	  <div class="field last">
 	  	<%= f.label :email %>
 	  	<%= f.text_field :email, :class => "text" %>

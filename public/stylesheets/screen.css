@@ -592,6 +592,11 @@ box-shadow: 5px 5px 5px #ccc;
 	background:#FBE3E4;
 	color:#8a1f11;
 	border-color:#FBC2C4;}
+
+form .error {
+	margin-left: 210px;
+	width: 40em;
+}
 	
 .notification {
 	background: #ed0089;
