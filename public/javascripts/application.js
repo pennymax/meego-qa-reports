@@ -678,7 +678,6 @@ jQuery(function($) {
                     $(tag + " img").hide();
 
                     // process next item
-                    //console.log('processed' + queuePosition);
                     sendItemInQueue(queuePosition + 1);
                 }
 
@@ -693,8 +692,6 @@ jQuery(function($) {
 
                 // TODO: Disable Send button
                 xhr.send(file);
-            } else {
-                //console.log('break at' + queuePosition);
             }
         }
 
@@ -725,34 +722,14 @@ jQuery(function($) {
     var dropbox = $('#dropbox').get(0);
 
     if(typeof window.FileReader === "function") {
-        /* yes we have a file api */
+        // We have file API
         $('#dropbox').bind('dragenter', dragenter);
         $('#dropbox').bind('dragover', dragover);
         $('#dropbox').bind('dragleave', dragleave);
         $('#dropbox').bind('drop', drop);
     } else {
-        /* we have to code a workaround */
-        $('#dropbox').css('position', 'relative');
-
-        var fileInput = $('<input />');
-        fileInput.attr({
-            'id'       : 'files-upload',
-            'type'     : 'file',
-            'multiple' : 'true'
-        });
-        fileInput.css({
-            'position' : 'absolute',
-            'top'      : '0',
-            'left'     : '0',
-            'width'    : '100%',
-            'height'   : '100%',
-            'opacity'  : '0.0'
-        });
-
-        $('#dropbox').append(fileInput);
-
-        $('#dropbox').bind('dragenter', dragenter);
-        $('#dropbox').bind('dragleave', dragleave);
-        $(fileInput).bind('change', drop);
+        // Fallback to normal file input
+        $('#dragndrop_and_browse').remove();
+        $('#only_browse').show();
     }
 });

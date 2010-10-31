@@ -21,5 +21,17 @@
 #
 
 class ApplicationController < ActionController::Base
+
+  before_filter :get_meego_versions
+  before_filter :get_selected_release_version
+
   #protect_from_forgery
+
+  def get_meego_versions
+    @meego_releases = MeegoTestSession.release_versions
+  end
+
+  def get_selected_release_version
+    @selected_release_version = params[:release_version] || MeegoTestSession.latest_release_version
+  end
 end

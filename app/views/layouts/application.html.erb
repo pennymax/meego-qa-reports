@@ -39,10 +39,9 @@
 <div id="wrapper">
   <div id="header" class="clearfix">
   	<div id="logo">
-  	  <h3>
-  	  	<a href="<%= root_path %>">MeeGo | QA Reports</a>
-	    <a href="<%= root_path %>" class="hover"></a>
-  	  </h3>
+          <h3><%= link_to "MeeGo | QA Reports", root_path %></h3>
+          <!--<a href="<%= root_path %>" class="hover"></a>-->
+
   	</div>
 	
     <%= render :partial => "shared/session_management" %>
@@ -50,15 +49,7 @@
 	<%= render :partial => "reports/upload_link" %>
   </div>
   <div id="version_navi">
-  	<ul class="clearfix">
-		<li class="current"><a>Meego v2.5</a></li>
-		<li><a href="">v2.0</a></li>
-		<li><a href="">v1.7</a></li>
-		<li><a href="">v1.5</a></li>
-		<li><a href="">v1.0</a></li>
-		<li><a href="">v0.9</a></li>
-		<li><a href="">v0.8</a></li>
-	</ul>
+    <%= release_version_navigation(@selected_release_version) %>
   </div>
   <div id="page">
 

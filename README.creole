@@ -14,7 +14,7 @@ Test reporting application prototype for the MeeGo QA teams. See trailer at
 * Install [[http://www.ruby-lang.org/|ruby]]
 {{{
 gem update --system  # Update gems
-gem intall bundler --no-ri --no-rdoc # Install bundler to manage dependencies
+gem install bundler --no-ri --no-rdoc # Install bundler to manage dependencies
 
 cd meego-qa-reports
 bundle install --without staging production # Install just development environment dependencies

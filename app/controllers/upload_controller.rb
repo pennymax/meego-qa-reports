@@ -28,11 +28,15 @@ class UploadController < ApplicationController
   
   def upload_form
     @test_session = MeegoTestSession.new
-    @no_upload_link = true
+    @test_session.target = if @test_session.target.present?
+      @test_session.target
+    elsif current_user.default_target.present?
+      current_user.default_target
+    else
+      "Core"
+    end
     
-    @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
-    @types = MeegoTestSession.list_types ["Acceptance", "Sanity", "Weekly", "Milestone"]
-    @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
+    init_form_values
   end
 
   def upload_attachment
@@ -50,7 +54,6 @@ class UploadController < ApplicationController
   end
   
   def upload
-
     files = params[:meego_test_session][:uploaded_files] || []
 
     dnd = params[:drag_n_drop_attachments]
@@ -62,7 +65,17 @@ class UploadController < ApplicationController
       params[:meego_test_session][:uploaded_files] = files
     end
 
+    # TODO: quick hack done because mysql doesn't obey the :default => "" given in migration - for some reason
+    params[:meego_test_session].reverse_merge!(
+      :objective_txt => "",
+      :build_txt => "",
+      :qa_summary_txt => "",
+      :issue_summary_txt => "",
+      :environment_txt => ""
+    )
+
     @test_session = MeegoTestSession.new(params[:meego_test_session])
+    current_user.update_attribute(:default_target, @test_session.target) if @test_session.target.present?
 
     @test_session.generate_defaults!
 
@@ -76,7 +89,7 @@ class UploadController < ApplicationController
       @test_session.issue_summary_txt = prev.issue_summary_txt
     end
 
-    @test_session.tested_at = Time.now
+    @test_session.tested_at ||= Time.now
     @test_session.author = current_user
     @test_session.editor = current_user
 
@@ -84,13 +97,19 @@ class UploadController < ApplicationController
       session[:preview_id] = @test_session.id
       redirect_to :controller => 'reports', :action => 'preview'
     else
-      @targets = MeegoTestSession.list_targets ["Core","Handset","Netbook","IVI"]
-      @types = MeegoTestSession.list_types ["Acceptance", "Sanity", "Weekly", "Milestone"]
-      @hardware = MeegoTestSession.list_hardware ["N900", "Aava", "Aava DV2"]
-      @no_upload_link = true
-      
+      init_form_values
       render :upload_form
     end
   end
-  
+
+private
+
+  def init_form_values
+    @targets = MeegoTestSession.list_targets @selected_release_version
+    @types = MeegoTestSession.list_types @selected_release_version
+    @hardware = MeegoTestSession.list_hardware @selected_release_version
+    @release_versions = MeegoTestSession.release_versions
+    @no_upload_link = true
+  end
 end
+

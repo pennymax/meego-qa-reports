@@ -22,9 +22,18 @@
 # 02110-1301 USA
 #
 %>
-<strong><%=month%></strong>
-<ul>
-	<% @sessions[month].each do |s| %>
-	<li><span><%=s.format_date%></span><a href="<%=url_for :controller=>'reports',:action=>'view', :id=>s.id%>"><%=s.title%></a></li>
-	<% end %>
-</ul>
+
+<table>
+  <tr>
+    <td colspan="3"><strong><%= month %></strong></td>
+  </tr>
+
+  <% @sessions[month].each do |s| %>
+  <tr class="<%= cycle "odd", "even" %>">
+      <td class="date"><%=s.format_date%></td>
+      <td class="report_name"><a href="<%=url_for :controller=>'reports',:action=>'view', :release_version=>@selected_release_version, :target=>s.target, :testtype=>s.testtype, :hwproduct=>s.hwproduct, :id=>s.id%>"><%=s.title%></a></td>
+      <td class="graph"><img src="/images/bar_chart_dummy.png" alt="" /></td>
+    </tr>
+  <% end %>
+</table>
+

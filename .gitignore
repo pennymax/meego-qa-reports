@@ -1,6 +1,6 @@
 .bundle
 .project
-db/*.sqlite3
+db/*.sqlite3*
 log/*.log
 tmp/*
 .tmp*~
@@ -13,3 +13,5 @@ nbproject/
 *.swp
 db/test.sqlite3-journal
 capybara-*.html
+coverage
+cucumber

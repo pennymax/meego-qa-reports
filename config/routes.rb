@@ -10,15 +10,20 @@ Meegoqa::Application.routes.draw do
 
   match '/finalize' => 'reports#preview', :via => "get"
   match '/publish' => 'reports#publish', :via => "post"
-  match '/edit' => 'reports#edit', :via => "get"
+
   match '/delete' => 'reports#delete', :via => "post"
-  match '/report/view/(:id)' => 'reports#view', :via => "get"
+
   match '/report/print/(:id)' => 'reports#print', :via => "get"
   
-  match '/report/list/:target-:testtype-:hwproduct' => 'index#filtered_list', :via => "get"
-  match '/report/list/:target-:testtype' => 'index#filtered_list', :via => "get"
-  match '/report/list/:target' => 'index#filtered_list', :via => "get"
-
+  constraints(:release_version => /\d+\.{1}\d+/) do
+    match '/:release_version/:target/:testtype/:hwproduct/:id' => 'reports#view', :via => "get"
+    match '/:release_version/:target/:testtype/:hwproduct/:id/edit' => 'reports#edit', :via => "get"
+    
+    match '/:release_version/:target/:testtype/:hwproduct' => 'index#filtered_list', :via => "get"
+    match '/:release_version/:target/:testtype' => 'index#filtered_list', :via => "get"
+    match '/:release_version/:target' => 'index#filtered_list', :via => "get"
+    match '/:release_version' => 'index#index', :via => "get"
+  end
 
   match '/ajax_update_txt' => 'reports#update_txt', :via => "post"
   match '/ajax_update_title' => 'reports#update_title', :via => "post"
@@ -26,6 +31,9 @@ Meegoqa::Application.routes.draw do
   match '/ajax_update_result' => 'reports#update_case_result', :via => "post"
   
   match '/fetch_bugzilla_data' => 'reports#fetch_bugzilla_data', :via => "get"
+
+  # to test exception notifier
+  match '/raise_exception' => 'exceptions#index'
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
