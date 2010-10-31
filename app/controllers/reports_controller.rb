@@ -25,6 +25,8 @@ require 'open-uri'
 require 'drag_n_drop_uploaded_file'
 
 class ReportsController < ApplicationController
+  include CacheHelper
+
   before_filter :authenticate_user!, :only => ["upload", "upload_form", "edit", "delete", "update", "update_txt",
       "update_title", "update_case_comment", "update_case_result"]
   #caches_page :print
@@ -52,7 +54,7 @@ class ReportsController < ApplicationController
 
   def update_txt
     field = update_title_or_text
-    expire_caches_for(@test_session)
+    expire_caches_for(@test_session, @selected_release_version)
 
     sym = field.sub("_txt", "_html").to_sym
     render :text => @test_session.send(sym)
@@ -60,8 +62,8 @@ class ReportsController < ApplicationController
 
   def update_title
     update_title_or_text
-    expire_caches_for(@test_session)
-    expire_index_for(@test_session)
+    expire_caches_for(@test_session, @selected_release_version)
+    expire_index_for(@test_session, @selected_release_version)
 
     render :text => "OK"
   end
@@ -87,7 +89,7 @@ class ReportsController < ApplicationController
 
     test_session = testcase.meego_test_session
     test_session.updated_by(current_user)
-    expire_caches_for(test_session)
+    expire_caches_for(test_session, @selected_release_version)
 
     render :text => "OK"
   end
@@ -100,7 +102,7 @@ class ReportsController < ApplicationController
 
     test_session = testcase.meego_test_session
     test_session.updated_by(current_user)
-    expire_caches_for(test_session, true)
+    expire_caches_for(test_session, @selected_release_version, true)
 
     render :text => "OK"
   end
@@ -110,8 +112,8 @@ class ReportsController < ApplicationController
     test_session = MeegoTestSession.find(report_id)
     test_session.update_attribute(:published, true)
 
-    expire_caches_for(test_session, true)
-    expire_index_for(test_session)
+    expire_caches_for(test_session, @selected_release_version, true)
+    expire_index_for(test_session, @selected_release_version)
 
     redirect_to :action => 'view',
         :id => report_id,
@@ -188,8 +190,8 @@ class ReportsController < ApplicationController
     test_session = MeegoTestSession.find(params[:id])
     test_session.destroy
 
-    expire_caches_for(test_session, true)
-    expire_index_for(test_session)
+    expire_caches_for(test_session, @selected_release_version, true)
+    expire_index_for(test_session, @selected_release_version)
 
     redirect_to :controller => :index, :action => :index
   end
@@ -198,41 +200,5 @@ class ReportsController < ApplicationController
 
   def just_published?
     @published
-  end
-
-  def expire_index_for(test_session)
-    expire_page :controller => 'index', :action => :index
-    expire_page :controller => 'upload', :action => :upload_form
-    expire_page :controller => 'index', :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype, :hwproduct => test_session.hwproduct, :release_version => @selected_release_version
-    expire_page :controller => 'index', :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype, :release_version => @selected_release_version
-    expire_page :controller => 'index', :action => :filtered_list, :target => test_session.target, :release_version => @selected_release_version
-  end
-
-  def expire_caches_for(test_session, results=false)
-    route_params = {
-        :controller => 'reports',
-        :id => test_session.id,
-        :action_suffix => 'test_results',
-        :release_version => @selected_release_version,
-        :target => test_session.target,
-        :testtype => test_session.testtype,
-        :hwproduct => test_session.hwproduct
-    }
-
-    %w{view print}.each do |action|
-      expire_fragment route_params.merge(:action => action, :id => test_session.id)
-
-      # TODO: Add expire_fragments here as well!
-      if results
-        prev_session = test_session.prev_session
-        next_session = test_session.next_session
-
-        expire_fragment route_params.merge(:action => action, :id => prev_session.id) if prev_session
-        expire_fragment route_params.merge(:action => action, :id => next_session.id) if next_session
-
-        next_session = next_session.try(:next_session)
-        expire_fragment route_params.merge(:action => action, :id => next_session.id) if next_session
-      end
-    end
   end
 end
