@@ -4,12 +4,14 @@ require 'capistrano/ext/multistage'
 require 'config/deploy/capistrano_database_yml'
 require 'bundler/capistrano'
 
-ssh_options[:forward_agent] = true
+set :use_sudo, false
 set :copy_compression, :zip
 
 set :scm, :git
-set :repository,  "git@github.com:leonidas/meego-qa-reports.git"
+set :repository, "http://github.com/leonidas/meego-qa-reports.git" 
 set :deploy_via, :remote_cache
+
+ssh_options[:forward_agent] = true
 
 # If you have previously been relying upon the code to start, stop
 # and restart your mongrel application, or if you rely on the database
