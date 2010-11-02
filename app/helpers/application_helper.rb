@@ -84,6 +84,6 @@ module ApplicationHelper
   end
 
   def format_date_to_human_readable(date)
-    date.strftime('%d %B %Y')
+    date ? date.strftime('%d %B %Y') : 'n/a'
   end
 end

@@ -25,8 +25,24 @@ require 'testreport'
 require 'csv'
 require 'bitly'
 
+class DateTimeValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    if dt = ensure_datetime(value)
+      record[attribute] = dt
+    else
+      record.errors[attribute] << "invalid datetime" 
+    end
+  end
+  
+  def ensure_datetime(t)
+    t.respond_to?(:day) || DateTime.parse(t) rescue false
+  end
+end
+
 #noinspection Rails3Deprecated
 class MeegoTestSession < ActiveRecord::Base
+  
+  
   has_many :meego_test_sets, :dependent => :destroy
   has_many :meego_test_cases
   
@@ -35,7 +51,8 @@ class MeegoTestSession < ActiveRecord::Base
   
   validates_presence_of :title, :target, :testtype, :hwproduct, :uploaded_files
 
-  validate :tested_at_date
+  validates :tested_at, :date_time => true
+  
   validate :allowed_filename_extensions, :on => :create
   validate :save_uploaded_files, :on => :create
 
@@ -47,16 +64,6 @@ class MeegoTestSession < ActiveRecord::Base
   XML_DIR = "public/reports"
 
   include ReportSummary
-
-  def tested_at=(t)
-    self[:tested_at] = t.respond_to?(:day) ? t : DateTime.parse(t)
-  rescue ArgumentError
-    @orig_tested_at = t
-  end
-  
-  def tested_at_date
-    self.errors.add :tested_at, "invalid date '#@orig_tested_at'" if @orig_tested_at
-  end
 
   def prev_summary
     prev_session
