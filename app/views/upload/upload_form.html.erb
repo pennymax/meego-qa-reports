@@ -1,5 +1,5 @@
 <%
-#
+  #
 # This file is part of meego-test-reports
 #
 # Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
@@ -24,81 +24,104 @@
 #
 %>
 <div id="wizard_progress" class="page_header">
-    <strong>Publish test report:</strong>
-    <span id="wizard_upload"><span id="upload">Upload</span><strong>&raquo;</strong><span id="finalize">Finalize</span><strong>&raquo;</strong><span id="publish">Publish</span></span>
+  <strong>Publish test report:</strong>
+  <span id="wizard_upload"><span id="upload">Upload</span><strong>&raquo;</strong><span id="finalize">Finalize</span><strong>&raquo;</strong><span id="publish">Publish</span></span>
 </div>
 <div class="page_content">
-    <%= form_for @test_session, :url=>{:action => "upload"}, :html => {:id => 'upload_report', :multipart => true} do |f| %>
-        <h1>Upload test data</h1>
-        <div class="field">
-        	<label for="report_meego_version">Meego release:</label>
-        	<% @release_versions.each do |release_version| %>
-                  <%= f.radio_button :release_version, release_version, :id => release_version %>
-                  <%= f.label :release_version, release_version, :for => release_version, :class => "inline_label" %>
-        	<% end %>
-        </div>
-        <div class="field">
-            <label for="report_test_target">Target profile:</label>
+  <%= form_for @test_session, :url=>{:action => "upload"}, :html => {:id => 'upload_report', :multipart => true} do |f| %>
+    <h1>Upload test data</h1>
+    <div class="field">
+      <label for="report_meego_version">Meego release:</label>
+      <% @release_versions.each do |release_version| %>
+        <%= f.radio_button :release_version, release_version, :id => release_version %>
+        <%= f.label :release_version, release_version, :for => release_version, :class => "inline_label" %>
+      <% end %>
+    </div>
+    <div class="field">
+      <label for="report_test_target">Target profile:</label>
 
-                <%= f.radio_button :target, "Core", :id => 'core_target' %>
-        	<label for="core_target" class="inline_label">Core</label>
-                <%= f.radio_button :target, "Handset", :id => 'handset_target' %>
-        	<label for="handset_target" class="inline_label">Handset</label>
-                <%= f.radio_button :target, "Netbook", :id => 'netbook_target' %>
-        	<label for="netbook_target" class="inline_label">Netbook</label>
-                <%= f.radio_button :target, "IVI", :id => 'ivi_target' %>
-        	<label for="ivi_target" class="inline_label">IVI</label>
+      <%= f.radio_button :target, "Core", :id => 'core_target' %>
+      <label for="core_target" class="inline_label">Core</label>
+      <%= f.radio_button :target, "Handset", :id => 'handset_target' %>
+      <label for="handset_target" class="inline_label">Handset</label>
+      <%= f.radio_button :target, "Netbook", :id => 'netbook_target' %>
+      <label for="netbook_target" class="inline_label">Netbook</label>
+      <%= f.radio_button :target, "IVI", :id => 'ivi_target' %>
+      <label for="ivi_target" class="inline_label">IVI</label>
 
-        	<!--<input type="radio" name="meego_test_session[target]" id="core" value="Core" class="radio" checked="checked" />
-        	<label for="id1" class="inline_label">Core</label>
-        	<input type="radio" name="meego_test_session[target]" id="handset" value="Handset" class="radio" />
-        	<label for="id2" class="inline_label">Handset</label>
-        	<input type="radio" name="meego_test_session[target]" id="netbook" value="Netbook" class="radio" />
-        	<label for="id3" class="inline_label">Netbook</label>
-        	<input type="radio" name="meego_test_session[target]" id="IVI" value="IVI" class="radio" />
-        	<label for="id4" class="inline_label">IVI</label>-->
+      <%= f.error_message_on :target %>
 
-            <%= f.error_message_on :target %>
-            
+    </div>
+    <div class="field">
+      <label for="report_test_execution_date">Test execution date:</label>
+      <%= f.text_field :tested_at,
+        :id =>'report_test_execution_date',
+        :class => 'date' %>
+    </div>
+    <div class="field">
+      <label for="report_test_type">Test type:</label>
+      <%= f.text_field :testtype, :id => "report_test_type", :class => "text", :tabindex => 3 %>
+      <small class="suggestions">e.g. <%= render :partial=>'suggestion', :collection => @types[0,3], :spacer_template => 'comma' %></small>
+      <%= f.error_message_on :testtype %>
+    </div>
+    <div class="field">
+      <label for="report_test_hardware">Hardware:</label>
+      <%= f.text_field :hwproduct, :id => "report_test_hardware", :class => "text", :tabindex => 5 %>
+      <small class="suggestions">e.g. <%= render :partial=>'suggestion', :collection => @hardware[0,3], :spacer_template => 'comma' %></small>
+      <%= f.error_message_on :hwproduct %>
+    </div>
+    <div class="field last">
+      <label for="report_test_data">Test data:</label>
+      <div id="dragndrop_and_browse" >
+        <div id="dropbox">
+          Drop xml and csv result files here
         </div>
-        <div class="field">
-            <label for="report_test_execution_date">Test execution date:</label>
-            <input type="text" name="report_test_execution_date" class="date" />
+
+        <small>See example 
+          <a href="/example.xml">xml</a>, 
+          <a href="/example.csv">csv</a> and 
+          <a href="http://gitorious.org/qa-tools/test-definition/blobs/master/data/testdefinition-results.xsd">dataset specification</a> for reference
+        </small>
+
+        <div id="browse">
+          <div>or browse <br /></div>
+          <%= f.file_field :uploaded_files, 
+            :id => "report_test_data", 
+            :class => "file", 
+            :tabindex => 6, 
+            :multiple => "true" %>
         </div>
-        <div class="field">
-            <label for="report_test_type">Test type:</label>
-			<%= f.text_field :testtype, :id => "report_test_type", :class => "text", :tabindex => 3 %>
-            <small class="suggestions">e.g. <%= render :partial=>'suggestion', :collection => @types[0,3], :spacer_template => 'comma' %></small>
-			<%= f.error_message_on :testtype %>
+      </div>
+
+      <!-- Fallback, if Drag'n Drop and File API is not supported, e.g. IE8 -->
+      <div id="only_browse" style="display: hidden">
+        <div id="browse">
+          <%= f.file_field :uploaded_files, 
+            :id => "report_test_data", 
+            :class => "file", 
+            :tabindex => 6, 
+            :multiple => "true" %>
         </div>
-        <div class="field">
-            <label for="report_test_hardware">Hardware:</label>
-			<%= f.text_field :hwproduct, :id => "report_test_hardware", :class => "text", :tabindex => 5 %>
-            <small class="suggestions">e.g. <%= render :partial=>'suggestion', :collection => @hardware[0,3], :spacer_template => 'comma' %></small>
-			<%= f.error_message_on :hwproduct %>
-        </div>
-        <div class="field last">
-            <label for="report_test_data">Test data:</label>
-            <div id="dropbox">
-              Please drop files here
-            </div>
-			<small>See dataset specifications at <a href="http://gitorious.org/qa-tools/test-definition/blobs/master/data/testdefinition-results.xsd" target="_blank">Gitorious ›</a></small>
-			<div id="browse">
-	            <div>or browse </div><br/><%= f.file_field :uploaded_files, :id => "report_test_data", :class => "file", :tabindex => 6, :multiple => "true" %>
-           
-			</div>
-			<%= f.error_message_on :uploaded_files %>
-        </div>
-        <div id="wizard_actions">
-            <div id="wizard_buttons">
-                <input type="button" class="big_btn cancel" value="Cancel" />
-				<%= f.submit :id=>"upload_report_submit", :value=>"Next", :class=>"big_btn next", :tabindex => "7" %>
-            </div><p class="next_step">next step: 
-                <br/>
-                <strong>Finalize</strong>
-            </p>
-        </div>
-    <% end %>
+        
+        <small>See example 
+          <a href="/example.xml">xml</a>, 
+          <a href="/example.csv">csv</a> and 
+          <a href="http://gitorious.org/qa-tools/test-definition/blobs/master/data/testdefinition-results.xsd">dataset specification</a> for reference
+        </small>
+      </div>
+
+      <%= f.error_message_on :uploaded_files %>
+    </div>
+    <div id="wizard_actions">
+      <div id="wizard_buttons">
+        <input type="button" class="big_btn cancel" value="Cancel" />
+        <%= f.submit :id=>"upload_report_submit", :value=>"Next", :class=>"big_btn next", :tabindex => "7" %>
+        </div><p class="next_step">next step: 
+        <br/>
+        <strong>Finalize</strong>
+      </p>
+    </div>
+  <% end %>
 </div>
 
 <%= javascript_include_tag 'handlebars'%>
@@ -110,43 +133,44 @@
       name="drag_n_drop_attachments[]"
       value="1"
       checked="true"/>
-    {{filename}}</span>
+      {{filename}}</span>
     <img style="float: left;  margin-left: -10px; margin-top: 5px;" src="/images/progress.gif" />
   </div>
 </script>
 
 <script type="text/javascript">
 
-$(document).ready(function() {
-	var targetSuggestions = [<%=raw @targets.map{|t| '"%s"' % t}.join(',')%>];
-	var typeSuggestions = [<%=raw @types.map{|t| '"%s"' % t}.join(',')%>];
-	var hardwareSuggestions = [<%=raw @hardware.map{|t| '"%s"' % t}.join(',')%>];
+  $(document).ready(function() {
+      var targetSuggestions = [<%=raw @targets.map{|t| '"%s"' % t}.join(',')%>];
+      var typeSuggestions = [<%=raw @types.map{|t| '"%s"' % t}.join(',')%>];
+      var hardwareSuggestions = [<%=raw @hardware.map{|t| '"%s"' % t}.join(',')%>];
 
-    $(".date").datepicker({
-			showOn: "both",
-			buttonImage: "images/calendar_icon.png",
-			buttonImageOnly: true,
-			firstDay: 1,
-			selectOtherMonths: true,
-			dateFormat: "yy-mm-dd"
-		});
-    var myDate = new Date();
-    var prettyDate =myDate.getFullYear() + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
-    $(".date").val(prettyDate);
+      $(".date").datepicker({
+        showOn: "both",
+        buttonImage: "images/calendar_icon.png",
+        buttonImageOnly: true,
+        firstDay: 1,
+        selectOtherMonths: true,
+        dateFormat: "yy-mm-dd"
+      });
 
-	$("#report_test_target").autocomplete({
-		source: targetSuggestions
-	});
+      var myDate = new Date();
+      var prettyDate =myDate.getFullYear() + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
+      $(".date").val(prettyDate);
 
-	$("#report_test_type").autocomplete({
-		source: typeSuggestions
-	});
+      $("#report_test_target").autocomplete({
+        source: targetSuggestions
+      });
 
-	$("#report_test_hardware").autocomplete({
-		source: hardwareSuggestions
-	});
-	
-	activateSuggestionLinks("div.field");
+      $("#report_test_type").autocomplete({
+        source: typeSuggestions
+      });
+
+      $("#report_test_hardware").autocomplete({
+        source: hardwareSuggestions
+      });
+
+      activateSuggestionLinks("div.field");
 });
-
 </script>
+

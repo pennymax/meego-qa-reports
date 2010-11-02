@@ -14,6 +14,11 @@ group :development do
   gem 'ruby-debug'
 end
 
+group :development, :test do # so that we can call rspec tasks from dev env
+  gem 'rspec', '2.0.1'
+  gem 'rspec-rails', '2.0.1'
+end
+
 group :test do
   gem 'capybara'
   gem 'cucumber'
@@ -22,7 +27,6 @@ group :test do
   gem 'celerity', :require => false
   gem 'launchy'
   gem 'cucumber-rails'
-  gem 'rspec-rails', '>= 2.0.0.beta'
   gem 'ZenTest', '4.4.0'
   gem 'autotest'
   gem 'autotest-rails'

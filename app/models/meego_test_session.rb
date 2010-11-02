@@ -34,7 +34,8 @@ class MeegoTestSession < ActiveRecord::Base
   belongs_to :editor, :class_name => "User"
   
   validates_presence_of :title, :target, :testtype, :hwproduct, :uploaded_files
-  
+
+  validate :tested_at_date
   validate :allowed_filename_extensions, :on => :create
   validate :save_uploaded_files, :on => :create
 
@@ -46,7 +47,17 @@ class MeegoTestSession < ActiveRecord::Base
   XML_DIR = "public/reports"
 
   include ReportSummary
+
+  def tested_at=(t)
+    self[:tested_at] = t.respond_to?(:day) ? t : DateTime.parse(t)
+  rescue ArgumentError
+    @orig_tested_at = t
+  end
   
+  def tested_at_date
+    self.errors.add :tested_at, "invalid date '#@orig_tested_at'" if @orig_tested_at
+  end
+
   def prev_summary
     prev_session
   end
@@ -102,10 +113,7 @@ class MeegoTestSession < ActiveRecord::Base
   # Test session navigation                     #
   ###############################################
   def prev_session
-    time = created_at
-    if not time
-      time = Time.now
-    end
+    time = created_at || Time.now
     MeegoTestSession.find(:first, :conditions => [
         "created_at < ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ?", time, target, testtype, hwproduct, true
       ],
@@ -238,7 +246,8 @@ class MeegoTestSession < ActiveRecord::Base
   end
   
   def generate_defaults!
-    self.title = target + " Test Report: " + hwproduct + " " + testtype + " " + Time.now.strftime("%Y-%m-%d")
+    time = tested_at || Time.now
+    self.title = "%s Test Report: %s %s %s" % [target, hwproduct, testtype, time.strftime('%Y-%m-%d')]
     self.environment_txt = "* Hardware: " + hwproduct
   end
   

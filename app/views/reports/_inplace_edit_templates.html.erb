@@ -17,8 +17,8 @@
 				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
 				<input class="id_field" type="hidden" name="id" value="<%=@test_session.id%>" />
 				<textarea class="txt_edit"></textarea>
-				<input type="button" class="small_btn cancel" value="Cancel"/>
 				<input type="submit" class="small_btn save" value="Save"/>
+				<input type="button" class="small_btn cancel" value="Cancel"/>
 				
 			</form>
 	</div>
@@ -26,9 +26,9 @@
 		<form method="post" action="<%=url_for :controller => 'reports', :action=>'update_title'%>" class="title_form">
 			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
 			<input class="id_field" type="hidden" name="id" value="<%=@test_session.id%>" />
-			<input class="title_field" type="text" name="meego_test_session[title]"/>
-			<input type="button" class="small_btn cancel" value="Cancel"/>
+			<input class="title_field" type="text" name="meego_test_session[title]"/>			
 			<input type="submit" class="small_btn save" value="Save"/>
+			<input type="button" class="small_btn cancel" value="Cancel"/>
 		</form>
 	</div>
 	<div id="comment_edit_form">
@@ -36,8 +36,8 @@
 			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
 			<input class="id_field" type="hidden" name="id" value="" />
 			<textarea class="comment_field" name="comment"></textarea>
-			<input type="button" class="small_btn cancel" value="Cancel"/>
 			<input type="submit" class="small_btn save" value="Save"/>
+			<input type="button" class="small_btn cancel" value="Cancel"/>
 		</form>
 	</div>
 	<div id="result_edit_form">

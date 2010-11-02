@@ -17,15 +17,16 @@ Feature:
   Scenario Outline: Add new report with valid data
     When I follow "Add report"
 
-    And I select target "Core", test type "Smokey" and hardware "n990" with date "2010-11-22"
+    And I select target "Handset", test type "Smokey" and hardware "n990" with date "2010-11-22"
     And I attach the report "<attachment>"
 
     And submit the form at "upload_report_submit"
 
-    And I should see "<expected text>" within ".testcase"
+    Then I should see "<expected text>" within ".testcase"
     And I should see "<expected link>" within ".testcase"
 
     And I should see "Publish"
+    And I should see "Handset Test Report: n990 Smokey 2010-11-22"
 
   Examples:
     | attachment     | expected text             | expected link |
@@ -78,7 +79,8 @@ Feature:
 
   Scenario: Add new report with saved default target
     When I follow "Add report"
-    And I select target "handset_target", test type "Smokey" and hardware "n990"
+	
+    And I select target "handset_target", test type "Smokey" and hardware "n990" with date "2010-02-12"
     And I attach the report "sample.csv"
     And submit the form at "upload_report_submit"
     And submit the form at "upload_report_submit"
@@ -87,7 +89,8 @@ Feature:
     And I should see "Handset" within "h1"
 
     When I follow "Add report"
-    And I select test type "Smokey" and hardware "n990"
+    And I select test type "Smokey" and hardware "n990" with date "2010-02-12"
+
     And I attach the report "sample.csv"
     And submit the form at "upload_report_submit"
 

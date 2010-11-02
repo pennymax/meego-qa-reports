@@ -1,16 +1,17 @@
-set :stages, %w(staging production)
+# Must be set before requireing multisage
 set :default_stage, "staging"
-
-set :copy_compression, :zip
-
 require 'capistrano/ext/multistage'
 require 'config/deploy/capistrano_database_yml'
 require 'bundler/capistrano'
 
-set :app_env, "production"
-set :rails_env, "production"
-ssh_options[:forward_agent] = true
+set :use_sudo, false
+set :copy_compression, :zip
 
+set :scm, :git
+set :repository, "http://github.com/leonidas/meego-qa-reports.git" 
+set :deploy_via, :remote_cache
+
+ssh_options[:forward_agent] = true
 
 # If you have previously been relying upon the code to start, stop
 # and restart your mongrel application, or if you rely on the database
@@ -36,7 +37,6 @@ ssh_options[:forward_agent] = true
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
-set :scm, :git
 
 after "deploy:symlink" do
   run "ln -nfs #{shared_path}/reports #{current_path}/public/reports"

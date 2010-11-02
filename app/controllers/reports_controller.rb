@@ -86,7 +86,7 @@ class ReportsController < ApplicationController
   	testcase = MeegoTestCase.find(case_id)
   	testcase.update_attribute(:comment, comment)
 
-    test_session = test_case.meego_test_session
+    test_session = testcase.meego_test_session
     test_session.updated_by(current_user)
     expire_caches_for(test_session)
 

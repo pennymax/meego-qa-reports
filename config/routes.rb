@@ -32,6 +32,9 @@ Meegoqa::Application.routes.draw do
   
   match '/fetch_bugzilla_data' => 'reports#fetch_bugzilla_data', :via => "get"
 
+  # to test exception notifier
+  match '/raise_exception' => 'exceptions#index'
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
