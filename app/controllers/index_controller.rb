@@ -24,6 +24,7 @@
 
 class IndexController < ApplicationController
   #caches_page :index, :filtered_list
+  caches_action :filtered_list, :layout => false
 
   def index
     @types = {}

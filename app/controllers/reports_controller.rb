@@ -196,7 +196,7 @@ class ReportsController < ApplicationController
     expire_index_for(test_session)
     
     test_session.destroy
-    
+
     redirect_to :controller => :index, :action => :index
   end
   
@@ -209,9 +209,10 @@ protected
   def expire_index_for(test_session)
     expire_page :controller => 'index', :action => :index
     expire_page :controller => 'upload', :action => :upload_form
-    expire_page :controller => 'index', :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype, :hwproduct => test_session.hwproduct, :release_version => @selected_release_version
-    expire_page :controller => 'index', :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype, :release_version => @selected_release_version
-    expire_page :controller => 'index', :action => :filtered_list, :target => test_session.target, :release_version => @selected_release_version
+
+    expire_action :controller => "index", :action => "filtered_list", :release_version => test_session.release_version, :target => test_session.target, :testtype => test_session.testtype, :hwproduct => test_session.hwproduct
+    expire_action :controller => "index", :action => "filtered_list", :release_version => test_session.release_version, :target => test_session.target, :testtype => test_session.testtype
+    expire_action :controller => "index", :action => "filtered_list", :release_version => test_session.release_version, :target => test_session.target
   end
 
   def expire_caches_for(test_session, results = false)
