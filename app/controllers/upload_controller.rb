@@ -21,6 +21,7 @@
 # 02110-1301 USA
 #
 
+require 'drag_n_drop_uploaded_file'
 
 class UploadController < ApplicationController
   
@@ -45,7 +46,8 @@ class UploadController < ApplicationController
     fileid = env['HTTP_X_FILE_ID']
     raw_filename_wo_extension = File.basename(env['HTTP_X_FILE_NAME'], extension)
 
-    url      = "/system/#{raw_filename_wo_extension.parameterize}#{extension}"
+    # TODO: Temp files needs to be deleted periodically
+    url      = "/reports/tmp/#{raw_filename_wo_extension.parameterize}#{extension}"
     filename = "#{Rails.root}/public#{url}"
 
     value = env['rack.input'].read()
