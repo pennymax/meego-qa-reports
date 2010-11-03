@@ -75,7 +75,7 @@
 	<%= editable_txt('objective') %>
     
     <h2 id="build">Build (image)<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
-	<%= editable_txt('build') %>
+    	<%= editable_txt('build') %>
     
     <h2 id="environment">Test Environment<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
 	<%= editable_txt('environment') %>
@@ -83,7 +83,7 @@
     <h2 id="qa_summary">Quality Summary<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
 	<%= editable_txt('qa_summary') %>
 
-  <% cache :action_suffix => 'test_results' do %>
+  <% cache("test_results_for_#{@report.id}") do %>
     <%= render :partial => 'reports/test_results' %>
   <% end %>
    

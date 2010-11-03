@@ -196,7 +196,7 @@ class ReportsController < ApplicationController
     expire_index_for(test_session)
     
     test_session.destroy
-    
+
     redirect_to :controller => :index, :action => :index
   end
   
@@ -207,40 +207,28 @@ protected
   end  
 
   def expire_index_for(test_session)
-    expire_page  :controller => 'index', :action => :index
-    expire_page  :controller => 'upload', :action => :upload_form
-    expire_page  :controller => 'index', :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype, :hwproduct => test_session.hwproduct, :release_version => @selected_release_version
-    expire_page  :controller => 'index', :action => :filtered_list, :target => test_session.target, :testtype => test_session.testtype, :release_version => @selected_release_version
-    expire_page  :controller => 'index', :action => :filtered_list, :target => test_session.target, :release_version => @selected_release_version
+    expire_page :controller => 'index', :action => :index
+    expire_page :controller => 'upload', :action => :upload_form
+
+    expire_action :controller => "index", :action => "filtered_list", :release_version => test_session.release_version, :target => test_session.target, :testtype => test_session.testtype, :hwproduct => test_session.hwproduct
+    expire_action :controller => "index", :action => "filtered_list", :release_version => test_session.release_version, :target => test_session.target, :testtype => test_session.testtype
+    expire_action :controller => "index", :action => "filtered_list", :release_version => test_session.release_version, :target => test_session.target
   end
 
-  def expire_caches_for(test_session, results=false)
-    route_params = {
-      :controller => 'reports',
-      :id => test_session.id,
-      :action_suffix => 'test_results',
-      :release_version => @selected_release_version,
-      :target => test_session.target,
-      :testtype => test_session.testtype,
-      :hwproduct => test_session.hwproduct
-    }
+  def expire_caches_for(test_session, results = false)
+    logger.info "******* Expiring caches for #{test_session.inspect}"
 
-    %w{view print}.each do |action|
-      expire_fragment route_params.merge(:action => action, :id => test_session.id)
+    expire_fragment "test_results_for_#{test_session.id}"
 
-      # TODO: Add expire_fragments here as well!
-      if results
-        prev_session = test_session.prev_session
-        next_session = test_session.next_session
+    if results
+      prev_session = test_session.prev_session
+      next_session = test_session.next_session
 
-        expire_fragment route_params.merge(:action => action, :id => prev_session.id) if prev_session
-        expire_fragment route_params.merge(:action => action, :id => next_session.id) if next_session
+      expire_fragment "test_results_for_#{prev_session.id}" if prev_session
+      expire_fragment "test_results_for_#{next_session.id}" if next_session
 
-        next_session = next_session.try(:next_session)
-        expire_fragment route_params.merge(:action => action, :id => next_session.id) if next_session
-      end
+      next_session = next_session.try(:next_session)
+      expire_fragment "test_results_for_#{next_session.id}" if next_session
     end
   end
-  
-  
 end

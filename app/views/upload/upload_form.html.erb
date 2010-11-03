@@ -57,6 +57,7 @@
       <%= f.text_field :tested_at,
         :id =>'report_test_execution_date',
         :class => 'date' %>
+      <%= f.error_message_on :tested_at %>
     </div>
     <div class="field">
       <label for="report_test_type">Test type:</label>
@@ -156,7 +157,7 @@
 
       var myDate = new Date();
       var prettyDate =myDate.getFullYear() + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
-      $(".date").val(prettyDate);
+      $(".date").attr('placeholder', prettyDate);
 
       $("#report_test_target").autocomplete({
         source: targetSuggestions

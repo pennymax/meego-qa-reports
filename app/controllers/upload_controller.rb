@@ -91,12 +91,14 @@ class UploadController < ApplicationController
       @test_session.issue_summary_txt = prev.issue_summary_txt
     end
 
-    @test_session.tested_at ||= Time.now
     @test_session.author = current_user
     @test_session.editor = current_user
 
     if @test_session.save
       session[:preview_id] = @test_session.id
+      expire_action :controller => "index", :action => "filtered_list", :release_version => params[:meego_test_session][:release_version], :target => params[:meego_test_session][:target], :testtype => params[:meego_test_session][:testtype], :hwproduct => params[:meego_test_session][:hwproduct]
+      expire_action :controller => "index", :action => "filtered_list", :release_version => params[:meego_test_session][:release_version], :target => params[:meego_test_session][:target], :testtype => params[:meego_test_session][:testtype]
+      expire_action :controller => "index", :action => "filtered_list", :release_version => params[:meego_test_session][:release_version], :target => params[:meego_test_session][:target]
       redirect_to :controller => 'reports', :action => 'preview'
     else
       init_form_values
