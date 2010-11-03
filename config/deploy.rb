@@ -38,8 +38,18 @@ ssh_options[:forward_agent] = true
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 
+after "deploy:setup" do
+  # Create shared directories
+  run "mkdir #{shared_path}/reports"
+  run "mkdir #{shared_path}/reports/tmp"
+end
+
 after "deploy:symlink" do
-  run "ln -nfs #{shared_path}/reports #{current_path}/public/reports"
+  # Remove local directories
+  run "rm -fr #{current_path}/public/reports"
+  
+  # Link to shared folders
+  run "ln -nfs #{shared_path}/reports #{current_path}/public/"
 end
 
 namespace :deploy do
