@@ -23,7 +23,12 @@
 #
 %>
 <tr class="testcase" id="testcase-<%= testcase.id %>">
-	<td class="testcase_name"><%= testcase.name %></td>
-	<td class="testcase_result <%= testcase.result_class %> <%='edit' if @editing%>"><span class="content"><%=testcase.result_html%></span></td>
-	<td class="testcase_notes <%='edit' if @editing%>"><div class="content"><%= testcase.comment_html %></div><%if @editing%><div class="comment_markup" style="display:none;"><%=testcase.comment%></div><%end%></td>
+  <td class="testcase_name"><%= testcase.name %></td>
+  <td class="testcase_result <%= result_class(testcase) %> <%= 'edit' if @editing %>"><span class="content"><%= result_html(testcase) %></span> </td>
+  <td class="testcase_notes <%= 'edit' if @editing %>">
+    <div class="content"><%= comment_html(testcase) %></div>
+    <% if @editing %>
+        <div class="comment_markup" style="display:none;"><%= testcase.comment %></div>
+    <% end %>
+  </td>
 </tr>
