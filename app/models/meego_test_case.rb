@@ -28,7 +28,7 @@ class MeegoTestCase < ActiveRecord::Base
   
   def result_html
     if result == 1
-      "Pass"
+      "Paarstss"
     elsif result == -1
       "Fail"
     else
