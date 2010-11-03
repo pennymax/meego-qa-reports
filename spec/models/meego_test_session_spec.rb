@@ -2,7 +2,10 @@ require 'spec_helper'
 
 describe MeegoTestSession do
   it "should accept valid tested_at date" do
-    MeegoTestSession.new(:tested_at => '2010-07-15')
+    mts = MeegoTestSession.new(:tested_at => '2010-07-15')
+    mts.valid? # called for side effects
+    mts.errors[:tested_at].should be_empty
+
   end
 
   it "should fail to accept invalid tested_at date" do

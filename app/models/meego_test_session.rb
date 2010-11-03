@@ -25,24 +25,8 @@ require 'testreport'
 require 'csv'
 require 'bitly'
 
-class DateTimeValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    if dt = ensure_datetime(value)
-      record[attribute] = dt
-    else
-      record.errors[attribute] << "invalid datetime" 
-    end
-  end
-  
-  def ensure_datetime(t)
-    t.respond_to?(:day) || DateTime.parse(t) rescue false
-  end
-end
-
 #noinspection Rails3Deprecated
 class MeegoTestSession < ActiveRecord::Base
-  
-  
   has_many :meego_test_sets, :dependent => :destroy
   has_many :meego_test_cases
   
@@ -138,7 +122,7 @@ class MeegoTestSession < ActiveRecord::Base
   # Utility methods for viewing a report        #
   ###############################################
   def formatted_date
-    tested_at.strftime("%Y-%m-%d")
+    tested_at ? tested_at.strftime("%Y-%m-%d") : 'n/a'
   end
   
   
