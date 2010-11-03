@@ -25,6 +25,8 @@ require 'testreport'
 require 'csv'
 require 'bitly'
 
+require 'validation/date_time_validator'
+
 #noinspection Rails3Deprecated
 class MeegoTestSession < ActiveRecord::Base
   has_many :meego_test_sets, :dependent => :destroy

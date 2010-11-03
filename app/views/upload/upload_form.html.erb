@@ -157,7 +157,7 @@
 
       var myDate = new Date();
       var prettyDate =myDate.getFullYear() + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
-      $(".date").attr('placeholder', prettyDate);
+      $(".date").val(prettyDate);
 
       $("#report_test_target").autocomplete({
         source: targetSuggestions
