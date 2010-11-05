@@ -62,7 +62,7 @@
 <% content_for :delete_dialog do %>
 <div id="delete-dialog" style="display:none;" class="jqmWindow">
 	<p>Are you sure you want to delete this test report? The action cannot be undone.</p>
-	<form action="<%=url_for :controller=>'reports', :action=>'delete'%>" method="post">
+	<form action="<%=url_for :controller=>'reports', :action=>'delete', :release_version=>@selected_release_version, :target=>@test_session.target, :testtype=>@test_session.testtype, :hwproduct=>@test_session.hwproduct, :id=>@test_session.id %>" method="post">
 	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
 	<input class="id_field" type="hidden" name="id" value="<%=@test_session.id%>" />
 	<input type="button" value="Cancel" class="dialog-cancel jqmClose"/>

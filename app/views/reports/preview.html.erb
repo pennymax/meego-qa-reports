@@ -63,7 +63,7 @@
 <div id="wizard_actions">
   <div id="wizard_buttons">
       <!--<input id="cancel-publish" type="button" class="big_btn cancel" value="Cancel" />-->
-	<form action="<%=url_for :controller=>'reports', :action=>'delete'%>" method="post">
+	<form action="<%=url_for :controller=>'reports', :action=>'delete', :release_version=>@selected_release_version, :target=>@test_session.target, :testtype=>@test_session.testtype, :hwproduct=>@test_session.hwproduct, :id=>@test_session.id %>" method="post">
 	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
 	<input class="id_field" type="hidden" name="id" value="<%=@test_session.id%>" />
 	<input id="cancel-publish" class="big_btn cancel" type="submit" value="Cancel"/>
