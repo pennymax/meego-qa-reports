@@ -406,6 +406,7 @@ function handleTextEditSubmit() {
 
 function applyBugzillaInfo(node, info) {
 	var $node = $(node);
+	if (info == undefined) return;
 	var status = info.status;
 	if (status == 'RESOLVED' || status == 'VERIFIED') {
 		status = info.resolution;
@@ -457,7 +458,9 @@ function fetchBugzillaInfo() {
 				info = bugzillaCache[id];
 			} else {
 				info = hash[id];
-				bugzillaCache[id] = info;
+				if (info != undefined) {
+					bugzillaCache[id] = info;
+				}
 			}
 			applyBugzillaInfo(node, info);
 		});
