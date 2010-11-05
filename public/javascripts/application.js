@@ -265,7 +265,7 @@ function handleEditButton() {
 	}
 	var $raw = $button.data('raw');
 	var fieldName = $div.attr('id');
-	var text = $raw.text().trim();
+	var text = $.trim($raw.text());
 	
 	var $form = $($('#txt_edit_form form').clone());
 	var $area = $($form.find('textarea'));
@@ -473,7 +473,7 @@ function formatMarkup(s) {
 	var html = "";
 	var ul = false;
 	for(var i=0;i<lines.length;++i) {
-		var line = lines[i].trim();
+		var line = $.trim(lines[i]);
 		if (ul && !/^\*/.test(line)) {
 			html += '</ul>';
 			ul = false;
