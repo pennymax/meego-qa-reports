@@ -34,6 +34,9 @@ class IndexController < ApplicationController
     @types["IVI"] = MeegoTestSession.list_types_for @selected_release_version, "IVI"
 
     @hardware = MeegoTestSession.list_hardware @selected_release_version
+    @target = params[:target]
+    @testtype = params[:testtype]
+    @hwproduct = params[:hwproduct]
   end
 
   def filtered_list
