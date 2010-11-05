@@ -67,15 +67,6 @@ class UploadController < ApplicationController
       params[:meego_test_session][:uploaded_files] = files
     end
 
-    # TODO: quick hack done because mysql doesn't obey the :default => "" given in migration - for some reason
-    params[:meego_test_session].reverse_merge!(
-      :objective_txt => "",
-      :build_txt => "",
-      :qa_summary_txt => "",
-      :issue_summary_txt => "",
-      :environment_txt => ""
-    )
-
     @test_session = MeegoTestSession.new(params[:meego_test_session])
     current_user.update_attribute(:default_target, @test_session.target) if @test_session.target.present?
 
