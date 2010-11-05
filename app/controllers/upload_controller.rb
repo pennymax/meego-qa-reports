@@ -29,14 +29,41 @@ class UploadController < ApplicationController
   
   def upload_form
     @test_session = MeegoTestSession.new
+    default_version = params[:release_version]
+    default_type = params[:testtype]
+    default_target = params[:target]
+    default_hwproduct = params[:hwproduct]
+
     @test_session.target = if @test_session.target.present?
       @test_session.target
+    elsif default_target.present?
+      default_target
     elsif current_user.default_target.present?
       current_user.default_target
     else
       "Core"
     end
+
+    @test_session.release_version = if @test_session.release_version.present?
+      @test_session.release_version
+    elsif default_version.present?
+      default_version
+    else
+      @selected_release_version
+    end
     
+    @test_session.testtype = if @test_session.testtype.present?
+      @test_session.testtype
+    elsif default_type.present?
+      default_type
+    end
+
+    @test_session.hwproduct = if @test_session.hwproduct.present?
+      @test_session.hwproduct
+    elsif default_hwproduct.present?
+      default_hwproduct
+    end
+
     init_form_values
   end
 

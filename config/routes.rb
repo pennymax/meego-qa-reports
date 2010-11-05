@@ -4,7 +4,6 @@ Meegoqa::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  match '/upload' => 'upload#upload_form', :via => "get"
   match '/upload_post' => 'upload#upload', :via => "post"
   match '/upload_attachment' => 'upload#upload_attachment', :via => "post"
 
@@ -16,6 +15,11 @@ Meegoqa::Application.routes.draw do
   match '/report/print/(:id)' => 'reports#print', :via => "get"
   
   constraints(:release_version => /\d+\.{1}\d+/) do
+    match '/:release_version/:target/:testtype/:hwproduct/upload' => 'upload#upload_form', :via => "get"
+    match '/:release_version/:target/:testtype/upload' => 'upload#upload_form', :via => "get"
+    match '/:release_version/:target/upload' => 'upload#upload_form', :via => "get"
+    match '/:release_version/upload' => 'upload#upload_form', :via => "get"
+
     match '/:release_version/:target/:testtype/:hwproduct/:id' => 'reports#view', :via => "get"
     match '/:release_version/:target/:testtype/:hwproduct/:id/edit' => 'reports#edit', :via => "get"
     
@@ -23,7 +27,10 @@ Meegoqa::Application.routes.draw do
     match '/:release_version/:target/:testtype' => 'index#filtered_list', :via => "get"
     match '/:release_version/:target' => 'index#filtered_list', :via => "get"
     match '/:release_version' => 'index#index', :via => "get"
+
   end
+
+  match '/upload' => 'upload#upload_form', :via => "get"
 
   match '/ajax_update_txt' => 'reports#update_txt', :via => "post"
   match '/ajax_update_title' => 'reports#update_title', :via => "post"
