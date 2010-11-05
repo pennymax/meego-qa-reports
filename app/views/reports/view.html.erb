@@ -27,6 +27,10 @@
 	<%= render :partial => "page_header" %>
 <% end %>
 
+<% content_for :version_navi do %>
+	<%= render :partial => "shared/version_navi" %>
+<% end %>
+
 <% content_for :breadcrumbs do %>
 	<%= breadcrumbs %>
 <% end %>
