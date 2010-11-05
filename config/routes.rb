@@ -9,8 +9,7 @@ Meegoqa::Application.routes.draw do
 
   match '/finalize' => 'reports#preview', :via => "get"
   match '/publish' => 'reports#publish', :via => "post"
-
-  match '/delete' => 'reports#delete', :via => "post"
+  
 
   match '/report/print/(:id)' => 'reports#print', :via => "get"
   
@@ -22,6 +21,7 @@ Meegoqa::Application.routes.draw do
 
     match '/:release_version/:target/:testtype/:hwproduct/:id' => 'reports#view', :via => "get"
     match '/:release_version/:target/:testtype/:hwproduct/:id/edit' => 'reports#edit', :via => "get"
+    match '/:release_version/:target/:testtype/:hwproduct/:id/delete' => 'reports#delete', :via => "post"
     
     match '/:release_version/:target/:testtype/:hwproduct' => 'index#filtered_list', :via => "get"
     match '/:release_version/:target/:testtype' => 'index#filtered_list', :via => "get"
