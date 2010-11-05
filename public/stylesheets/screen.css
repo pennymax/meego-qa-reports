@@ -94,7 +94,8 @@ h1 {
 	font-size: 2em;
 	line-height:1;
 	color: #000; 
-	margin-bottom:0.75em;}
+	margin-bottom:0.75em;
+	padding-top:0.25em;}
 
 h2 {
 	font-size: 1.6666em;
@@ -382,6 +383,7 @@ legend {
 	font-size:1.2em;}
 	
 input.date, input.text, input.title, textarea, select, input.title_field {
+	font-family: verdana, sans-serif;
 	border:1px solid #bbb; 
 	background-color: #fff8de; 
 	font-size: 14px; 
@@ -924,6 +926,8 @@ td.report_name {
 /* @end */
 
 /* @group test_results */
+.container {
+	padding: 0 20px;}
 
 #page div.page_content div.test_results div.container h3 { 
 	border-top: 1px solid #ccc; 
@@ -974,8 +978,14 @@ textarea.txt_edit {
 #test_result_overview .change {
 	width: 60px;}
 
-div.container { 
-	padding: 20px; }
+.editable_text {
+	margin: 0 -5px -10px -5px;
+	padding: 0 5px 10px 5px;
+}
+
+.editable_text:hover {
+	background: #fff8de url(../images/edit_icon.png) no-repeat 86% 10px;
+	cursor: pointer;}
 
 .test_results h2 { 
 	border-top-style: none; 

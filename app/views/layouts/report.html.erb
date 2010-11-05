@@ -52,7 +52,9 @@
 	
 	<%= yield :button_area %>
 	
-    <h1 class="clearfix"><span class="content"><%=@report.title%></span><span class="heading_actions"><%=edit_button%></span></h1>
+	<div class="editable_text">
+	    <h1 class="clearfix"><span class="content"><%=@report.title%></span><span class="heading_actions"><%=edit_button%></span></h1>
+    </div>
 
 	<div class="report_head">
 		<%= yield :table_of_contents %>
@@ -71,17 +73,25 @@
 		</dl>
 	</div>
 	
-    <h2 id="test_objective">Test Objective<span class="heading_actions"><%=edit_button%></span></h2>
-	<%= editable_txt('objective') %>
+	<div class="editable_text">
+	    <h2 id="test_objective">Test Objective<span class="heading_actions"><%=edit_button%></span></h2>
+		<%= editable_txt('objective') %>
+	</div>
     
-    <h2 id="build">Build (image)<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
-    	<%= editable_txt('build') %>
+    <div class="editable_text">
+	    <h2 id="build">Build (image)<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
+	    	<%= editable_txt('build') %>
+    </div>
     
-    <h2 id="environment">Test Environment<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
-	<%= editable_txt('environment') %>
+    <div class="editable_text">
+	    <h2 id="environment">Test Environment<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
+		<%= editable_txt('environment') %>
+	</div>
 
-    <h2 id="qa_summary">Quality Summary<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
+	<div class="editable_text">
+	    <h2 id="qa_summary">Quality Summary<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
 	<%= editable_txt('qa_summary') %>
+	</div>
 
   <% cache("test_results_for_#{@report.id}") do %>
     <%= render :partial => 'reports/test_results' %>
