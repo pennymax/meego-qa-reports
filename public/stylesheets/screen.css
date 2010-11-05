@@ -393,8 +393,10 @@ input.text, input.title {width: 250px;}
 input.date, input.text.short {width:10em;}
 input.title {font-size:1.5em;}
 
-input.file { 
-	float: left; }
+input.file {  
+	padding:5px;
+	font-size:12px;
+	float:left;}
 
 input.title_field {
 	padding: 5px;
@@ -436,13 +438,29 @@ input.cancel {
 
 input#report_test_data.file { 
 	float: left; }
+	
+#dragndrop_and_browse{
+	overflow: hidden;}
+
+#dragndrop_and_browse small{
+	/* margin-left: 210px;*/
+/*	float: left;*/
+margin-left: 0;}
 
 #browse { 
 	overflow: hidden; 
-	clear: both; 
-	margin-left: 210px; 
+	clear: both;
+	float: left;
 	margin-top: 10px; 
 	padding-top: 10px; }
+
+#only_browse {
+	float: left;}
+
+#only_browse #browse {
+	margin-top: 0;
+	border:1px solid #bbb;
+	padding-top:0;}
 
 
 /* @group buttons */
@@ -577,6 +595,9 @@ box-shadow: 5px 5px 5px #ccc;
  }
 
 /* @end autocomplete*/
+
+
+
 
 /* @end forms*/
 
@@ -814,7 +835,7 @@ background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;
 #version_navi ul li.current a {
 	border-right: 1px solid #cacaca;
 /**	background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;*/
-background: none;
+background:none;
 	background-color: #fff;
 	color: #f20089;
 	height: 1.0833em;
@@ -1233,7 +1254,8 @@ p.next_step {
 	-moz-border-radius: 8px;
 	border-radius: 8px; 
 	text-align: center; 
-	border: 1px solid #4892ff; }
+	border: 1px solid #4892ff; 
+	margin-right:10px;}
 
 #dropbox.draghover {
 	background-color: #bce9ae;
