@@ -584,18 +584,24 @@ box-shadow: 5px 5px 5px #ccc;
 /* @group notifications and errors */
 
 .error, .notice, .success {
-	padding:.8em;
+	padding:10px;
 	margin-bottom:1em;
-	border:2px solid #ddd;}
-	
-.error {
-	background:#FBE3E4;
-	color:#8a1f11;
-	border-color:#FBC2C4;}
+	border:1px solid #ddd;
+	width: 240px;
+	}
 
-form .error {
-	margin-left: 210px;
-	width: 40em;
+div.formError, #error, form .error { 
+	padding: 0;
+	clear: both; 
+	background: url(../images/icon_alert.gif) no-repeat left 2px; 
+	padding-left: 25px; 
+	margin: 5px 0 5px 210px;
+	color: #ed0089;
+	border: none; }
+
+#error ul {
+	margin: 0;
+	list-style-type: none;
 }
 	
 .notification {
@@ -651,12 +657,7 @@ form .error {
 	font-size: 1.16667em;
 	text-shadow: 1px 1px 1px #fff;}
 
-div.formError { 
-	clear: both; 
-	margin-left: 210px; 
-	background: url(../images/icon_alert.gif) no-repeat left; 
-	padding-left: 20px; 
-	color: #ed0089; }
+
 
 /* @end notifications and errors */
 
@@ -790,6 +791,7 @@ div.formError {
 	background: transparent url(../images/version_navi_div.png) no-repeat right bottom;	}
 
 #version_navi ul li {
+background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;
 	float: left;}
 
 #version_navi ul li:hover {
@@ -811,7 +813,9 @@ div.formError {
 
 #version_navi ul li.current a {
 	border-right: 1px solid #cacaca;
-	background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;
+/**	background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;*/
+background: none;
+	background-color: #fff;
 	color: #f20089;
 	height: 1.0833em;
 	margin-right: -1px;}
