@@ -1,7 +1,7 @@
 class DateTimeValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     if !validate_datetime(value)
-      record.errors[attribute] << "invalid datetime" 
+      record.errors[attribute] << "invalid date" 
     end
   end
   

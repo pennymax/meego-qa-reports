@@ -261,6 +261,62 @@ function handleTitleEditSubmit() {
 	return false;
 }
 
+function handleDateEdit() {
+	$button = $(this);
+	var $content = $button.children('h1').find('span.content');
+	if ($content.is(":hidden")) {
+		return false;
+	}
+	var title = $content.text();
+	var $form = $('#title_edit_form form').clone();
+	var $field = $form.find('.title_field'); 
+	$field.val(title);
+	$form.data('original', $content);
+	$form.data('button', $button);
+	
+        $button.removeClass('editable_text');
+
+	$form.submit(handleTitleEditSubmit);
+	$form.find('.save').click(function(){
+		$form.submit();
+		return false;
+	});
+	$form.find('.cancel').click(function(){
+		$form.detach();
+		$content.show();
+                $button.addClass('editable_text');
+		return false;
+	});
+	
+	$content.hide();
+	$form.insertAfter($content);
+	$field.focus();
+	
+	return false;
+}
+
+function handleDateEditSubmit() {
+	$form = $(this);
+	$content = $form.data('original');
+	var title = $form.find('.title_field').val();
+	$content.text(title);
+	
+	var data = $form.serialize();
+	var action = $form.attr('action');
+	
+	var $button = $form.data('button');
+	//$button.text("Saving...");
+	$.post(action, data, function(){
+		//$button.text("Edit");
+	});
+	
+        $button.addClass('editable_text');
+	$form.detach();
+	$content.show();
+	
+	return false;
+}
+
 function handleEditButton() {
 	$button = $(this);
 	var $div = $button.data('content');

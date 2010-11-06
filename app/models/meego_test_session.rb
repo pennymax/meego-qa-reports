@@ -225,6 +225,14 @@ class MeegoTestSession < ActiveRecord::Base
     end
   end
 
+  def tested_at_html
+    tested_at.strftime("%Y-%m-%d")
+  end
+
+  def tested_at_txt
+    tested_at.strftime("%Y-%m-%d")
+  end
+  
   def build_html
     txt = build_txt
     if txt == ""
