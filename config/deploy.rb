@@ -50,6 +50,8 @@ after "deploy:symlink" do
   
   # Link to shared folders
   run "ln -nfs #{shared_path}/reports #{current_path}/public/"
+
+  run "ln -nfs #{shared_path}/config/registeration_token #{current_path}/config/registeration_token"
 end
 
 namespace :deploy do
