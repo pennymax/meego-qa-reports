@@ -15,7 +15,7 @@ When /^I should see the sign in link without ability to add report$/ do
 end
 
 When /I view the report "([^"]*)"$/ do |report_string|
-  version, target, test_type, hardware = report_string.split('/')
+  version, target, test_type, hardware = report_string.downcase.split('/')
   report = MeegoTestSession.first(:conditions =>
    {:release_version => version, :target => target, :hwproduct => hardware, :testtype => test_type}
   )
