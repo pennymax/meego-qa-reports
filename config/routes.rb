@@ -29,6 +29,7 @@ Meegoqa::Application.routes.draw do
   end
 
   match '/upload' => 'upload#upload_form', :via => "get"
+  match '/ajax_update_tested_at' => 'reports#update_tested_at', :via => "post"
 
   match '/ajax_update_txt' => 'reports#update_txt', :via => "post"
   match '/ajax_update_title' => 'reports#update_title', :via => "post"

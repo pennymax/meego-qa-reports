@@ -24,50 +24,7 @@
 require 'open-uri'
 require 'drag_n_drop_uploaded_file'
 
-class ReportsController < ApplicationController
-  #before_filter :authenticate_user!, :only => ["upload", "upload_form", "edit", "delete", "update", "update_txt",
-  #    "update_title", "update_case_comment", "update_case_result"]
-
-  before_filter :authenticate_user!, :except => ["view", "print", "fetch_bugzilla_data"]
-
-  #caches_page :print
-  #caches_page :index, :upload_form, :email, :filtered_list
-  #caches_page :view, :if => proc {|c|!c.just_published?}
-  caches_action :fetch_bugzilla_data,
-      :cache_path => Proc.new { |controller| controller.params },
-      :expires_in => 1.hour
-
-  def preview
-    @preview_id = session[:preview_id] || params[:id]
-    @editing = true
-    @wizard = true
-
-    if @preview_id
-      @test_session = MeegoTestSession.find(@preview_id)
-      @report = @test_session
-      @no_upload_link = true
-
-      render :layout => "report"
-    else
-      redirect_to :action => :upload_form
-    end
-  end
-
-  def update_txt
-    @preview_id = params[:id].to_i
-    @test_session = MeegoTestSession.find(@preview_id)
-
-    field = params[:meego_test_session]
-    field = field.keys()[0]
-    @test_session.update_attribute(field, params[:meego_test_session][field])
-    @test_session.updated_by(current_user)
-    expire_caches_for(@test_session)
-
-    sym = field.sub("_txt", "_html").to_sym
-
-    render :text => @test_session.send(sym)
-  end
-
+module AjaxMixin
   def update_title
     @preview_id = params[:id].to_i
     @test_session = MeegoTestSession.find(@preview_id)
@@ -108,11 +65,80 @@ class ReportsController < ApplicationController
     render :text => "OK"
   end
 
+  def update_txt
+    @preview_id = params[:id]
+    @test_session = MeegoTestSession.find(@preview_id)
+
+    field = params[:meego_test_session]
+    field = field.keys()[0]
+    @test_session.update_attribute(field, params[:meego_test_session][field])
+    @test_session.updated_by(current_user)
+    expire_caches_for(@test_session)
+
+    sym = field.sub("_txt", "_html").to_sym
+
+    render :text => @test_session.send(sym)
+  end
+  
+  
+  def update_tested_at
+    logger.info("called update_tested_at with #{params.inspect}")
+    @preview_id = params[:id]
+
+    if @preview_id
+      @test_session = MeegoTestSession.find(@preview_id)
+
+      field = params[:meego_test_session].keys.first
+      logger.warn("Updating #{field} with #{params[:meego_test_session][field]}")
+      @test_session.update_attribute(field, params[:meego_test_session][field])
+      @test_session.updated_by(current_user)
+
+      expire_caches_for(@test_session)
+      expire_index_for(@test_session)
+
+      render :text => @test_session.tested_at.strftime('%d %B %Y')
+    else
+      logger.warn "WARNING: report id #{@preview_id} not found"
+    end
+  end
+
+end
+
+class ReportsController < ApplicationController
+  include AjaxMixin
+  #before_filter :authenticate_user!, :only => ["upload", "upload_form", "edit", "delete", "update", "update_txt",
+  #    "update_title", "update_case_comment", "update_case_result"]
+
+  before_filter :authenticate_user!, :except => ["view", "print", "fetch_bugzilla_data"]
+
+  #caches_page :print
+  #caches_page :index, :upload_form, :email, :filtered_list
+  #caches_page :view, :if => proc {|c|!c.just_published?}
+  caches_action :fetch_bugzilla_data,
+      :cache_path => Proc.new { |controller| controller.params },
+      :expires_in => 1.hour
+
+  def preview
+    @preview_id = session[:preview_id] || params[:id]
+    @editing = true
+    @wizard = true
+
+    if @preview_id
+      @test_session = MeegoTestSession.find(@preview_id)
+      @report = @test_session
+      @no_upload_link = true
+
+      render :layout => "report"
+    else
+      redirect_to :action => :upload_form
+    end
+  end
+
   def publish
     report_id = params[:report_id]
     test_session = MeegoTestSession.find(report_id)
     test_session.update_attribute(:published, true)
-
+    
     expire_caches_for(test_session, true)
     expire_index_for(test_session)
 
