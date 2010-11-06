@@ -83,7 +83,7 @@ module AjaxMixin
   
   def update_tested_at
     logger.info("called update_tested_at with #{params.inspect}")
-    @preview_id = params[:meego_test_session][:id]
+    @preview_id = params[:id]
 
     if @preview_id
       @test_session = MeegoTestSession.find(@preview_id)
@@ -96,30 +96,12 @@ module AjaxMixin
       expire_caches_for(@test_session)
       expire_index_for(@test_session)
 
-      render :text => "OK"
+      render :text => @test_session.tested_at.strftime('%d %B %Y')
     else
       logger.warn "WARNING: report id #{@preview_id} not found"
     end
   end
 
-  def update_tested_at
-    logger.info("called update_tested_at with #{params.inspect}")
-    if @preview_id = params[:meego_test_session][:id]
-      @test_session = MeegoTestSession.find(@preview_id)
-
-      field = params[:meego_test_session].keys.first
-      logger.warn("Updating #{field} with #{params[:meego_test_session][field]}")
-      @test_session.update_attribute(field, params[:meego_test_session][field])
-      @test_session.updated_by(current_user)
-
-      expire_caches_for(@test_session)
-      expire_index_for(@test_session)
-
-      render :text => "OK"
-    else
-      logger.warn "WARNING: report id #{@preview_id} not found"
-    end
-  end
 end
 
 class ReportsController < ApplicationController

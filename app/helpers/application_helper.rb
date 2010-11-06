@@ -100,4 +100,8 @@ module ApplicationHelper
   def format_date_to_human_readable(date)
     date ? date.strftime('%d %B %Y') : 'n/a'
   end
+
+  def format_date_to_input(date)
+    date ? date.strftime('%Y-%m-%d') : ''
+  end
 end

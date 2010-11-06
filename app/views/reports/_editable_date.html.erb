@@ -1,10 +1,13 @@
 <% if @editing %>
 <div class="editable_text editable_date">
 <% end %>
-
-<h1 class="clearfix"><span class="content"><%=@report.title%></span><span class="heading_actions"></span></h1>
-<%= yield :view_in_browser_link %>
-
+<dt>Test execution date:</dt>
+<dd>
+  <span class="un content"><%= format_date_to_human_readable @report.tested_at %></span>
+<% if @editing %>
+  <span class="editmarkup" style="display:none;"><%= format_date_to_input @report.tested_at %></span>
+<% end %>
+</dd>
 <% if @editing %>
 </div>
 <% end %>

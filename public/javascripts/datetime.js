@@ -1,5 +1,4 @@
-function addDateSelectorToDateFields() {
-	var elem = $(".date");
+function addDateSelector(elem) {
 
 	elem.datepicker({
 		showOn: "both",

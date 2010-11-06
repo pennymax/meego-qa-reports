@@ -63,8 +63,6 @@
 				<dd><%= @report.editor.name %><br/>
                   <span class="un"><%= format_date_to_human_readable @report.updated_at %></span>
                 </dd>
-				<dt>Test execution date:</dt>
-			
 			     <%= render :partial => 'editable_date' %>
 		</dl>
 	</div>
@@ -117,13 +115,6 @@
 <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"%>
 <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"%>
 <%= javascript_include_tag 'application'%>
-<%= javascript_include_tag 'datetime'%>
-
-<script type="text/javascript">
-  $(document).ready(function() {
-	addDateSelectorToDateFields();
-});
-</script>
 
 <%= yield :view_specific_js %>
 

@@ -52,6 +52,7 @@
 <% end %>
 
 <% content_for :view_specific_js do %>
+<%= javascript_include_tag 'datetime' %>
 <script language="javascript" type="text/javascript">
 $(document).ready(function(){
 	linkEditButtons();
