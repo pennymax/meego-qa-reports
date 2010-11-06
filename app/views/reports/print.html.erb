@@ -29,3 +29,7 @@ $(document).ready(function(){
 });
 </script>
 <% end %>
+
+<% content_for :view_in_browser_link do %>
+    <div class="report-backlink"><%= link_to "Click here", url_for(:controller=>'reports', :action=>'view', :release_version=>@selected_release_version, :target=>@test_session.target, :testtype=>@test_session.testtype, :hwproduct=>@test_session.hwproduct, :id=>@test_session.id) %> to view this message in your browser or handheld device</div><br/>
+<% end %>
