@@ -22,7 +22,7 @@ Feature: Signing up as a new user
 
     When I sign up as "Austin Powers" with email "jamesbond@mi6.co.uk" and password "shagyoulater"
 
-    Then I should see "Email has already been taken"
+    Then I should see "Email has already been taken" within "#error"
     And I should see "Sign In" within "#session"
 
   Scenario: Signing up without a given name, invalid email and not matching password confirmation

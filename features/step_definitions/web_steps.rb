@@ -217,3 +217,17 @@ end
 Then /^show me the page$/ do
   save_and_open_page
 end
+
+Then /^the link "([^"]*)" within "([^"]*)" should point to the report "([^"]*)"/ do |link, selector, expected_report|
+  with_scope(selector) do
+    field = find_link(link)
+
+    version, target, test_type, hardware = expected_report.split('/')
+    report = MeegoTestSession.first(:conditions =>
+     {:release_version => version, :target => target, :hwproduct => hardware, :testtype => test_type}
+    )
+    raise "report not found with parameters #{version}/#{target}/#{hardware}/#{test_type}!" unless report
+
+    field[:href].should == "/#{version}/#{target}/#{test_type}/#{hardware}/#{report.id}"
+  end
+end

@@ -49,9 +49,7 @@
 	
 	<%= yield :button_area %>
 	
-	<div class="editable_text">
-	    <h1 class="clearfix"><span class="content"><%=@report.title%></span><span class="heading_actions"><%=edit_button%></span></h1>
-    </div>
+    <%= render :partial => 'editable_title' %>
 
 	<div class="report_head">
 		<%= yield :table_of_contents %>
@@ -70,25 +68,13 @@
 		</dl>
 	</div>
 	
-	<div class="editable_text">
-	    <h2 id="test_objective">Test Objective<span class="heading_actions"><%=edit_button%></span></h2>
-		<%= editable_txt('objective') %>
-	</div>
-    
-    <div class="editable_text">
-	    <h2 id="build">Build (image)<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
-	    	<%= editable_txt('build') %>
-    </div>
-    
-    <div class="editable_text">
-	    <h2 id="environment">Test Environment<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
-		<%= editable_txt('environment') %>
-	</div>
+      <%= render :partial => 'editable_text', :locals => {:anchor => 'test_objective', :title => "Test Objective", :field => 'objective'} %>
 
-	<div class="editable_text">
-	    <h2 id="qa_summary">Quality Summary<span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
-	<%= editable_txt('qa_summary') %>
-	</div>
+    
+      <%= render :partial => 'editable_text', :locals => {:anchor => 'build', :title => "Build (image)", :field => 'build'} %>
+      <%= render :partial => 'editable_text', :locals => {:anchor => 'environment', :title => "Test Environment", :field => 'environment'} %>
+      <%= render :partial => 'editable_text', :locals => {:anchor => 'qa_summary', :title => "Quality Summary", :field => 'qa_summary'} %>
+
 
   <% cache("test_results_for_#{@report.id}") do %>
     <%= render :partial => 'reports/test_results' %>
@@ -111,9 +97,7 @@
 		
       </table>
       
-      <h2 id="issue_summary">Issue Summary <span class="heading_actions"><%=edit_button%><%=back_to_top%></span></h2>
-	  
-	<%= editable_txt('issue_summary') %>
+      <%= render :partial => 'editable_text', :locals => {:anchor => 'issue_summary', :title => "Issue Summary", :field => 'issue_summary'} %>
 	
 	<%= yield :wizard_actions %>
 	  
