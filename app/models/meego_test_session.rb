@@ -95,7 +95,10 @@ class MeegoTestSession < ActiveRecord::Base
   end
 
   def self.filters_exist?(target, testtype, hwproduct)
-    find_by_target(target.downcase).present? && find_by_testtype(testtype.downcase).present? && find_by_hwproduct(hwproduct.downcase).present?
+    target = target.try(:downcase)
+    testtype = testtype.try(:downcase)
+    hwproduct = hwproduct.try(:downcase)
+    find_by_target(target).present? && find_by_testtype(testtype).present? && find_by_hwproduct(hwproduct).present?
   end
 
   def self.all_lowercase(options = {})
