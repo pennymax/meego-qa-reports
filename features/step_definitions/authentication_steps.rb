@@ -47,7 +47,7 @@ Then /^I should return to report "([^\"]*)" and see "([^\"]*)" and a "Sign out" 
   |report_string, user_name|
 
   # TODO: DRY
-  version, target, test_type, hardware = report_string.split('/')
+  version, target, test_type, hardware = report_string.downcase.split('/')
   report = MeegoTestSession.first(:conditions =>
    {:target => target, :hwproduct => hardware, :testtype => test_type, :release_version => version}
   )
