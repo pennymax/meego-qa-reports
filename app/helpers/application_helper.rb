@@ -77,7 +77,7 @@ module ApplicationHelper
    html.html_safe
  end
 
-  def release_version_navigation(current_version)
+  def release_version_navigation(current_version, target='', testtype='', hwproduct='')
     html = '<ul class="clearfix">'
     link_text = ''
     @meego_releases.each do |release|
@@ -89,7 +89,20 @@ module ApplicationHelper
           link_text = "v#{release}"
       end
 
-      html += link_to link_text, root_url + release
+      path = release
+      if target.present?
+        path += '/' + target
+
+        if testtype.present?
+          path += '/' + testtype
+        
+          if hwproduct.present?
+            path += '/' + hwproduct
+          end
+        end
+      end
+
+      html += link_to link_text, root_url + path
       html += '</li>'
     end
     
