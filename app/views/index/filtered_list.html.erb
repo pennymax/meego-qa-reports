@@ -27,6 +27,13 @@
 
 <!--<img src="<%#=@trend_graph_url%>"/>-->
 
+<% content_for :version_navi do %>
+  <div id="version_navi">
+	<%= release_version_navigation(@selected_release_version, @target, @testtype, @hwproduct) %>
+  </div>
+<% end %>
+
+
 <table id="report_filtered_navigation" class="filtered">
     <thead>
     <tr>
