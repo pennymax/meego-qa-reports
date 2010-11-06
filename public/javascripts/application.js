@@ -663,41 +663,6 @@ jQuery(function($) {
     function handleFiles(files) {
         var queue = [];
 
-        // TODO: Fix the closure. new SendItemInQueue instance is created for each handleFiles call
-        function sendItemInQueue(queuePosition) {
-            if(queuePosition < queue.length) {
-                var file = queue[queuePosition];
-                var xhr = new XMLHttpRequest();
-                xhr.open('post', '/upload_attachment/', true);
-  
-                xhr.onreadystatechange = function () {
-                    if (this.readyState != 4)
-                        return;
-
-                    // TODO: Enable Send button
-                    var response = JSON.parse(this.responseText);
-                    var tag = '#' + response.fileid;
-                    $(tag + " input").attr('value', response.url);
-                    $(tag + " img").hide();
-
-                    // process next item
-                    sendItemInQueue(queuePosition + 1);
-                }
-
-                xhr.setRequestHeader('Content-Type', 'application/octet-stream'); // multipart/form-data
-                xhr.setRequestHeader('If-Modified-Since', 'Mon, 26 Jul 1997 05:00:00 GMT');
-                xhr.setRequestHeader('Cache-Control', 'no-cache');
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                xhr.setRequestHeader('X-File-Name', file.fileName);
-                xhr.setRequestHeader('X-File-Size', file.fileSize);
-                xhr.setRequestHeader('X-File-Type', file.type);
-                xhr.setRequestHeader('X-File-Id', file.id);
-
-                // TODO: Disable Send button
-                xhr.send(file);
-            }
-        }
-
         // process file list
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
@@ -719,10 +684,44 @@ jQuery(function($) {
         }
 
         // trigger first item
-        sendItemInQueue(0);
+        sendItemInQueue(queue, 0);
     }
 
-    var dropbox = $('#dropbox').get(0);
+    // Send a file from queue
+    function sendItemInQueue(queue, queuePosition) {
+      if(queuePosition < queue.length) {
+        var file = queue[queuePosition];
+        var xhr = new XMLHttpRequest();
+        xhr.open('post', '/upload_attachment/', true);
+
+        xhr.onreadystatechange = function () {
+          if (this.readyState != 4)
+            return;
+
+          // TODO: Enable Send button
+          var response = JSON.parse(this.responseText);
+          var tag = '#' + response.fileid;
+          $(tag + " input").attr('value', response.url);
+          $(tag + " img").hide();
+
+          // process next item
+          sendItemInQueue(queue, queuePosition + 1);
+        }
+
+        xhr.setRequestHeader('Content-Type', 'application/octet-stream'); // multipart/form-data
+        xhr.setRequestHeader('If-Modified-Since', 'Mon, 26 Jul 1997 05:00:00 GMT');
+        xhr.setRequestHeader('Cache-Control', 'no-cache');
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('X-File-Name', file.fileName);
+        xhr.setRequestHeader('X-File-Size', file.fileSize);
+        xhr.setRequestHeader('X-File-Type', file.type);
+        xhr.setRequestHeader('X-File-Id', file.id);
+
+        // Disable send button until the data transfer has been finished
+        xhr.send(file);
+        $('form input[type=submit]').attr('disabled', 'true');
+      }
+    }
 
     if(typeof window.FileReader === "function") {
         // We have file API
