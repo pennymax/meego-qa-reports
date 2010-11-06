@@ -19,4 +19,36 @@ describe MeegoTestSession do
     mts.should_not be_valid
     mts.errors[:tested_at].should_not be_empty
   end
+
+  describe "filters_exist?" do
+
+    before(:each) do
+      @session = mock_model(MeegoTestSession)
+      MeegoTestSession.stub!(:find_by_target).and_return(@session)
+      MeegoTestSession.stub!(:find_by_testtype).and_return(@session)
+      MeegoTestSession.stub!(:find_by_hwproduct).and_return(@session)
+    end
+
+    it "should return true when filters exist" do
+      MeegoTestSession.filters_exist?(@target, @testtype, @hwproduct).should be_true
+    end
+
+
+    it "should fail if target is not found" do
+      MeegoTestSession.stub!(:find_by_target).and_return(nil)
+      MeegoTestSession.filters_exist?(@target, @testtype, @hwproduct).should be_false
+    end
+
+    it "should fail if testtype is not found" do
+      MeegoTestSession.stub!(:find_by_testtype).and_return(nil)
+      MeegoTestSession.filters_exist?(@target, @testtype, @hwproduct).should be_false
+    end
+
+    it "should fail if hwproduct is not found" do
+      MeegoTestSession.stub!(:find_by_hwproduct).and_return(nil)
+      MeegoTestSession.filters_exist?(@target, @testtype, @hwproduct).should be_false
+    end
+
+
+  end
 end

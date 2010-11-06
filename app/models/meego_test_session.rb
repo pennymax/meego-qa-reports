@@ -65,6 +65,10 @@ class MeegoTestSession < ActiveRecord::Base
     release_versions[0]
   end
 
+  def self.filters_exist?(target, testtype, hwproduct)
+    MeegoTestSession.find_by_target(target).present? && MeegoTestSession.find_by_testtype(testtype).present? && MeegoTestSession.find_by_hwproduct(hwproduct).present?
+  end
+
   class << self
     def by_release_version_target_test_type_product(release_version, target, testtype, hwproduct)
       MeegoTestSession.where(['release_version = ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ?', release_version, target, testtype, hwproduct, true]).order("created_at DESC")
