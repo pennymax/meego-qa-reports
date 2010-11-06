@@ -38,9 +38,8 @@
 <a name="top"></a>
 <div id="wrapper">
   <%= render :partial => "reports/page_header" %>
-  <div id="version_navi">
-    <%= release_version_navigation(@selected_release_version) %>
-  </div>
+  <%= yield :version_navi %>
+  
   <div id="page">
 
 	<%= yield %>

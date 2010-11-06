@@ -673,136 +673,143 @@ function CSVToArray( strData, strDelimiter ){
 }
 
 jQuery(function($) {
+    
     function dragenter(e) {
-        e.stopPropagation();
-        e.preventDefault();
+    e.stopPropagation();
+    e.preventDefault();
 
-        $('#dropbox').addClass('draghover');
-
-        return false;
+    $('#dropbox').addClass('draghover');
+    return false;
     }
 
     function dragover(e) {
-        e.stopPropagation();
-        e.preventDefault();
+    e.stopPropagation();
+    e.preventDefault();
 
-        $('#dropbox').addClass('draghover');
-
-        return false;
+    $('#dropbox').addClass('draghover');
+    return false;
     }
 
     function dragleave(e) {
-        e.stopPropagation();
-        e.preventDefault();
+    e.stopPropagation();
+    e.preventDefault();
 
-        $('#dropbox').removeClass('draghover');
+    $('#dropbox').removeClass('draghover');
+    return false;
+    }
 
-        return false;
+
+    function drop(e) {
+      var files;
+
+      e.stopPropagation();
+      e.preventDefault();
+
+
+      $('#dropbox').removeClass('draghover');
+      $('#dropbox').addClass('dropped');
+
+      // get files from drag and drop datatransfer or files in case of field change
+      if(typeof e.originalEvent.dataTransfer == "undefined") {
+        files = e.originalEvent.target.files;
+      } else {
+        files = e.originalEvent.dataTransfer.files;
+      }
+
+      handleFiles(files);
+      return false;
     }
 
     // Kind of a hack, clean up
     var firstdrop = true;
     var fileid = 1;
-
-    function drop(e) {
-        var files;
-
-        e.stopPropagation();
-        e.preventDefault();
-
-        if ( firstdrop ) {
-            $('#dropbox').text("");
-            firstdrop = false;
-        }
-
-        $('#dropbox').removeClass('draghover');
-        $('#dropbox').addClass('dropped');
-
-        // get files from drag and drop datatransfer or files in case of field change
-        if(typeof e.originalEvent.dataTransfer == "undefined") {
-            files = e.originalEvent.target.files;
-        } else {
-            files = e.originalEvent.dataTransfer.files;
-        }
-
-        handleFiles(files);
-
-        return false;
-    }
+    var queue = [];
 
     function handleFiles(files) {
-        var queue = [];
+      // process file list
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
 
-        // TODO: Fix the closure. new SendItemInQueue instance is created for each handleFiles call
-        function sendItemInQueue(queuePosition) {
-            if(queuePosition < queue.length) {
-                var file = queue[queuePosition];
-                var xhr = new XMLHttpRequest();
-                xhr.open('post', '/upload_attachment/', true);
-  
-                xhr.onreadystatechange = function () {
-                    if (this.readyState != 4)
-                        return;
+        var file_extension = file.name.split('.').pop().toLowerCase();
+        var allowed_extensions = ['xml','csv'];
 
-                    // TODO: Enable Send button
-                    var response = JSON.parse(this.responseText);
-                    var tag = '#' + response.fileid;
-                    $(tag + " input").attr('value', response.url);
-                    $(tag + " img").hide();
+        if (file.fileSize < 1048576  &&
+            jQuery.inArray(file_extension, allowed_extensions) != -1) {
 
-                    // process next item
-                    sendItemInQueue(queuePosition + 1);
-                }
+          // First succesful drag'n drop, remove template text
+          if ( firstdrop ) {
+            $('#dropbox').text("");
+            firstdrop = false;
+          }
 
-                xhr.setRequestHeader('Content-Type', 'application/octet-stream'); // multipart/form-data
-                xhr.setRequestHeader('If-Modified-Since', 'Mon, 26 Jul 1997 05:00:00 GMT');
-                xhr.setRequestHeader('Cache-Control', 'no-cache');
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                xhr.setRequestHeader('X-File-Name', file.fileName);
-                xhr.setRequestHeader('X-File-Size', file.fileSize);
-                xhr.setRequestHeader('X-File-Type', file.type);
-                xhr.setRequestHeader('X-File-Id', file.id);
+          file.id = 'file' + fileid;
+          fileid = fileid + 1;
 
-                // TODO: Disable Send button
-                xhr.send(file);
-            }
+          var source   = $("script[name=attachment]").html();
+          var template = Handlebars.compile(source);
+          var data = { "filename": file.name, "fileid": file.id };
+          result = template(data);
+          $("#dropbox").append(result);
+
+          queue.push(file);
         }
+      }
 
-        // process file list
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            var imageType = /image.*/;
-
-            // TODO: Check extensions
-            if(files[i].fileSize < 1048576) {
-                file.id = 'file' + fileid;
-                fileid = fileid + 1;
-
-                var source   = $("script[name=attachment]").html();
-                var template = Handlebars.compile(source);
-                var data = { "filename": file.name, "fileid": file.id };
-                result = template(data);
-                $("#dropbox").append(result);
-
-                queue.push(file);
-            }
-        }
-
-        // trigger first item
-        sendItemInQueue(0);
+      // trigger first item
+      sendItemInQueue();
     }
 
-    var dropbox = $('#dropbox').get(0);
+    function handleAjaxResponse() {
+      // Is data transfer completed?
+      if (this.readyState === 4) {
+        // Enable send button until the data transfer has been finished
+        $('form input[type=submit]').removeAttr('disabled');
 
+        // Update dropbox
+        var response = JSON.parse(this.responseText);
+        var tag = '#' + response.fileid;
+        $(tag + " input").attr('value', response.url);
+        $(tag + " img").hide();
+
+        // process next item
+        sendItemInQueue();
+      }
+    }
+
+    // Send a file from queue
+    function sendItemInQueue() {
+      if(queue.length > 0) {
+        var file = queue.pop();
+        var xhr = new XMLHttpRequest();
+        xhr.open('post', '/upload_attachment/', true);
+
+        xhr.onreadystatechange = handleAjaxResponse;
+
+        xhr.setRequestHeader('Content-Type', 'application/octet-stream'); // multipart/form-data
+        xhr.setRequestHeader('If-Modified-Since', 'Mon, 26 Jul 1997 05:00:00 GMT');
+        xhr.setRequestHeader('Cache-Control', 'no-cache');
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('X-File-Name', file.fileName);
+        xhr.setRequestHeader('X-File-Size', file.fileSize);
+        xhr.setRequestHeader('X-File-Type', file.type);
+        xhr.setRequestHeader('X-File-Id', file.id);
+        xhr.send(file);
+
+        // Disable send button until the data transfer has been finished
+        $('form input[type=submit]').attr('disabled', 'true');
+      }
+    }
+
+    // Bind event listeners
     if(typeof window.FileReader === "function") {
-        // We have file API
-        $('#dropbox').bind('dragenter', dragenter);
-        $('#dropbox').bind('dragover', dragover);
-        $('#dropbox').bind('dragleave', dragleave);
-        $('#dropbox').bind('drop', drop);
+      // We have file API
+      $('#dropbox').bind('dragenter', dragenter);
+      $('#dropbox').bind('dragover', dragover);
+      $('#dropbox').bind('dragleave', dragleave);
+      $('#dropbox').bind('drop', drop);
     } else {
-        // Fallback to normal file input
-        $('#dragndrop_and_browse').remove();
-        $('#only_browse').show();
+      // Fallback to normal file input
+      $('#dragndrop_and_browse').remove();
+      $('#only_browse').show();
     }
 });

@@ -22,6 +22,13 @@
 # 02110-1301 USA
 #
 %>
+
+<% content_for :version_navi do %>
+  <div id="version_navi">
+	<%= release_version_navigation(@selected_release_version) %>
+  </div>
+<% end %>
+
 <div id="index_page">
 <table id="report_navigation">
     <thead>
