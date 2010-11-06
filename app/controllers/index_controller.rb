@@ -44,6 +44,10 @@ class IndexController < ApplicationController
     @testtype = params[:testtype]
     @hwproduct = params[:hwproduct]
 
+    unless filters_exist
+      return render :file => 'public/404.html', :status => :not_found
+    end
+
     if @hwproduct
       sessions = MeegoTestSession.by_release_version_target_test_type_product(@selected_release_version, @target, @testtype, @hwproduct)
     elsif @testtype
@@ -71,6 +75,10 @@ class IndexController < ApplicationController
   end
   
 private
+
+  def filters_exist
+    MeegoTestSession.find_by_target(@target).present? && MeegoTestSession.find_by_testtype(@testtype).present? && MeegoTestSession.find_by_hwproduct(@hwproduct).present?
+  end
 
   def generate_trend_graph(sessions)
     passed = []
