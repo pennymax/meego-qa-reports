@@ -48,6 +48,8 @@ class MeegoTestSession < ActiveRecord::Base
 
   attr_reader :parsing_failed, :parse_errors
 
+  scope :published, :conditions => { :published => true }
+
   XML_DIR = "public/reports"
 
   include ReportSummary
@@ -93,27 +95,33 @@ class MeegoTestSession < ActiveRecord::Base
   end
 
   def self.filters_exist?(target, testtype, hwproduct)
-    MeegoTestSession.find_by_target(target).present? && MeegoTestSession.find_by_testtype(testtype).present? && MeegoTestSession.find_by_hwproduct(hwproduct).present?
+    find_by_target(target.downcase).present? && find_by_testtype(testtype.downcase).present? && find_by_hwproduct(hwproduct.downcase).present?
   end
 
   def self.all_lowercase(options = {})
     options[:conditions].each do |key, value|
       options[:conditions][key] = value.downcase if value.kind_of? String
     end
-    MeegoTestSession.all(options)
+    all(options)
   end
 
   class << self
     def by_release_version_target_test_type_product(release_version, target, testtype, hwproduct)
-      MeegoTestSession.where(['release_version = ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ?', release_version, target, testtype, hwproduct, true]).order("created_at DESC")
+      target = target.downcase
+      testtype = testtype.downcase
+      hwproduct = hwproduct.downcase
+      published.where(:release_version => release_version, :target => target, :testtype => testtype, :hwproduct => hwproduct).order("created_at DESC")
     end
 
     def published_by_release_version_target_test_type(release_version, target, testtype)
-      MeegoTestSession.where(['release_version = ? AND target = ? AND testtype = ? AND published = ?', release_version, target, testtype, true]).order("created_at DESC")
+      target = target.downcase
+      testtype = testtype.downcase
+      published.where(:release_version => release_version, :target => target, :testtype => testtype).order("created_at DESC")
     end
 
     def published_by_release_version_target(release_version, target)
-      MeegoTestSession.where(['release_version = ? AND target = ? AND published = ?', release_version, target, true]).order("created_at DESC")
+      target = target.downcase
+      published.where(:release_version => release_version, :target => target).order("created_at DESC")
     end
   end
   
@@ -121,23 +129,23 @@ class MeegoTestSession < ActiveRecord::Base
   # List category tags                          #
   ###############################################
   def self.list_targets(release_version)
-    (MeegoTestSession.all_lowercase(:select => 'DISTINCT target', :conditions=>{:published=>true, :release_version => release_version}).map{|s| s.target.gsub(/\b\w/){$&.upcase}}).uniq
+    (published.all_lowercase(:select => 'DISTINCT target', :conditions=>{:release_version => release_version}).map{|s| s.target.gsub(/\b\w/){$&.upcase}}).uniq
   end
 
   def self.list_types(release_version)
-    (MeegoTestSession.all_lowercase(:select => 'DISTINCT testtype', :conditions=>{:published=>true, :release_version => release_version}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
+    (published.all_lowercase(:select => 'DISTINCT testtype', :conditions=>{:release_version => release_version}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
   end
 
   def self.list_types_for(release_version, target)
-    (MeegoTestSession.all_lowercase(:select => 'DISTINCT testtype', :conditions => {:target => target, :published => true, :release_version => release_version}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
+    (published.all_lowercase(:select => 'DISTINCT testtype', :conditions => {:target => target, :release_version => release_version}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
   def self.list_hardware(release_version)
-    (MeegoTestSession.all_lowercase(:select => 'DISTINCT hwproduct', :conditions=>{:published=>true, :release_version => release_version}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
+    (published.all_lowercase(:select => 'DISTINCT hwproduct', :conditions=>{:release_version => release_version}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
   def self.list_hardware_for(release_version, target, testtype)
-    (MeegoTestSession.all_lowercase(:select => 'DISTINCT hwproduct', :conditions => {:target => target, :testtype=> testtype, :published=>true, :release_version => release_version}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
+    (published.all_lowercase(:select => 'DISTINCT hwproduct', :conditions => {:target => target, :testtype=> testtype, :release_version => release_version}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
   end
   
 
