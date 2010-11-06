@@ -52,6 +52,33 @@ class MeegoTestSession < ActiveRecord::Base
 
   include ReportSummary
 
+  def target=(target)
+    target = target.downcase
+    write_attribute(:target, target)
+  end
+
+  def target
+    read_attribute(:target).capitalize
+  end
+
+  def testtype=(testtype)
+    testtype = testtype.downcase
+    write_attribute(:testtype, testtype)
+  end
+
+  def testtype
+    read_attribute(:testtype).capitalize
+  end
+
+  def hwproduct=(hwproduct)
+    hwproduct = hwproduct.downcase
+    write_attribute(:hwproduct, hwproduct)
+  end
+
+  def hwproduct
+    read_attribute(:hwproduct).capitalize
+  end
+
   def prev_summary
     prev_session
   end
@@ -63,6 +90,10 @@ class MeegoTestSession < ActiveRecord::Base
 
   def self.latest_release_version
     release_versions[0]
+  end
+
+  def self.filters_exist?(target, testtype, hwproduct)
+    MeegoTestSession.find_by_target(target).present? && MeegoTestSession.find_by_testtype(testtype).present? && MeegoTestSession.find_by_hwproduct(hwproduct).present?
   end
 
   class << self

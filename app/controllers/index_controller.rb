@@ -44,6 +44,10 @@ class IndexController < ApplicationController
     @testtype = params[:testtype]
     @hwproduct = params[:hwproduct]
 
+    unless MeegoTestSession.filters_exist?(@target, @testtype, @hwproduct)
+      render_404
+    end
+
     if @hwproduct
       sessions = MeegoTestSession.by_release_version_target_test_type_product(@selected_release_version, @target, @testtype, @hwproduct)
     elsif @testtype

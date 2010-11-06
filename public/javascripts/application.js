@@ -44,15 +44,15 @@ function applySuggestion() {
 }
 
 function linkEditButtons() {
-	$('h2 a.edit').each(function(i,node){
+	$('div.editable_area').each(function(i,node){
 		var $node = $(node);
-		var contentDiv = $node.closest('h2').next('.editcontent');
+		var contentDiv = $node.children('.editcontent').first();
 		var rawDiv = contentDiv.next('.editmarkup');
 		$node.data('content', contentDiv);
 		$node.data('raw', rawDiv);
 		$node.click(handleEditButton);
 	});
-	$('h1 a.edit').click(handleTitleEdit);
+	$('div.editable_title').click(handleTitleEdit);
 	$('.testcase').each(function(i,node){
 		var $node = $(node);
 		var $comment = $node.find('.testcase_notes');
@@ -207,7 +207,7 @@ function handleCommentFormSubmit()
 
 function handleTitleEdit() {
 	$button = $(this);
-	var $content = $button.closest('h1').find('span.content');
+	var $content = $button.children('h1').find('span.content');
 	if ($content.is(":hidden")) {
 		return false;
 	}
@@ -218,6 +218,8 @@ function handleTitleEdit() {
 	$form.data('original', $content);
 	$form.data('button', $button);
 	
+        $button.removeClass('editable_text');
+
 	$form.submit(handleTitleEditSubmit);
 	$form.find('.save').click(function(){
 		$form.submit();
@@ -226,6 +228,7 @@ function handleTitleEdit() {
 	$form.find('.cancel').click(function(){
 		$form.detach();
 		$content.show();
+                $button.addClass('editable_text');
 		return false;
 	});
 	
@@ -246,11 +249,12 @@ function handleTitleEditSubmit() {
 	var action = $form.attr('action');
 	
 	var $button = $form.data('button');
-	$button.text("Saving...");
+	//$button.text("Saving...");
 	$.post(action, data, function(){
-		$button.text("Edit");
+		//$button.text("Edit");
 	});
 	
+        $button.addClass('editable_text');
 	$form.detach();
 	$content.show();
 	
@@ -289,9 +293,12 @@ function handleEditButton() {
 	$form.find('.cancel').click(function(){
 		$form.detach();
 		$div.show();
+                $button.addClass('editable_text')
 		return false;
 	});
 	
+        $button.removeClass('editable_text')
+
 	$div.hide();
 	$form.insertAfter($div);
 	$area.change();
@@ -391,9 +398,10 @@ function handleTextEditSubmit() {
 	});
 	*/
 	var $button = $form.data("button"); 
-	$button.text("Saving...");
+        $button.addClass('editable_text');
+	//$button.text("Saving...");
 	$.post(action, data, function(){
-		$button.text("Edit");
+		//$button.text("Edit");
 	});
 	
 	$original.html(formatMarkup(text));

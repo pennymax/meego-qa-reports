@@ -1,0 +1,12 @@
+<% if @editing %>
+<div class="editable_text editable_area">
+<% end %>
+
+<h2 id="<%= anchor %>"><%= title %><span class="heading_actions"><%=back_to_top%></span></h2>
+
+<%= editable_txt(field) %>
+
+<% if @editing %>
+</div>
+<% end %>
+
