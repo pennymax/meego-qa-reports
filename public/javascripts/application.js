@@ -274,6 +274,7 @@ function handleDateEdit() {
 	var $field = $form.find('.date_field'); 
 	$field.val(data);
 	$form.data('original', $content);
+        $form.data('raw', $raw);
 	$form.data('button', $button);
 	
 
@@ -301,8 +302,9 @@ function handleDateEdit() {
 function handleDateEditSubmit() {
 	$form = $(this);
 	$content = $form.data('original');
-	var title = $form.find('.date_field').val();
-	$content.text(title);
+        $raw = $form.data('raw');
+	var data = $form.find('.date_field').val();
+	$raw.text(data);
 	
 	var data = $form.serialize();
 	var action = $form.attr('action');
