@@ -45,7 +45,7 @@ class IndexController < ApplicationController
     @hwproduct = params[:hwproduct]
 
     unless MeegoTestSession.filters_exist?(@target, @testtype, @hwproduct)
-      render_404
+      return render_404      
     end
 
     if @hwproduct
