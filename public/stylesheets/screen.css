@@ -94,7 +94,8 @@ h1 {
 	font-size: 2em;
 	line-height:1;
 	color: #000; 
-	margin-bottom:0.75em;}
+	margin-bottom:0.75em;
+	padding-top:0.25em;}
 
 h2 {
 	font-size: 1.6666em;
@@ -382,6 +383,7 @@ legend {
 	font-size:1.2em;}
 	
 input.date, input.text, input.title, textarea, select, input.title_field {
+	font-family: verdana, sans-serif;
 	border:1px solid #bbb; 
 	background-color: #fff8de; 
 	font-size: 14px; 
@@ -393,8 +395,10 @@ input.text, input.title {width: 250px;}
 input.date, input.text.short {width:10em;}
 input.title {font-size:1.5em;}
 
-input.file { 
-	float: left; }
+input.file {  
+	padding:5px;
+	font-size:12px;
+	float:left;}
 
 input.title_field {
 	padding: 5px;
@@ -436,13 +440,29 @@ input.cancel {
 
 input#report_test_data.file { 
 	float: left; }
+	
+#dragndrop_and_browse{
+	overflow: hidden;}
+
+#dragndrop_and_browse small{
+	/* margin-left: 210px;*/
+/*	float: left;*/
+margin-left: 0;}
 
 #browse { 
 	overflow: hidden; 
-	clear: both; 
-	margin-left: 210px; 
+	clear: both;
+	float: left;
 	margin-top: 10px; 
 	padding-top: 10px; }
+
+#only_browse {
+	float: left;}
+
+#only_browse #browse {
+	margin-top: 0;
+	border:1px solid #bbb;
+	padding-top:0;}
 
 
 /* @group buttons */
@@ -578,24 +598,33 @@ box-shadow: 5px 5px 5px #ccc;
 
 /* @end autocomplete*/
 
+
+
+
 /* @end forms*/
 
 
 /* @group notifications and errors */
 
 .error, .notice, .success {
-	padding:.8em;
+	padding:10px;
 	margin-bottom:1em;
-	border:2px solid #ddd;}
-	
-.error {
-	background:#FBE3E4;
-	color:#8a1f11;
-	border-color:#FBC2C4;}
+	border:1px solid #ddd;
+	width: 240px;
+	}
 
-form .error {
-	margin-left: 210px;
-	width: 40em;
+div.formError, #error, form .error { 
+	padding: 0;
+	clear: both; 
+	background: url(../images/icon_alert.gif) no-repeat left 2px; 
+	padding-left: 25px; 
+	margin: 5px 0 5px 210px;
+	color: #ed0089;
+	border: none; }
+
+#error ul {
+	margin: 0;
+	list-style-type: none;
 }
 	
 .notification {
@@ -651,12 +680,7 @@ form .error {
 	font-size: 1.16667em;
 	text-shadow: 1px 1px 1px #fff;}
 
-div.formError { 
-	clear: both; 
-	margin-left: 210px; 
-	background: url(../images/icon_alert.gif) no-repeat left; 
-	padding-left: 20px; 
-	color: #ed0089; }
+
 
 /* @end notifications and errors */
 
@@ -790,6 +814,7 @@ div.formError {
 	background: transparent url(../images/version_navi_div.png) no-repeat right bottom;	}
 
 #version_navi ul li {
+background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;
 	float: left;}
 
 #version_navi ul li:hover {
@@ -811,7 +836,9 @@ div.formError {
 
 #version_navi ul li.current a {
 	border-right: 1px solid #cacaca;
-	background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;
+/**	background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;*/
+background:none;
+	background-color: #fff;
 	color: #f20089;
 	height: 1.0833em;
 	margin-right: -1px;}
@@ -836,11 +863,18 @@ div.formError {
 #report_navigation th,
 th.filtered {
 	font: bold 28px arial, sans-serif; 
-	background: url(../images/bt_shade.png) repeat-x 0 bottom; 	 
+	background: url(../images/bt_shade.png) repeat-x right bottom; 	 
 	text-shadow: #fff 1px 1px 1px;
-	border-right: 1px solid #cacaca; 
+	/*border-right: 1px solid #cacaca; */
 	border-left: 1px solid #fff; 
 	border-bottom: 1px solid #cacaca;}
+
+#report_navigation th:last-child,
+th.filtered:last-child {
+	background-position: left bottom;
+	border-right: 1px solid #cacaca;
+}
+
 
 #report_navigation th { 
 	padding-left: 15px;
@@ -882,13 +916,15 @@ td.filtered ul li span {
 	width: 4em; 
 	float: left; }
 
+td.report_name {
+	width: 33em;}
+
 td.date {
 	padding-left: 40px;
 	width: 5em;}
 	
-td.report_name {
-	width: 33em;}
-
+.index_month_title {
+	border-bottom: 1px solid #cacaca;}
 
 .chart_actions.stack_chart {
 	margin-left: 25px;
@@ -899,6 +935,8 @@ td.report_name {
 /* @end */
 
 /* @group test_results */
+.container {
+	padding: 0 20px;}
 
 #page div.page_content div.test_results div.container h3 { 
 	border-top: 1px solid #ccc; 
@@ -949,8 +987,14 @@ textarea.txt_edit {
 #test_result_overview .change {
 	width: 60px;}
 
-div.container { 
-	padding: 20px; }
+.editable_text {
+	margin: 0 -5px -10px -5px;
+	padding: 0 5px 10px 5px;
+}
+
+.editable_text:hover {
+	background: #fff8de url(../images/edit_icon.png) no-repeat 86% 10px;
+	cursor: pointer;}
 
 .test_results h2 { 
 	border-top-style: none; 
@@ -1229,7 +1273,8 @@ p.next_step {
 	-moz-border-radius: 8px;
 	border-radius: 8px; 
 	text-align: center; 
-	border: 1px solid #4892ff; }
+	border: 1px solid #4892ff; 
+	margin-right:10px;}
 
 #dropbox.draghover {
 	background-color: #bce9ae;

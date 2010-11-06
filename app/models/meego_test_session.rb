@@ -35,7 +35,8 @@ class MeegoTestSession < ActiveRecord::Base
   belongs_to :author, :class_name => "User"
   belongs_to :editor, :class_name => "User"
   
-  validates_presence_of :title, :target, :testtype, :hwproduct, :uploaded_files
+  validates_presence_of :title, :target, :testtype, :hwproduct
+  validates_presence_of :uploaded_files, :on => :create
 
   validates :tested_at, :date_time => true
   
