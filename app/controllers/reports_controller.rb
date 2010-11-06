@@ -160,17 +160,14 @@ class ReportsController < ApplicationController
       else
         @published = false
       end
+      
+      @test_session = MeegoTestSession.find(@report_id)
 
-      begin
-        @test_session = MeegoTestSession.find(@report_id)
-      rescue ActiveRecord::RecordNotFound
-        return render_404
-      end
+      return render_404 unless @selected_release_version == @test_session.release_version
 
       @target = @test_session.target
       @testtype = @test_session.testtype
       @hwproduct = @test_session.hwproduct
-      @selected_release_version = @test_session.release_version
 
       @report = @test_session
       @editing = false

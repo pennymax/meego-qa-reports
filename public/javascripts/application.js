@@ -431,6 +431,9 @@ function handleTextEditSubmit() {
 	var $area = $form.find('textarea');
 	
 	var text = $area.val();
+	var $button = $form.data("button"); 
+        $button.addClass('editable_text');
+
 	if ($markup.text() == text) {
 		// No changes were made.
 		$form.detach();
@@ -456,8 +459,6 @@ function handleTextEditSubmit() {
 		fetchBugzillaInfo();
 	});
 	*/
-	var $button = $form.data("button"); 
-        $button.addClass('editable_text');
 	//$button.text("Saving...");
 	$.post(action, data, function(){
 		//$button.text("Edit");

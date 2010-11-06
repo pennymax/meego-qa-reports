@@ -115,7 +115,7 @@
     </div>
     <div id="wizard_actions">
       <div id="wizard_buttons">
-        <input type="button" class="big_btn cancel" value="Cancel" />
+        <input type="button" class="big_btn cancel" value="Cancel" onclick="location.href='/<%= @selected_release_version %>'"/>
         <%= f.submit :id=>"upload_report_submit", :value=>"Next", :class=>"big_btn next", :tabindex => "7" %>
         </div><p class="next_step">next step: 
         <br/>
