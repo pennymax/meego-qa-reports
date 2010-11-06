@@ -155,7 +155,7 @@
       });
 
       var myDate = new Date();
-      var prettyDate =myDate.getFullYear() + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
+      var prettyDate = myDate.getUTCFullYear() + '-' + (myDate.getUTCMonth()+1) + '-' + myDate.getUTCDate();
       $(".date").val(prettyDate);
 
       $("#report_test_target").autocomplete({
