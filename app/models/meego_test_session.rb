@@ -53,30 +53,30 @@ class MeegoTestSession < ActiveRecord::Base
   include ReportSummary
 
   def target=(target)
-    target = target.downcase
+    target = target.try(:downcase)
     write_attribute(:target, target)
   end
 
   def target
-    read_attribute(:target).capitalize
+    read_attribute(:target).try(:capitalize)
   end
 
   def testtype=(testtype)
-    testtype = testtype.downcase
+    testtype = testtype.try(:downcase)
     write_attribute(:testtype, testtype)
   end
 
   def testtype
-    read_attribute(:testtype).capitalize
+    read_attribute(:testtype).try(:capitalize)
   end
 
   def hwproduct=(hwproduct)
-    hwproduct = hwproduct.downcase
+    hwproduct = hwproduct.try(:downcase)
     write_attribute(:hwproduct, hwproduct)
   end
 
   def hwproduct
-    read_attribute(:hwproduct).capitalize
+    read_attribute(:hwproduct).try(:capitalize)
   end
 
   def prev_summary
