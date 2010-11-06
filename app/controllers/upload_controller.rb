@@ -21,6 +21,7 @@
 # 02110-1301 USA
 #
 
+require 'drag_n_drop_uploaded_file'
 
 class UploadController < ApplicationController
   
@@ -28,14 +29,41 @@ class UploadController < ApplicationController
   
   def upload_form
     @test_session = MeegoTestSession.new
+    default_version = params[:release_version]
+    default_type = params[:testtype]
+    default_target = params[:target]
+    default_hwproduct = params[:hwproduct]
+
     @test_session.target = if @test_session.target.present?
       @test_session.target
+    elsif default_target.present?
+      default_target
     elsif current_user.default_target.present?
       current_user.default_target
     else
       "Core"
     end
+
+    @test_session.release_version = if @test_session.release_version.present?
+      @test_session.release_version
+    elsif default_version.present?
+      default_version
+    else
+      @selected_release_version
+    end
     
+    @test_session.testtype = if @test_session.testtype.present?
+      @test_session.testtype
+    elsif default_type.present?
+      default_type
+    end
+
+    @test_session.hwproduct = if @test_session.hwproduct.present?
+      @test_session.hwproduct
+    elsif default_hwproduct.present?
+      default_hwproduct
+    end
+
     init_form_values
   end
 
@@ -45,7 +73,8 @@ class UploadController < ApplicationController
     fileid = env['HTTP_X_FILE_ID']
     raw_filename_wo_extension = File.basename(env['HTTP_X_FILE_NAME'], extension)
 
-    url      = "/system/#{raw_filename_wo_extension.parameterize}#{extension}"
+    # TODO: Temp files needs to be deleted periodically
+    url      = "/reports/tmp/#{raw_filename_wo_extension.parameterize}#{extension}"
     filename = "#{Rails.root}/public#{url}"
 
     value = env['rack.input'].read()
@@ -65,15 +94,6 @@ class UploadController < ApplicationController
       params[:meego_test_session][:uploaded_files] = files
     end
 
-    # TODO: quick hack done because mysql doesn't obey the :default => "" given in migration - for some reason
-    params[:meego_test_session].reverse_merge!(
-      :objective_txt => "",
-      :build_txt => "",
-      :qa_summary_txt => "",
-      :issue_summary_txt => "",
-      :environment_txt => ""
-    )
-
     @test_session = MeegoTestSession.new(params[:meego_test_session])
     current_user.update_attribute(:default_target, @test_session.target) if @test_session.target.present?
 
@@ -89,7 +109,6 @@ class UploadController < ApplicationController
       @test_session.issue_summary_txt = prev.issue_summary_txt
     end
 
-    @test_session.tested_at ||= Time.now
     @test_session.author = current_user
     @test_session.editor = current_user
 

@@ -25,31 +25,4 @@ require 'testreport'
 class MeegoTestCase < ActiveRecord::Base
   belongs_to :meego_test_set
   belongs_to :meego_test_session 
-  
-  def result_html
-    if result == 1
-      "Pass"
-    elsif result == -1
-      "Fail"
-    else
-      "N/A"
-    end
-  end
-  
-  def result_class
-    if result == 1
-      "pass"
-    elsif result == -1
-      "fail"
-    else
-      "na"
-    end
-  end
-  
-  def comment_html
-    if comment
-      MeegoTestReport::format_txt(comment).html_safe
-    end
-  end
-  
 end

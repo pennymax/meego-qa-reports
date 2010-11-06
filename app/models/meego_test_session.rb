@@ -25,6 +25,8 @@ require 'testreport'
 require 'csv'
 require 'bitly'
 
+require 'validation/date_time_validator'
+
 #noinspection Rails3Deprecated
 class MeegoTestSession < ActiveRecord::Base
   has_many :meego_test_sets, :dependent => :destroy
@@ -33,9 +35,11 @@ class MeegoTestSession < ActiveRecord::Base
   belongs_to :author, :class_name => "User"
   belongs_to :editor, :class_name => "User"
   
-  validates_presence_of :title, :target, :testtype, :hwproduct, :uploaded_files
+  validates_presence_of :title, :target, :testtype, :hwproduct
+  validates_presence_of :uploaded_files, :on => :create
 
-  validate :tested_at_date
+  validates :tested_at, :date_time => true
+  
   validate :allowed_filename_extensions, :on => :create
   validate :save_uploaded_files, :on => :create
 
@@ -47,16 +51,6 @@ class MeegoTestSession < ActiveRecord::Base
   XML_DIR = "public/reports"
 
   include ReportSummary
-
-  def tested_at=(t)
-    self[:tested_at] = t.respond_to?(:day) ? t : DateTime.parse(t)
-  rescue ArgumentError
-    @orig_tested_at = t
-  end
-  
-  def tested_at_date
-    self.errors.add :tested_at, "invalid date '#@orig_tested_at'" if @orig_tested_at
-  end
 
   def prev_summary
     prev_session
@@ -131,7 +125,7 @@ class MeegoTestSession < ActiveRecord::Base
   # Utility methods for viewing a report        #
   ###############################################
   def formatted_date
-    tested_at.strftime("%Y-%m-%d")
+    tested_at ? tested_at.strftime("%Y-%m-%d") : 'n/a'
   end
   
   

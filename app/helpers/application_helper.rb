@@ -29,6 +29,20 @@ module ApplicationHelper
     end
   end
   
+  def upload_full_path
+    if @hwproduct
+      url_for :controller => :upload, :action => :upload_form, :release_version => @selected_release_version, :testtype => @testtype, :target => @target, :hwproduct => @hwproduct
+    elsif @target
+      url_for :controller => :upload, :action => :upload_form,  :release_version => @selected_release_version, :testtype => @testtype, :target => @target
+    elsif @testtype
+      url_for :controller => :upload, :action => :upload_form, :release_version => @selected_release_version, :testtype => @testtype
+    elsif @selected_release_version
+      url_for :controller => :upload, :action => :upload_form, :release_version => @selected_release_version
+    else
+      url_for :controller => :upload, :action => :upload_form
+    end
+  end
+
   def hardware_for(target, testtype)
     MeegoTestSession.list_hardware_for(@selected_release_version, target, testtype)
   end
@@ -84,6 +98,6 @@ module ApplicationHelper
   end
 
   def format_date_to_human_readable(date)
-    date.strftime('%d %B %Y')
+    date ? date.strftime('%d %B %Y') : 'n/a'
   end
 end
