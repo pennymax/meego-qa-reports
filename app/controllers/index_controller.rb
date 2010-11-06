@@ -61,8 +61,11 @@ class IndexController < ApplicationController
     @sessions = {}
     
     #@trend_graph_url = generate_trend_graph(sessions[0,30])
-    
+
+    @max_cases = 0
+
     sessions.each do |s|
+      @max_cases = s.total_cases if s.total_cases > @max_cases
       header = s.created_at.strftime("%B %Y")
       unless @sessions.has_key? header
         @headers << header

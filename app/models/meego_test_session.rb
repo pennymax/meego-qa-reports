@@ -231,6 +231,22 @@ class MeegoTestSession < ActiveRecord::Base
     
     "<div class=\"bvs_wrap\"><img class=\"bvs\" src=\"#{url}\"/></div>".html_safe
   end
+
+  def small_graph_img_tag(max_cases)
+    chart_size = "386x14"
+    chart_type = "bhs:nda" # bar, horizontal, stacked
+    chart_colors = "73a20c,ec4343,CACACA"
+    chart_data = "t:%i|%i|%i" % [total_passed, total_failed, total_na]
+    chart_scale = "0,%i" % ([max_cases,15].max)
+    chart_margins = "0,0,0,0"
+    chart_fill = "bg,s,ffffff00"
+    chart_width = "14,0,0"
+
+    url = "http://chart.apis.google.com/chart?cht=#{chart_type}&chs=#{chart_size}&chco=#{chart_colors}&chd=#{chart_data}&chds=#{chart_scale}&chma=#{chart_margins}&chf=#{chart_fill}&chbh=#{chart_width}"
+
+    "<div class=\"bhs_wrap\"><img class=\"bhs\" src=\"#{url}\"/></div>".html_safe
+  end
+
   ###############################################
   # Text data html formatting                   #
   ###############################################
