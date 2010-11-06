@@ -156,18 +156,18 @@ class MeegoTestSession < ActiveRecord::Base
   # Test session navigation                     #
   ###############################################
   def prev_session
-    time = created_at || Time.now
+    time = tested_at || Time.now
     MeegoTestSession.find(:first, :conditions => [
-        "created_at < ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ?", time, target, testtype, hwproduct, true
+        "tested_at < ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ? AND release_version = ?", time, target.downcase, testtype.downcase, hwproduct.downcase, true, release_version
       ],
-      :order => "created_at DESC")
+      :order => "tested_at DESC")
   end
   
   def next_session
     MeegoTestSession.find(:first, :conditions => [
-        "created_at > ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ?", created_at, target, testtype, hwproduct, true
+        "tested_at > ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ? AND release_version = ?", created_at, target.downcase, testtype.downcase, hwproduct.downcase, true, release_version
       ],
-      :order => "created_at ASC")
+      :order => "tested_at ASC")
   end
   
   ###############################################
