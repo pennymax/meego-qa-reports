@@ -27,25 +27,44 @@ describe MeegoTestSession do
       MeegoTestSession.stub!(:find_by_target).and_return(@session)
       MeegoTestSession.stub!(:find_by_testtype).and_return(@session)
       MeegoTestSession.stub!(:find_by_hwproduct).and_return(@session)
+      @target = nil
+      @testtype = nil
+      @hwproduct = nil
     end
 
-    it "should return true when filters exist" do
+    it "should succeed when all filters exist" do
+      @target = 'SomeTarget'
+      @testtype = 'SomeTestType'
+      @hwproduct = 'SomeHwProduct'
+      MeegoTestSession.filters_exist?(@target, @testtype, @hwproduct).should be_true
+    end
+
+    it "should succeed when target and testtype exist" do
+      @target = 'SomeTarget'
+      @testtype = 'SomeTestType'
+      MeegoTestSession.stub!(:find_by_hwproduct).and_return(nil)
+      MeegoTestSession.filters_exist?(@target, @testtype, @hwproduct).should be_true
+    end
+
+    it "should succeed when target exists" do
+      @target = 'SomeTarget'
+      MeegoTestSession.stub!(:find_by_testtype).and_return(nil)
+      MeegoTestSession.stub!(:find_by_hwproduct).and_return(nil)
       MeegoTestSession.filters_exist?(@target, @testtype, @hwproduct).should be_true
     end
 
 
     it "should fail if target is not found" do
-      MeegoTestSession.stub!(:find_by_target).and_return(nil)
+      @testtype = 'SomeTestType'
+      @hwproduct = 'SomeHwProduct'
+      MeegoTestSession.stub!(:find_by_target).and_return(nil)      
       MeegoTestSession.filters_exist?(@target, @testtype, @hwproduct).should be_false
     end
 
-    it "should fail if testtype is not found" do
+
+    it "should fail if testtype is not found and target and hwproduct exist" do
+      @testtype = ''
       MeegoTestSession.stub!(:find_by_testtype).and_return(nil)
-      MeegoTestSession.filters_exist?(@target, @testtype, @hwproduct).should be_false
-    end
-
-    it "should fail if hwproduct is not found" do
-      MeegoTestSession.stub!(:find_by_hwproduct).and_return(nil)
       MeegoTestSession.filters_exist?(@target, @testtype, @hwproduct).should be_false
     end
 
