@@ -63,8 +63,7 @@
 				<dd><%= @report.editor.name %><br/>
                   <span class="un"><%= format_date_to_human_readable @report.updated_at %></span>
                 </dd>
-				<dt>Test execution date:</dt>
-				<dd><%= format_date_to_human_readable @report.tested_at %></dd>
+			     <%= render :partial => 'editable_date' %>
 		</dl>
 	</div>
 	

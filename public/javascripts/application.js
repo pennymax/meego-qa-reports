@@ -53,6 +53,7 @@ function linkEditButtons() {
 		$node.click(handleEditButton);
 	});
 	$('div.editable_title').click(handleTitleEdit);
+        $('div.editable_date').click(handleDateEdit);
 	$('.testcase').each(function(i,node){
 		var $node = $(node);
 		var $comment = $node.find('.testcase_notes');
@@ -261,6 +262,64 @@ function handleTitleEditSubmit() {
 	return false;
 }
 
+function handleDateEdit() {
+	$button = $(this);
+	var $content = $button.find('span.content').first();
+        var $raw = $content.next('span.editmarkup');
+	if ($content.is(":hidden")) {
+		return false;
+	}
+	var data = $raw.text();
+	var $form = $('#date_edit_form form').clone();
+	var $field = $form.find('.date_field'); 
+	$field.val(data);
+	$form.data('original', $content);
+	$form.data('button', $button);
+	
+
+	$form.submit(handleDateEditSubmit);
+	$form.find('.save').click(function(){
+		$form.submit();
+		return false;
+	});
+	$form.find('.cancel').click(function(){
+		$form.detach();
+		$content.show();
+                $button.addClass('editable_text');
+		return false;
+	});
+	
+	$content.hide();
+	$form.insertAfter($content);
+	$field.focus();
+        addDateSelector($field);
+        $button.removeClass('editable_text');
+	
+	return false;
+}
+
+function handleDateEditSubmit() {
+	$form = $(this);
+	$content = $form.data('original');
+	var title = $form.find('.date_field').val();
+	$content.text(title);
+	
+	var data = $form.serialize();
+	var action = $form.attr('action');
+	
+	var $button = $form.data('button');
+	//$button.text("Saving...");
+	$.post(action, data, function(data){
+          $content.text(data);
+	});
+	
+        $button.addClass('editable_text');
+	$form.detach();
+	$content.show();
+	
+	return false;
+}
+
 function handleEditButton() {
 	$button = $(this);
 	var $div = $button.data('content');
@@ -372,6 +431,9 @@ function handleTextEditSubmit() {
 	var $area = $form.find('textarea');
 	
 	var text = $area.val();
+	var $button = $form.data("button"); 
+        $button.addClass('editable_text');
+
 	if ($markup.text() == text) {
 		// No changes were made.
 		$form.detach();
@@ -397,8 +459,6 @@ function handleTextEditSubmit() {
 		fetchBugzillaInfo();
 	});
 	*/
-	var $button = $form.data("button"); 
-        $button.addClass('editable_text');
 	//$button.text("Saving...");
 	$.post(action, data, function(){
 		//$button.text("Edit");

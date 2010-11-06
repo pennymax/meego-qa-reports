@@ -1,0 +1,14 @@
+<% if @editing %>
+<div class="editable_text editable_date">
+<% end %>
+<dt>Test execution date:</dt>
+<dd>
+  <span class="un content"><%= format_date_to_human_readable @report.tested_at %></span>
+<% if @editing %>
+  <span class="editmarkup" style="display:none;"><%= format_date_to_input @report.tested_at %></span>
+<% end %>
+</dd>
+<% if @editing %>
+</div>
+<% end %>
+

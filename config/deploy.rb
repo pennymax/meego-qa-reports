@@ -50,6 +50,12 @@ after "deploy:symlink" do
   
   # Link to shared folders
   run "ln -nfs #{shared_path}/reports #{current_path}/public/"
+
+  # Remove empty token file that comes with deployment
+  run "rm -rf #{current_path}/config/registeration_token"
+
+  # Create symlink to token file in shared
+  run "ln -nfs #{shared_path}/config/registeration_token #{current_path}/config/registeration_token"
 end
 
 namespace :deploy do
