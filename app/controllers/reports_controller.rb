@@ -136,10 +136,12 @@ class ReportsController < ApplicationController
       end
       
       @test_session = MeegoTestSession.find(@report_id)
+
+      return render_404 unless @selected_release_version == @test_session.release_version
+
       @target = @test_session.target
       @testtype = @test_session.testtype
       @hwproduct = @test_session.hwproduct
-      @selected_release_version = @test_session.release_version
 
       @report = @test_session
       @editing = false

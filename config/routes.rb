@@ -26,7 +26,6 @@ Meegoqa::Application.routes.draw do
     match '/:release_version/:target/:testtype' => 'index#filtered_list', :via => "get"
     match '/:release_version/:target' => 'index#filtered_list', :via => "get"
     match '/:release_version' => 'index#index', :via => "get"
-
   end
 
   match '/upload' => 'upload#upload_form', :via => "get"

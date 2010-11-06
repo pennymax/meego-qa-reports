@@ -37,21 +37,7 @@
 <body>
 <a name="top"></a>
 <div id="wrapper">
-  <div id="header" class="clearfix">
-  	<div id="logo">
-          <h3>
-          	<%= link_to "MeeGo | QA Reports", root_path %>
-          	<%= link_to "MeeGo | QA Reports", root_path, :class=> 'hover' %>
-          
-          </h3>
-          <a href="<%= root_path %>" class="hover"></a>-->
-
-  	</div>
-	
-    <%= render :partial => "shared/session_management" %>
-	
-	<%= render :partial => "reports/upload_link" %>
-  </div>
+  <%= render :partial => "reports/page_header" %>
   <div id="version_navi">
     <%= release_version_navigation(@selected_release_version) %>
   </div>

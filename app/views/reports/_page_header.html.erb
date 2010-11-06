@@ -1,12 +1,12 @@
   <div id="header">
   	<div id="logo">
   	  <h3>
-  	  	<a href="<%=url_for :controller=>'index', :action=>'index'%>">MeeGo | QA Reports</a>
-  	  	<a href="<%= root_path %>" class="hover"></a>
+  	  	<a href="<%= url_for :controller => '/index', :action=>'index', :release_version => @selected_release_version %>">MeeGo | QA Reports</a>
+  	  	<a href="<%= url_for :controller => '/index', :action=>'index', :release_version => @selected_release_version %>" class="hover"></a>
   	  </h3>
   	</div>
 
     <%= render :partial => "shared/session_management" %>
 
-	<%= render :partial => "upload_link" %>
+	<%= render :partial => "reports/upload_link" %>
   </div>
