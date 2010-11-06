@@ -33,8 +33,7 @@ Feature: Manage reports
     And I click to edit the report
 
     Then I should see "Edit the report information" within ".notification"
-    And I should see "Test Objective" within "#test_objective"
-    And I should see "Edit" within "#test_objective .edit"
+    And I should see "Test Objective" within ".editable_text #test_objective"
 
   Scenario: Deleting a report    
     When I view the report "1.1/Core/Sanity/Aava"
