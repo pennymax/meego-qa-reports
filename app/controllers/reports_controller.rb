@@ -138,7 +138,7 @@ class ReportsController < ApplicationController
       begin
         @test_session = MeegoTestSession.find(@report_id)
       rescue ActiveRecord::RecordNotFound
-        return render :file => 'public/404.html', :status => :not_found
+        return render_404
       end
 
       @target = @test_session.target

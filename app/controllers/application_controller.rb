@@ -34,4 +34,9 @@ class ApplicationController < ActionController::Base
   def get_selected_release_version
     @selected_release_version = params[:release_version] || MeegoTestSession.latest_release_version
   end
+
+  def render_404
+    render :file => "#{Rails.root}/public/404.html", :status => :not_found 
+  end
+
 end

@@ -45,7 +45,7 @@ class IndexController < ApplicationController
     @hwproduct = params[:hwproduct]
 
     unless filters_exist
-      return render :file => 'public/404.html', :status => :not_found
+      render_404
     end
 
     if @hwproduct
