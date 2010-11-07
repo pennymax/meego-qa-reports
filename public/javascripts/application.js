@@ -476,19 +476,22 @@ function handleTextEditSubmit() {
 
 function applyBugzillaInfo(node, info) {
 	var $node = $(node);
-	if (info == undefined) return;
-	var status = info.status;
-	if (status == 'RESOLVED' || status == 'VERIFIED') {
-		status = info.resolution;
-		$node.addClass("resolved");
+	if (info == undefined) {
+		$node.addClass("invalid");	
 	} else {
-		$node.addClass("unresolved");
-	}
-	var $parent = $node.closest('table');
-	if ($parent.length != 0) {
-		$node.attr("title", "" + info.summary + " (" + status + ")")
-	} else {
-		$node.after("<span> - " + info.summary + " (" + status + ")</span>");
+		var status = info.status;
+		if (status == 'RESOLVED' || status == 'VERIFIED') {
+			status = info.resolution;
+			$node.addClass("resolved");
+		} else {
+			$node.addClass("unresolved");
+		}
+		var $parent = $node.closest('table');
+		if ($parent.length != 0) {
+			$node.attr("title", "" + info.summary + " (" + status + ")")
+		} else {
+			$node.after("<span> - " + info.summary + " (" + status + ")</span>");
+		}
 	}
 	$node.removeClass("fetch");
 }

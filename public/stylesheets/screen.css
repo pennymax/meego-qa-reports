@@ -299,6 +299,10 @@ a.bugzilla.fetch {
 	background-image: url(../images/progress.gif); 
 	color: #ccc; }
 
+a.bugzilla.invalid {
+	color: #ccc;
+}
+
 a.bugzilla.unresolved {
 	background-image: url(../images/icon_alert.gif);
 	 }
