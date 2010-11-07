@@ -648,6 +648,7 @@ div.formError, #error, form .error {
 	color: #333; 
 	border: 1px solid #528019; 
 	background-image: url(../images/published_bg.png); 
+	background-position: 0 bottom;
 	clear: both; }
 
 .published h3 { 
