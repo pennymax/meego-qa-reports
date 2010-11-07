@@ -176,7 +176,7 @@ class MeegoTestSession < ActiveRecord::Base
   
   def next_session
     MeegoTestSession.find(:first, :conditions => [
-        "tested_at > ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ? AND release_version = ?", created_at, target.downcase, testtype.downcase, hwproduct.downcase, true, release_version
+        "tested_at > ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ? AND release_version = ?", tested_at, target.downcase, testtype.downcase, hwproduct.downcase, true, release_version
       ],
       :order => "tested_at ASC")
   end
