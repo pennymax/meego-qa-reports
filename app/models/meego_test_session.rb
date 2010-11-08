@@ -330,7 +330,7 @@ class MeegoTestSession < ActiveRecord::Base
   end
   
   def format_date
-    created_at.strftime("%d.%m")
+    tested_at.strftime("%d.%m")
   end
 
   def self.map_result(result)
