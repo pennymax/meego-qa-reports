@@ -45,7 +45,7 @@ class MeegoTestSet < ActiveRecord::Base
   def max_cases
     result = 0
     meego_test_session.meego_test_sets.each do |set|
-      [result, set.total_cases].max
+      result = [result, set.total_cases].max
     end
     result
   end
