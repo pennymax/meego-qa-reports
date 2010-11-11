@@ -52,8 +52,9 @@
 	      	  <a id="rel_button" class="ui_btn">Relative %</a>
       	  </div>
       <% end %>
-      	  <%= render :partial=>'month', :collection => @headers %>
-      	  
+        <a href="<%= url_for :controller => 'csv_export', :action => 'export', :release_version => @selected_release_version, :target => @target, :testtype => @testtype, :hwproduct => @hwproduct %>">Download as CSV</a>
+
+      	<%= render :partial=>'month', :collection => @headers %>
       </td>
     </tr>
    

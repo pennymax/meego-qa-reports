@@ -26,6 +26,11 @@ Meegoqa::Application.routes.draw do
     match '/:release_version/:target/:testtype' => 'index#filtered_list', :via => "get"
     match '/:release_version/:target' => 'index#filtered_list', :via => "get"
     match '/:release_version' => 'index#index', :via => "get"
+
+    match '/:release_version/:target/:testtype/:hwproduct/csv' => 'csv_export#export', :via => "get"
+    match '/:release_version/:target/:testtype/csv' => 'csv_export#export', :via => "get"
+    match '/:release_version/:target/csv' => 'csv_export#export', :via => "get"
+    match '/:release_version/csv' => 'csv_export#export', :via => "get"
   end
 
   match '/upload' => 'upload#upload_form', :via => "get"
