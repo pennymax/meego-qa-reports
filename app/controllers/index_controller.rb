@@ -59,9 +59,12 @@ class IndexController < ApplicationController
     
     @headers = []
     @sessions = {}
-    
-    @trend_graph_url_abs = generate_trend_graph(sessions[0,30])
-    @trend_graph_url_rel = generate_trend_graph(sessions[0,30], true)
+   
+    if sessions.length > 1 and sessions[0].tested_at.yday != sessions[-1].tested_at.yday
+      @trend_graph_url_abs = generate_trend_graph(sessions[0,30])
+      @trend_graph_url_rel = generate_trend_graph(sessions[0,30], true)
+    end
+
 
     @max_cases = 0
 

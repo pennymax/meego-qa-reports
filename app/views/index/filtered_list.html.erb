@@ -40,7 +40,7 @@
     </thead>
     <tr>
       <td class="filtered">	  
-      
+     <% if @trend_graph_url_abs %>
       	  <div class="chart_actions stack_chart">
                 <div id="abs_trend">
                   <img src="<%=@trend_graph_url_abs%>" />
@@ -51,6 +51,7 @@
 	      	  <a id="abs_button" class="ui_btn inactive">Absolute values</a>
 	      	  <a id="rel_button" class="ui_btn">Relative %</a>
       	  </div>
+      <% end %>
       	  <%= render :partial=>'month', :collection => @headers %>
       	  
       </td>
@@ -58,7 +59,7 @@
    
 </table>
 </div>
-
+<% if @trend_graph_url_abs %>
 <script language="javascript" type="text/javascript">
 $(document).ready(function(){
   $("#abs_button").click(function(){
@@ -76,3 +77,4 @@ $(document).ready(function(){
   });
 });
 </script>
+<% end %>
