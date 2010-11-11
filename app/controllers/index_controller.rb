@@ -60,7 +60,8 @@ class IndexController < ApplicationController
     @headers = []
     @sessions = {}
     
-    @trend_graph_url = generate_trend_graph(sessions[0,30])
+    @trend_graph_url_abs = generate_trend_graph(sessions[0,30])
+    @trend_graph_url_rel = generate_trend_graph(sessions[0,30], true)
 
     @max_cases = 0
 
@@ -79,7 +80,7 @@ class IndexController < ApplicationController
   
 private
 
-  def generate_trend_graph(sessions)
+  def generate_trend_graph(sessions, relative=false)
     passed = []
     failed = []
     na = []
@@ -94,15 +95,27 @@ private
         next
       end
       prev_day = day
-      total << s.total_cases
-      passed << s.total_passed
-      failed << s.total_failed + s.total_passed
-      na << s.total_na + s.total_failed + s.total_passed
+      if relative
+        rpass = s.total_passed*100/s.total_cases
+        rfail = s.total_failed*100/s.total_cases
+        passed << rpass
+        failed << rpass + rfail
+        na << 100
+      else
+        total << s.total_cases
+        passed << s.total_passed
+        failed << s.total_failed + s.total_passed
+        na << s.total_na + s.total_failed + s.total_passed
+      end
       days << day
     end
     total_days = prev_day + 1
     
-    max_total = total.max
+    if relative
+      max_total = 100
+    else
+      max_total = total.max
+    end
     
     chart_type = 'cht=lxy'
     colors = '&chco=CACACA,ec4343,73a20c'

@@ -42,14 +42,37 @@
       <td class="filtered">	  
       
       	  <div class="chart_actions stack_chart">
-                  <img src="<%=@trend_graph_url%>" /><br/>
-	      	  <a class="ui_btn inactive">Absolute values</a>
-	      	  <a class="ui_btn">Relative %</a>
+                <div id="abs_trend">
+                  <img src="<%=@trend_graph_url_abs%>" />
+                </div>
+                <div id="rel_trend" style="display:none;">
+                  <img src="<%=@trend_graph_url_rel%>" />
+                </div>
+	      	  <a id="abs_button" class="ui_btn inactive">Absolute values</a>
+	      	  <a id="rel_button" class="ui_btn">Relative %</a>
       	  </div>
       	  <%= render :partial=>'month', :collection => @headers %>
       	  
       </td>
     </tr>
    
-  </table>
-  </div>
+</table>
+</div>
+
+<script language="javascript" type="text/javascript">
+$(document).ready(function(){
+  $("#abs_button").click(function(){
+    $("#abs_button").addClass("inactive");
+    $("#rel_button").removeClass("inactive");
+    $("#abs_trend").show();
+    $("#rel_trend").hide();
+  });
+
+  $("#rel_button").click(function(){
+    $("#abs_button").removeClass("inactive");
+    $("#rel_button").addClass("inactive");
+    $("#abs_trend").hide();
+    $("#rel_trend").show();
+  });
+});
+</script>
