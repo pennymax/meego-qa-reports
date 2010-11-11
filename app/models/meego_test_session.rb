@@ -439,7 +439,22 @@ class MeegoTestSession < ActiveRecord::Base
     # TODO
   end
 
-  
+  def to_csv
+    common_fields = [
+      tested_at.to_date.to_s,
+      release_version,
+      target,
+      testtype,
+      hwproduct,
+      title
+    ]
+
+    rows = meego_test_cases.map do |test_case|
+      test_case.meego_test_set.feature #category
+      test_case.name # test case name
+      test_case.result # result
+    end
+  end
 private
 
   ###############################################

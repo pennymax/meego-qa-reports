@@ -12,6 +12,7 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
   gem 'ruby-debug'
+  gem 'mysql'
 end
 
 group :development, :test do # so that we can call rspec tasks from dev env
