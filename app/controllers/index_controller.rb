@@ -60,7 +60,7 @@ class IndexController < ApplicationController
     @headers = []
     @sessions = {}
     
-    #@trend_graph_url = generate_trend_graph(sessions[0,30])
+    @trend_graph_url = generate_trend_graph(sessions[0,30])
 
     @max_cases = 0
 
@@ -84,48 +84,70 @@ private
     failed = []
     na = []
     total = []
+    days = []
+    first = sessions[0].tested_at.yday
+    prev_day = nil
     
     sessions.each do |s|
+      day = (first - s.tested_at.yday)*2
+      if day == prev_day
+        next
+      end
+      prev_day = day
       total << s.total_cases
       passed << s.total_passed
-      failed << s.total_failed
-      na << s.total_na
+      failed << s.total_failed + s.total_passed
+      na << s.total_na + s.total_failed + s.total_passed
+      days << day
     end
+    total_days = prev_day + 1
     
     max_total = total.max
     
-    chart_type = 'cht=lc'
+    chart_type = 'cht=lxy'
     colors = '&chco=CACACA,ec4343,73a20c'
     size = '&chs=700x120'
     legend = '&chdl=na|fail|pass'
     legend_pos = '&chdlp=b'
-    axes = '&chxt=x,y,r'
-    axrange = '&chxr=0,' + max_total.to_s
-    linefill = '&chm=B,CACACA,0,0,0|B,ec4343,0,0,0|B,73a20c,0,0,0'
-    data = '&chd=s:' + encode(passed,failed,na,max_total)
+    axes = '&chxt=y,r'
+    axrange = "&chxr=0,0,#{max_total}|1,0,#{max_total}"
+    #axlabel = "&chxl=0:|#{sessions[-1].format_date}|#{sessions[0].format_date}"
+    linefill = '&chm=b,CACACA,0,1,0|b,ec4343,1,2,0|B,73a20c,2,0,0'
+    #linefill = '&chm=B,CACACA,0,0,0'
+
+    data = '&chd=s:' + encode(days, passed, failed, na, max_total, total_days)
     
-    "http://chart.apis.google.com/chart?" + chart_type + size + colors + legend + legend_pos + axes + axrange + linefill + data
+    "http://chart.apis.google.com/chart?" + chart_type + size + colors + legend + legend_pos + axes + axrange + linefill + data # + axlabel
   end
 
-  def encode(passed, failed, na, max)
+  def encode(days, passed, failed, na, max, max_days)
     result = []
 
     data = []
-    na.each do |v|
+    days.reverse_each do |v|
+      data << simple_encode(max_days-v,max_days)
+    end
+    daydata = data.join('')
+
+    data = []
+    na.reverse_each do |v|
       data << simple_encode(v,max)
     end
+    result << daydata
     result << data.join('')
     
     data = []
-    failed.each do |v|
+    failed.reverse_each do |v|
       data << simple_encode(v,max)
     end
+    result << daydata
     result << data.join('')
 
     data = []
-    passed.each do |v|
+    passed.reverse_each do |v|
       data << simple_encode(v,max)
     end
+    result << daydata
     result << data.join('')
     
     result.join(',')

@@ -25,8 +25,6 @@
 <div id="index_page">
 <%= breadcrumbs %>
 
-<!--<img src="<%#=@trend_graph_url%>"/>-->
-
 <% content_for :version_navi do %>
   <div id="version_navi">
 	<%= release_version_navigation(@selected_release_version, @target, @testtype, @hwproduct) %>
@@ -42,12 +40,12 @@
     </thead>
     <tr>
       <td class="filtered">	  
-      <!--
+      
       	  <div class="chart_actions stack_chart">
+                  <img src="<%=@trend_graph_url%>" /><br/>
 	      	  <a class="ui_btn inactive">Absolute values</a>
 	      	  <a class="ui_btn">Relative %</a>
       	  </div>
-          --> 
       	  <%= render :partial=>'month', :collection => @headers %>
       	  
       </td>
