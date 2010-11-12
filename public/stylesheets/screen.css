@@ -135,7 +135,7 @@ p {
 img.bhs {
 	position: relative;
 	top: 1px;
-	height: 14px
+	height: 14px;
 	width: 386px;
 }
 
@@ -848,7 +848,9 @@ background:none;
 	height: 1.0833em;
 	margin-right: -1px;}
 
-
+a#csv_report_link {
+    padding-left: 400px;
+}
 
 
 /* version navigation end */
