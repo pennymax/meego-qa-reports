@@ -1,8 +1,6 @@
 require 'csv_generator'
 
 class CsvExportController < ApplicationController
-  before_filter :authenticate_user!
-  
   def export
     csv = CsvGenerator::generate_csv(
             @selected_release_version,
