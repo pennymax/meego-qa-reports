@@ -10,14 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101105115556) do
+ActiveRecord::Schema.define(:version => 20101112193443) do
 
   create_table "meego_test_cases", :force => true do |t|
-    t.integer "meego_test_set_id",                     :null => false
-    t.string  "name",                                  :null => false
-    t.integer "result",                                :null => false
-    t.string  "comment",               :default => ""
-    t.integer "meego_test_session_id", :default => 0,  :null => false
+    t.integer "meego_test_set_id",                                     :null => false
+    t.string  "name",                                                  :null => false
+    t.integer "result",                                                :null => false
+    t.string  "comment",               :limit => 1000, :default => "", :null => false
+    t.integer "meego_test_session_id",                 :default => 0,  :null => false
   end
 
   add_index "meego_test_cases", ["meego_test_session_id"], :name => "index_meego_test_cases_on_meego_test_session_id"
