@@ -60,9 +60,11 @@ class IndexController < ApplicationController
     @headers = []
     @sessions = {}
    
-    if sessions.length > 1 and sessions[0].tested_at.yday != sessions[-1].tested_at.yday
-      @trend_graph_url_abs = generate_trend_graph(sessions[0,30])
-      @trend_graph_url_rel = generate_trend_graph(sessions[0,30], true)
+    chosen, days = find_trend_sessions(sessions)
+
+    if chosen.length > 0 
+      @trend_graph_url_abs = generate_trend_graph(chosen, days, false)
+      @trend_graph_url_rel = generate_trend_graph(chosen, days, true)
     end
 
 
@@ -83,12 +85,14 @@ class IndexController < ApplicationController
   
 private
 
-  def generate_trend_graph(sessions, relative=false)
-    passed = []
-    failed = []
-    na = []
-    total = []
+  def find_trend_sessions(sessions)
+    chosen = []
     days = []
+
+    if sessions.size == 0
+      return chosen, days
+    end
+
     first = sessions[0].tested_at.yday
     prev_day = nil
     
@@ -98,6 +102,22 @@ private
         next
       end
       prev_day = day
+      chosen << s
+      days << day
+      if chosen.size >= 30
+        break
+      end
+    end
+    return chosen, days
+  end
+
+  def generate_trend_graph(sessions, days, relative=false)
+    passed = []
+    failed = []
+    na = []
+    total = []
+    
+    sessions.each do |s|
       if relative
         rpass = s.total_passed*100/s.total_cases
         rfail = s.total_failed*100/s.total_cases
@@ -110,9 +130,8 @@ private
         failed << s.total_failed + s.total_passed
         na << s.total_na + s.total_failed + s.total_passed
       end
-      days << day
     end
-    total_days = prev_day + 1
+    total_days = days[-1] + 1
     
     if relative
       max_total = 100
