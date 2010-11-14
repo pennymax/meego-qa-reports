@@ -131,7 +131,10 @@ private
         na << s.total_na + s.total_failed + s.total_passed
       end
     end
-    total_days = days[-1] + 1
+    total_days = days[-1]
+    if total_days == 0
+      total_days = 1
+    end
     
     if relative
       max_total = 100
@@ -144,15 +147,24 @@ private
     size = '&chs=700x120'
     legend = '&chdl=na|fail|pass'
     legend_pos = '&chdlp=b'
-    axes = '&chxt=y,r'
+    axes = '&chxt=y,r,x'
     axrange = "&chxr=0,0,#{max_total}|1,0,#{max_total}"
-    #axlabel = "&chxl=0:|#{sessions[-1].format_date}|#{sessions[0].format_date}"
+    if total_days < 60
+      prc = total_days/60.0
+      midn = [0, (prc*20).to_int-1].max
+      endn = [0, 20-midn-1].max
+      mid_fill = "|"*midn
+      end_fill = "|"*endn
+      axlabel = "&chxl=2:|#{sessions[-1].format_date}#{mid_fill}|#{sessions[0].format_date}#{end_fill}"
+    else
+      axlabel = "&chxl=2:|#{sessions[-1].format_date}|#{sessions[0].format_date}"
+    end
     linefill = '&chm=b,CACACA,0,1,0|b,ec4343,1,2,0|B,73a20c,2,0,0'
     #linefill = '&chm=B,CACACA,0,0,0'
 
     data = '&chd=s:' + encode(days, passed, failed, na, max_total, total_days)
     
-    "http://chart.apis.google.com/chart?" + chart_type + size + colors + legend + legend_pos + axes + axrange + linefill + data # + axlabel
+    "http://chart.apis.google.com/chart?" + chart_type + size + colors + legend + legend_pos + axes + axrange + linefill + data + axlabel
   end
 
   def encode(days, passed, failed, na, max, max_days)
@@ -160,7 +172,11 @@ private
 
     data = []
     days.reverse_each do |v|
-      data << simple_encode(max_days-v,max_days)
+      if max_days < 60
+        data << simple_encode(max_days-v, 60)
+      else
+        data << simple_encode(max_days-v,max_days)
+      end
     end
     daydata = data.join('')
 
