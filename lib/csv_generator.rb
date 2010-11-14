@@ -24,7 +24,8 @@ module CsvGenerator
     result = ActiveRecord::Base.connection.execute(sql)
     result.each do |row|
       csv += row.map { |item|
-        item.include?("\n") ? "\"#{item}\"" : item
+        item.strip!
+        item.include?("\n") ? item.split("\n").join(" | ") : item
       }.join(";") + "\n"
     end
 
