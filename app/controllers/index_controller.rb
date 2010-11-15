@@ -149,7 +149,9 @@ private
     legend_pos = '&chdlp=b'
     axes = '&chxt=y,r,x'
     axrange = "&chxr=0,0,#{max_total}|1,0,#{max_total}"
-    if total_days < 60
+    if sessions.size == 1
+      axlabel = "&chxl=2:|#{sessions[-1].format_date}"
+    elsif total_days < 60
       prc = total_days/60.0
       midn = [0, (prc*20).to_int-1].max
       endn = [0, 20-midn-1].max
