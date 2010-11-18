@@ -14,6 +14,7 @@ module CsvGenerator
     END
 
     conditions = []
+    conditions << "mts.published = true"
     conditions << "mts.hwproduct = '#{hwproduct}'" if hwproduct
     conditions << "mts.target = '#{target}'" if target
     conditions << "mts.testtype = '#{testtype}'" if testtype
@@ -25,6 +26,7 @@ module CsvGenerator
     result.each do |row|
       csv += row.map { |item|
         item.strip!
+        item.gsub!(";", "")
         item.include?("\n") ? item.split("\n").join(" | ") : item
       }.join(";") + "\n"
     end

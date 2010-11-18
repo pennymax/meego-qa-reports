@@ -1,7 +1,6 @@
 require 'csv_generator'
 
-class CsvExportController < ApplicationController
-  def export
+class CsvExportController < ApplicationController  def export
     csv = CsvGenerator::generate_csv(
             @selected_release_version,
             params[:target],
