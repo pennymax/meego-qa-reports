@@ -1,7 +1,5 @@
 module CsvGenerator
   def self.generate_csv(release_version, target, testtype, hwproduct)
-    csv = "Test execution date;MeeGo release;Profile;Test type;Hardware;Test report name;Category;Test case;Pass;Fail;N/A;Notes;Author;Last modified by\n"
-
     sql = <<-END
       select mts.tested_at, mts.release_version, mts.target, mts.testtype, mts.hwproduct, mts.title,
         mtset.feature, mtc.name, if(mtc.result = 1,1,0) as passes, if(mtc.result = -1,1,0) as fails,
@@ -23,14 +21,27 @@ module CsvGenerator
     sql += " where " + conditions.join(" and ") + ";"
 
     result = ActiveRecord::Base.connection.execute(sql)
-    result.each do |row|
-      csv += row.map { |item|
-        item.strip!
-        item.gsub!(";", "")
-        item.include?("\n") ? item.split("\n").join(" | ") : item
-      }.join(";") + "\n"
-    end
 
-    csv
+    FasterCSV.generate(:col_sep => ';') do |csv|
+      csv << ["Test execution date",
+              "MeeGo release",
+              "Profile",
+              "Test type",
+              "Hardware",
+              "Test report name",
+              "Category",
+              "Test case",
+              "Pass",
+              "Fail",
+              "N/A",
+              "Notes",
+              "Author",
+              "Last modified by"
+      ]
+
+      result.each do |row|
+        csv << row
+      end
+    end
   end
 end

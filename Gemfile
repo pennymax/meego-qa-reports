@@ -38,4 +38,4 @@ end
 gem 'nokogiri'
 gem 'bitly'
 gem 'devise', '1.1.3'
-
+gem 'fastercsv'
