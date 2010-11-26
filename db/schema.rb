@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101112193443) do
+ActiveRecord::Schema.define(:version => 20101126175845) do
 
   create_table "meego_test_cases", :force => true do |t|
     t.integer "meego_test_set_id",                                     :null => false
