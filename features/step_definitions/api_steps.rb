@@ -7,11 +7,28 @@ When /^the client sends file "([^"]*)" via REST API$/ do |file|
       "file"            => Rack::Test::UploadedFile.new("features/resources/#{file}", "text/xml"),
       "release_version" => "1.2",
       "target"          => "Core",
-      "tested_at"       => "20101130",
       "testtype"        => "automated",
       "hwproduct"       => "N900"
   }
   response.should be_success
+end
+
+When /^the client sends a request without file via REST API$/ do
+  post "/api/import?auth_token=foobar", {
+      "release_version" => "1.2",
+      "target"          => "Core",
+      "tested_at"       => "20101130",
+      "testtype"        => "automated",
+      "hwproduct"       => "N900"
+  }
+end
+
+When /^the client sends an invalid request via REST API$/ do
+  post "/api/import?auth_token=foobar", {
+      "file"            => Rack::Test::UploadedFile.new("features/resources/sim.xml", "text/xml"),
+      "testtype"        => "automated",
+      "hwproduct"       => "N900"
+  }
 end
 
 Then /^I should be able to view the created report$/ do

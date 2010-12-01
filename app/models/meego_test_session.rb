@@ -472,7 +472,6 @@ class MeegoTestSession < ActiveRecord::Base
       self.author = user
       self.editor = user
       self.published = published
-      save
    end
 
 private
