@@ -6,15 +6,15 @@ Given /^I am a new, authenticated user$/ do
   When %{I log in with email "#{email}" and password "#{password}"}
 end
 
-Given /^I have (?:one )?user "([^\"]*)" with email "([^\"]*)" and password "([^\"]*)"$/ do
-  |name, email, password|
+Given /^I have (?:one )?user "([^\"]*)" with email "([^\"]*)" and password "([^\"]*)"( and token "([^"]*)")?$/ do
+  |name, email, password, token_given, token|
 
-  Given %{there is no user with email "#{email}"}
-
+  Given %{there is no user with email "#{email}"}  
   User.new(:name => name,
            :email => email,
            :password => password,
-           :password_confirmation => password).save!
+           :password_confirmation => password,
+           :authentication_token => token).save!
 end
 
 When /^I sign up as "([^"]*)" with email "([^"]*)" and password "([^"]*)"( and password confirmation "([^"]*)")?$/ do

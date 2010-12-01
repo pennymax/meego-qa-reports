@@ -31,15 +31,15 @@ require 'validation/date_time_validator'
 class MeegoTestSession < ActiveRecord::Base
   has_many :meego_test_sets, :dependent => :destroy
   has_many :meego_test_cases
-  
+
   belongs_to :author, :class_name => "User"
   belongs_to :editor, :class_name => "User"
-  
+
   validates_presence_of :title, :target, :testtype, :hwproduct
   validates_presence_of :uploaded_files, :on => :create
 
   validates :tested_at, :date_time => true
-  
+
   validate :allowed_filename_extensions, :on => :create
   validate :save_uploaded_files, :on => :create
 
@@ -96,15 +96,15 @@ class MeegoTestSession < ActiveRecord::Base
 
   def self.filters_exist?(target, testtype, hwproduct)
     filters_exist = false
-    
+
     if target.present?
       filters_exist = find_by_target(target.downcase).present?
-    
+
       if testtype.present?
         filters_exist &= find_by_testtype(testtype.downcase).present?
       end
 
-      if testtype.present? && hwproduct.present?        
+      if testtype.present? && hwproduct.present?
         filters_exist &= find_by_hwproduct(hwproduct.downcase).present?
       end
     end
@@ -138,7 +138,7 @@ class MeegoTestSession < ActiveRecord::Base
       published.where(:release_version => release_version, :target => target).order("tested_at DESC")
     end
   end
-  
+
   ###############################################
   # List category tags                          #
   ###############################################
@@ -153,15 +153,15 @@ class MeegoTestSession < ActiveRecord::Base
   def self.list_types_for(release_version, target)
     (published.all_lowercase(:select => 'DISTINCT testtype', :conditions => {:target => target, :release_version => release_version}).map{|s| s.testtype.gsub(/\b\w/){$&.upcase}}).uniq
   end
-  
+
   def self.list_hardware(release_version)
     (published.all_lowercase(:select => 'DISTINCT hwproduct', :conditions=>{:release_version => release_version}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
   end
-  
+
   def self.list_hardware_for(release_version, target, testtype)
     (published.all_lowercase(:select => 'DISTINCT hwproduct', :conditions => {:target => target, :testtype=> testtype, :release_version => release_version}).map{|s| s.hwproduct.gsub(/\b\w/){$&.upcase}}).uniq
   end
-  
+
 
   ###############################################
   # Test session navigation                     #
@@ -173,22 +173,22 @@ class MeegoTestSession < ActiveRecord::Base
       ],
       :order => "tested_at DESC")
   end
-  
+
   def next_session
     MeegoTestSession.find(:first, :conditions => [
         "tested_at > ? AND target = ? AND testtype = ? AND hwproduct = ? AND published = ? AND release_version = ?", tested_at, target.downcase, testtype.downcase, hwproduct.downcase, true, release_version
       ],
       :order => "tested_at ASC")
   end
-  
+
   ###############################################
   # Utility methods for viewing a report        #
   ###############################################
   def formatted_date
     tested_at ? tested_at.strftime("%Y-%m-%d") : 'n/a'
   end
-  
-  
+
+
   ###############################################
   # Chart visualization methods                 #
   ###############################################
@@ -230,7 +230,7 @@ class MeegoTestSession < ActiveRecord::Base
     chart_axis = "x,y"
     chart_labels = "%s|%s|%s" % labels
     chart_range = "1,0,%i,%i" % [scale,step]
-  
+
     #url = "http://chart.apis.google.com/chart?cht=#{chart_type}&chs=#{chart_size}&chco=#{chart_colors}&chd=#{chart_data}&chds=#{chart_scale}&chma=#{chart_margins}&chf=#{chart_fill}&chbh=#{chart_width}&chxt=#{chart_axis}&chl=#{chart_labels}&chxr=#{chart_range}"
     url = "http://chart.apis.google.com/chart?cht=#{chart_type}&chs=#{chart_size}&chco=#{chart_colors}&chd=#{chart_data}&chds=#{chart_scale}&chf=#{chart_fill}&chbh=#{chart_width}&chxt=#{chart_axis}&chl=#{chart_labels}&chxr=#{chart_range}"
 
@@ -239,7 +239,7 @@ class MeegoTestSession < ActiveRecord::Base
       bitly = Bitly.new("leonidasoy", "R_b1aca98d073e7a78793eec01f3340fb4")
       url = bitly.shorten(url).short_url
     end
-    
+
     "<div class=\"bvs_wrap\"><img class=\"bvs\" src=\"#{url}\"/></div>".html_safe
   end
 
@@ -277,7 +277,7 @@ class MeegoTestSession < ActiveRecord::Base
   def tested_at_txt
     tested_at.strftime("%Y-%m-%d")
   end
-  
+
   def build_html
     txt = build_txt
     if txt == ""
@@ -304,7 +304,7 @@ class MeegoTestSession < ActiveRecord::Base
       MeegoTestReport::format_txt(txt)
     end
   end
-  
+
   def issue_summary_html
     txt = issue_summary_txt
     if txt == ""
@@ -313,7 +313,7 @@ class MeegoTestSession < ActiveRecord::Base
       MeegoTestReport::format_txt(txt)
     end
   end
-  
+
 
   ###############################################
   # Small utility functions                     #
@@ -322,13 +322,13 @@ class MeegoTestSession < ActiveRecord::Base
     self.editor = user
     self.save
   end
-  
+
   def generate_defaults!
     time = tested_at || Time.now
     self.title = "%s Test Report: %s %s %s" % [target, hwproduct, testtype, time.strftime('%Y-%m-%d')]
     self.environment_txt = "* Hardware: " + hwproduct
   end
-  
+
   def format_date
     tested_at.strftime("%d.%m")
   end
@@ -342,7 +342,7 @@ class MeegoTestSession < ActiveRecord::Base
     else
       0
     end
-  end  
+  end
 
   def sanitize_filename(f)
     filename = if f.respond_to?(:original_filename)
@@ -353,7 +353,7 @@ class MeegoTestSession < ActiveRecord::Base
     just_filename = File.basename(filename)
     just_filename.gsub(/[^\w\.\_\-]/, '_')
   end
-  
+
 
  ###############################################
   # File upload handlers                        #
@@ -361,11 +361,11 @@ class MeegoTestSession < ActiveRecord::Base
   def uploaded_files=(files)
     @files = files
   end
-  
+
   def uploaded_files
     @files
   end
-  
+
   def allowed_filename_extensions
     @files.each do |f|
       filename = if f.respond_to?(:original_filename)
@@ -386,7 +386,7 @@ class MeegoTestSession < ActiveRecord::Base
       end
     end if @files
   end
-  
+
   def save_uploaded_files
     @parsing_failed = false
     return unless @files
@@ -405,7 +405,7 @@ class MeegoTestSession < ActiveRecord::Base
         end
 
         filename = sanitize_filename(f)
-        
+
         origfn = File.basename(filename)
         filename = ("%06i-" % Time.now.usec) + filename
         path_to_file = File.join(dir, filename)
@@ -434,7 +434,7 @@ class MeegoTestSession < ActiveRecord::Base
       #save
     end
   end
-  
+
   def remove_uploaded_files
     # TODO
   end
@@ -455,6 +455,26 @@ class MeegoTestSession < ActiveRecord::Base
       test_case.result # result
     end
   end
+
+  def import_report(user, published = false)
+      generate_defaults!
+      user.update_attribute(:default_target, self.target) if self.target.present?
+
+      # See if there is a previous report with the same test target and type
+      prev = self.prev_session
+      if prev
+        self.objective_txt = prev.objective_txt
+        self.build_txt = prev.build_txt
+        self.qa_summary_txt = prev.qa_summary_txt
+        self.issue_summary_txt = prev.issue_summary_txt
+      end
+
+      self.author = user
+      self.editor = user
+      self.published = published
+      save
+   end
+
 private
 
   ###############################################
@@ -497,7 +517,7 @@ private
       )
     end
   end
-  
+
   def parse_xml_file(filename)
     r = TestResults.new(File.open(filename))
 
@@ -524,5 +544,4 @@ private
       end
     end
   end
-
 end

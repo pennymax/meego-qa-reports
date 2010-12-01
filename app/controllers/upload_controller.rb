@@ -95,24 +95,8 @@ class UploadController < ApplicationController
     end
 
     @test_session = MeegoTestSession.new(params[:meego_test_session])
-    current_user.update_attribute(:default_target, @test_session.target) if @test_session.target.present?
-
-    @test_session.generate_defaults!
-
-    # See if there is a previous report with the same test target and type
-    prev = @test_session.prev_session
-
-    if prev
-      @test_session.objective_txt = prev.objective_txt
-      @test_session.build_txt = prev.build_txt
-      @test_session.qa_summary_txt = prev.qa_summary_txt
-      @test_session.issue_summary_txt = prev.issue_summary_txt
-    end
-
-    @test_session.author = current_user
-    @test_session.editor = current_user
-
-    if @test_session.save
+    
+    if @test_session.import_report(current_user)      
       session[:preview_id] = @test_session.id
       expire_action :controller => "index", :action => "filtered_list", :release_version => params[:meego_test_session][:release_version], :target => params[:meego_test_session][:target], :testtype => params[:meego_test_session][:testtype], :hwproduct => params[:meego_test_session][:hwproduct]
       expire_action :controller => "index", :action => "filtered_list", :release_version => params[:meego_test_session][:release_version], :target => params[:meego_test_session][:target], :testtype => params[:meego_test_session][:testtype]
@@ -134,4 +118,3 @@ private
     @no_upload_link = true
   end
 end
-

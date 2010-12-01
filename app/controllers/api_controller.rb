@@ -1,5 +1,7 @@
 #
-# Authors: Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
+# This file is part of meego-test-reports
+#
+# Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public License
@@ -16,7 +18,19 @@
 # 02110-1301 USA
 #
 
-module UploadHelper
-  
-end
+class ApiController < ApplicationController
+  before_filter :authenticate_user!
 
+  def import_data
+    data = request.request_parameters
+    data.delete(:auth_token) # TODO There has to be better way to sanitize the data
+    data[:uploaded_files] = [data.delete(:file)]
+    @test_session = MeegoTestSession.new(data)
+    if @test_session.import_report(current_user, true)
+      # TODO expire caches?
+      render :json => { :ok => '1' }
+    else
+      render :json => { :ok => '0' }
+    end
+  end
+end
