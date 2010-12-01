@@ -23,9 +23,9 @@ class ApiController < ApplicationController
 
   def import_data
     data = request.request_parameters
-    data.delete(:auth_token) # TODO There has to be better way to sanitize the data
     data[:uploaded_files] = [data.delete(:file)]
     @test_session = MeegoTestSession.new(data)
+    
     if @test_session.import_report(current_user, true)
       # TODO expire caches?
       render :json => { :ok => '1' }

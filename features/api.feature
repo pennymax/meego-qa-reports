@@ -7,4 +7,5 @@ Feature: REST API
     Given I am an user with a REST authentication token
     And the client sends file "sim.xml" via REST API
 
-    Then I should be able to view the created report
+    Then the REST result should be '{"ok":"1"}'
+    And I should be able to view the created report

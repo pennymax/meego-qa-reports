@@ -1,5 +1,5 @@
 Given /^I am an user with a REST authentication token$/ do
-  Given %{I have one user "John Longbottom" with email "resting@man.net" and password "secretpass" and token "foobar"}
+  Given %{I have one user "John Restless" with email "resting@man.net" and password "secretpass" and token "foobar"}
 end
 
 When /^the client sends file "([^"]*)" via REST API$/ do |file|
@@ -11,8 +11,13 @@ When /^the client sends file "([^"]*)" via REST API$/ do |file|
       "testtype"        => "automated",
       "hwproduct"       => "N900"
   }
+  response.should be_success
 end
 
 Then /^I should be able to view the created report$/ do
   Then %{I view the report "1.2/Core/Automated/N900"}
+end
+
+And /^the REST result should be '([^']*)'$/ do |result|
+  @response.body.should == result
 end
