@@ -23,7 +23,7 @@ When /^the client sends a request without file via REST API$/ do
   }
 end
 
-When /^the client sends an invalid request via REST API$/ do
+When /^the client sends a request without parameter "target" via REST API$/ do
   post "/api/import?auth_token=foobar", {
       "file"            => Rack::Test::UploadedFile.new("features/resources/sim.xml", "text/xml"),
       "testtype"        => "automated",
@@ -35,7 +35,10 @@ Then /^I should be able to view the created report$/ do
   Then %{I view the report "1.2/Core/Automated/N900"}
 end
 
-Then /^the REST result "([^"]*)" should be "([^"]*)"$/ do |key, value|
+Then /^the REST result "([^"]*)" is "([^"]*)"$/ do |key, value|
   json = ActiveSupport::JSON.decode(@response.body)
-  json[key].should == value
+   key.split('|').each do |item|
+     json = json[item]
+   end
+  json.should == value
 end
