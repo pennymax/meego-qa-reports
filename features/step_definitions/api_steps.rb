@@ -35,6 +35,7 @@ Then /^I should be able to view the created report$/ do
   Then %{I view the report "1.2/Core/Automated/N900"}
 end
 
-And /^the REST result should be '([^']*)'$/ do |result|
-  @response.body.should == result
+Then /^the REST result "([^"]*)" should be "([^"]*)"$/ do |key, value|
+  json = ActiveSupport::JSON.decode(@response.body)
+  json[key].should == value
 end

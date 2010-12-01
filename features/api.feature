@@ -7,7 +7,7 @@ Feature: REST API
     Given I am an user with a REST authentication token
     And the client sends file "sim.xml" via REST API
 
-    Then the REST result should be '{"ok":"1"}'
+    Then the REST result "ok" should be "1"
     And I should be able to view the created report
 
 
@@ -15,10 +15,10 @@ Feature: REST API
     Given I am an user with a REST authentication token
     And the client sends a request without file via REST API
 
-    Then the REST result should be '{"ok":"0"}'
+    Then the REST result "ok" should be "0"
 
   Scenario: Sending REST import without valid parameters
     Given I am an user with a REST authentication token
     And the client sends an invalid request via REST API
 
-    Then the REST result should be '{"ok":"0"}'
+    Then the REST result "ok" should be "0"
