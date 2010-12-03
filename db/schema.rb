@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101130083710) do
+ActiveRecord::Schema.define(:version => 20101201093603) do
 
   create_table "meego_test_cases", :force => true do |t|
     t.integer "meego_test_set_id",                                     :null => false
@@ -61,12 +61,12 @@ ActiveRecord::Schema.define(:version => 20101130083710) do
   add_index "meego_test_sets", ["meego_test_session_id"], :name => "index_meego_test_sets_on_meego_test_session_id"
 
   create_table "users", :force => true do |t|
-    t.string   "email",                              :default => "", :null => false
-    t.string   "encrypted_password",  :limit => 128, :default => "", :null => false
-    t.string   "password_salt",                      :default => "", :null => false
+    t.string   "email",                               :default => "", :null => false
+    t.string   "encrypted_password",   :limit => 128, :default => "", :null => false
+    t.string   "password_salt",                       :default => "", :null => false
     t.string   "remember_token"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      :default => 0
+    t.integer  "sign_in_count",                       :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -74,9 +74,11 @@ ActiveRecord::Schema.define(:version => 20101130083710) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "default_target",                     :default => "", :null => false
+    t.string   "default_target",                      :default => "", :null => false
+    t.string   "authentication_token", :limit => 200
   end
 
+  add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
 
 end

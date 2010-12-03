@@ -1,5 +1,7 @@
 #
-# Authors: Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
+# This file is part of meego-test-reports
+#
+# Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public License
@@ -16,7 +18,21 @@
 # 02110-1301 USA
 #
 
-module UploadHelper
-  
-end
+class ApiController < ApplicationController
+  before_filter :authenticate_user!
 
+  def import_data
+    data = request.request_parameters
+    data[:uploaded_files] = [data.delete(:report)].compact
+    data[:tested_at] = data[:tested_at] || Time.now
+
+    @test_session = MeegoTestSession.new(data)
+    @test_session.import_report(current_user, true)
+    begin
+      @test_session.save!
+      render :json => {:ok => '1'}
+    rescue ActiveRecord::RecordInvalid => invalid
+      render :json => {:ok => '0', :errors => invalid.record.errors}
+    end
+  end
+end
