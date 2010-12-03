@@ -23,16 +23,16 @@ class ApiController < ApplicationController
 
   def import_data
     data = request.request_parameters
-    data.delete(:auth_token) # TODO There has to be better way to sanitize inputs..
-    data[:uploaded_files] = [data.delete(:file)].compact
+    data[:uploaded_files] = [data.delete(:report)].compact
     data[:tested_at] = data[:tested_at] || Time.now
+
     @test_session = MeegoTestSession.new(data)
     @test_session.import_report(current_user, true)
     begin
       @test_session.save!
-      render :json => { :ok => '1' }
+      render :json => {:ok => '1'}
     rescue ActiveRecord::RecordInvalid => invalid
-      render :json => { :ok => '0', :errors => invalid.record.errors }      
+      render :json => {:ok => '0', :errors => invalid.record.errors}
     end
   end
 end
