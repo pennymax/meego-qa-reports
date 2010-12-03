@@ -1,3 +1,4 @@
+<%
 #
 # This file is part of meego-test-reports
 #
@@ -17,27 +18,8 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 # 02110-1301 USA
 #
+%>
 
-class ApiController < ApplicationController
-  before_filter :authenticate_user!
-
-  def import_data
-    data = request.request_parameters
-    data[:uploaded_files] = [data.delete(:report)].compact
-    data[:tested_at] = data[:tested_at] || Time.now
-
-    @test_session = MeegoTestSession.new(data)
-    @test_session.import_report(current_user, true)
-    begin
-      @test_session.save!
-      render :json => {:ok => '1'}
-    rescue ActiveRecord::RecordInvalid => invalid
-      render :json => {:ok => '0', :errors => invalid.record.errors}
-    end
-  end
-
-  def get_token
-    current_user.ensure_authentication_token!
-    @token = current_user.authentication_token
-  end
-end
+<div id="index_page">
+    <h2>Your API token is "<b><%=@token%></b>"</h2>
+</div>

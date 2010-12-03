@@ -8,6 +8,7 @@ Meegoqa::Application.routes.draw do
   match '/upload_attachment' => 'upload#upload_attachment', :via => "post"
 
   match '/api/import' => 'api#import_data', :via => "post"
+  match '/api/get_token' => 'api#get_token', :via => "get"
 
   match '/finalize' => 'reports#preview', :via => "get"
   match '/publish' => 'reports#publish', :via => "post"
