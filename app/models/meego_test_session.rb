@@ -24,11 +24,14 @@ require 'resultparser'
 require 'testreport'
 require 'csv'
 require 'bitly'
+require 'trimmer'
 
 require 'validation/date_time_validator'
 
 #noinspection Rails3Deprecated
 class MeegoTestSession < ActiveRecord::Base
+  include Trimmer
+
   has_many :meego_test_sets, :dependent => :destroy
   has_many :meego_test_cases
 
