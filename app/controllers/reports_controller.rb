@@ -187,6 +187,7 @@ class ReportsController < ApplicationController
 
       @report = @test_session
       @editing = false
+      @files = FileStorage.new("public/files/", "/files/").list_files(@test_session) or []
       @wizard = false
       @email = true
 
@@ -204,7 +205,8 @@ class ReportsController < ApplicationController
       @test_session = MeegoTestSession.find(id)
       @report = @test_session
       @no_upload_link = true
-
+      @files = FileStorage.new("public/files/", "/files/").list_files(@test_session) or []
+      
       render :layout => "report"
     else
       redirect_to :action => :index

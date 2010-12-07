@@ -8,6 +8,9 @@
     <% @files.each do |file| %>
         <li><a target="_blank" href="<%=file[:url]%>"><%=file[:name]%></a></li>
     <% end %>
+    <% if @editing %>
+        <input type="file" name="attachment" id="file_upload" />
+    <% end %>
     </ul>
   </div>
 </div>
