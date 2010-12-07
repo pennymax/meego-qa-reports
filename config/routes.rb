@@ -5,6 +5,7 @@ Meegoqa::Application.routes.draw do
   # first created -> highest priority.
 
   match '/upload_post' => 'upload#upload', :via => "post"
+  match '/upload_report' => 'upload#upload_report', :via => "post"
   match '/upload_attachment' => 'upload#upload_attachment', :via => "post"
 
   match '/api/import' => 'api#import_data', :via => "post"

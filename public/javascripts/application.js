@@ -787,7 +787,7 @@ jQuery(function($) {
         if (queue.length > 0) {
             var file = queue.pop();
             var xhr = new XMLHttpRequest();
-            xhr.open('post', '/upload_attachment/', true);
+            xhr.open('post', '/upload_report/', true);
 
             xhr.onreadystatechange = handleAjaxResponse;
 
@@ -817,13 +817,5 @@ jQuery(function($) {
         // Fallback to normal file input
         $('#dragndrop_and_browse').remove();
         $('#only_browse').show();
-    }
-
-    $('#file_upload').uploadify({
-        'uploader'  : '/javascripts/uploadify/uploadify.swf',
-        'script'    : '/javascripts/uploadify/uploadify.php',
-        'cancelImg' : '/javascripts/uploadify/cancel.png',
-        'folder'    : '/upload_attachment/',
-        'auto'      : true
-    });
+    }    
 });

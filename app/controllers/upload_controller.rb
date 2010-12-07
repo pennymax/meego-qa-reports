@@ -67,7 +67,7 @@ class UploadController < ApplicationController
     init_form_values
   end
 
-  def upload_attachment
+  def upload_report
     raw_filename = env['HTTP_X_FILE_NAME']
     extension = File.extname(raw_filename)
     fileid = env['HTTP_X_FILE_ID']
@@ -80,6 +80,12 @@ class UploadController < ApplicationController
     value = env['rack.input'].read()
     File.open(filename, 'wb') {|f| f.write( value ) }
     render :json => { :ok => '1', :fileid => fileid, :url => url }
+  end
+
+  def upload_attachment
+    files = FileStorage.new("public/files", "/files/")
+    files.add_file(MeegoTestSession.find(params[:id]), request['Filedata'], request['Filename'])
+    render :json => { :ok => '1' }
   end
   
   def upload

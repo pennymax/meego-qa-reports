@@ -6,8 +6,8 @@ class FileStorage
   end
 
   def add_file(model, file, name)
-    dir = get_directory(model, true)
-    FileUtils.copy(file.path, dir.path + "/" + name.gsub!(/[^0-9A-Za-z.\-]/, ''))
+    dir = get_directory(model, true)    
+    FileUtils.copy(file.path, dir.path + "/" + name.gsub(/[^0-9A-Za-z.\-]/, ''))
   end
 
   def list_files(model)

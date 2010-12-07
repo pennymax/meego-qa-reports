@@ -1,17 +1,36 @@
 <% if @files.length > 0 %>
-<div class="file_attachments">
+    <div class="file_attachments">
 
-  <h2 id="file_attachments">File Attachments<span class="heading_actions"><%= back_to_top %></span></h2>
+      <h2 id="file_attachments">File Attachments<span class="heading_actions"><%= back_to_top %></span></h2>
 
-  <div class="container">
-    <ul>
-    <% @files.each do |file| %>
-        <li><a target="_blank" href="<%=file[:url]%>"><%=file[:name]%></a></li>
-    <% end %>
-    <% if @editing %>
-        <input type="file" name="attachment" id="file_upload" />
-    <% end %>
-    </ul>
-  </div>
-</div>
+      <div class="container">
+        <ul>
+          <% @files.each do |file| %>
+              <li><a target="_blank" href="<%= file[:url] %>"><%= file[:name] %></a></li>
+          <% end %>
+          <% if @editing %>
+              <input type="file" name="attachment" id="file_upload"/>
+              <script type="text/javascript">
+                  $(document).ready(function() {
+                      var uploadify_script_data = {};
+                      var csrf_token = $('meta[name=csrf-token]').attr('content');
+                      var csrf_param = $('meta[name=csrf-param]').attr('content');
+                      uploadify_script_data[csrf_token] = encodeURI(csrf_param);
+                      <%- session_key = Rails.application.config.session_options[:key] -%>
+                      uploadify_script_data['<%= session_key %>'] = '<%= cookies[session_key] %>';
+                      uploadify_script_data['id'] = <%= @test_session.id %>;
+
+                      $('#file_upload').uploadify({
+                          'uploader'  : '/javascripts/uploadify/uploadify.swf',
+                          'script'    : '/upload_attachment/',
+                          'cancelImg' : '/javascripts/uploadify/cancel.png',
+                          'auto'      : true,
+                          'scriptData' : uploadify_script_data
+                      });
+                  });
+              </script>
+          <% end %>
+        </ul>
+      </div>
+    </div>
 <% end %>
