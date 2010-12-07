@@ -1,0 +1,14 @@
+<% if @files != nil && @files.length > 0 %>
+<div class="file_attachments">
+
+  <h2 id="file_attachments">File Attachments<span class="heading_actions"><%= back_to_top %></span></h2>
+
+  <div class="container">
+    <ul>
+    <% @files.each do |file| %>
+        <li><a target="_blank" href="<%=file[:url]%>"><%=file[:name]%></a></li>
+    <% end %>
+    </ul>
+  </div>
+</div>
+<% end %>

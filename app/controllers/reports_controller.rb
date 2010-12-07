@@ -23,6 +23,7 @@
 
 require 'open-uri'
 require 'drag_n_drop_uploaded_file'
+require 'file_storage'
 
 module AjaxMixin
   def update_title
@@ -170,6 +171,7 @@ class ReportsController < ApplicationController
       @hwproduct = @test_session.hwproduct
 
       @report = @test_session
+      @files = FileStorage.new("public/files/", "/files/").list_files(@test_session)
       @editing = false
       @wizard = false
 

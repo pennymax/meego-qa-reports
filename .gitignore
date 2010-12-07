@@ -6,6 +6,7 @@ tmp/*
 .tmp*~
 public/reports/**/*
 public/system/*
+public/files/**/*
 config/database.yml
 nbproject/
 .idea

@@ -1,6 +1,8 @@
 class FileStorage
-  def initialize(dir)
+
+  def initialize(dir, baseurl)
     @dir = dir
+    @baseurl = baseurl
   end
 
   def add_file(model, file, name)
@@ -10,17 +12,18 @@ class FileStorage
 
   def list_files(model)
     Dir[File.join(get_directory(model, false).path, '*')].entries.map{|file|
+      path = file.slice(@dir.length+1, file.length)
       {
           :name => File.basename(file),
-          :path => file.slice!(@dir.length+1, file.length)
+          :path => path,
+          :url => @baseurl + path 
       }      
     }
   end
 
   private
   def get_directory(model, create = false)
-    path = @dir + "/" + model.table_name() + "/" + model.id.to_s + "/"
-
+    path = @dir + "/" + model.class.table_name + "/" + model.id.to_s + "/"
     if !File.directory?(path) || create
       FileUtils.mkdir_p(path)
     end
