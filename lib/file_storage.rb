@@ -13,11 +13,10 @@ class FileStorage
   def list_files(model)
     Dir[File.join(get_directory(model, false).path, '*')].entries.map{|file|
       path = file.slice(@dir.length+1, file.length)
-      {
-          :name => File.basename(file),
+      {   :name => File.basename(file),
           :path => path,
-          :url => @baseurl + path 
-      }      
+          :url => @baseurl + path
+      }
     }
   end
 

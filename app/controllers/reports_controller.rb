@@ -171,7 +171,7 @@ class ReportsController < ApplicationController
       @hwproduct = @test_session.hwproduct
 
       @report = @test_session
-      @files = FileStorage.new("public/files/", "/files/").list_files(@test_session)
+      @files = FileStorage.new("public/files/", "/files/").list_files(@test_session) or []
       @editing = false
       @wizard = false
 
