@@ -22,7 +22,7 @@ describe FileStorage do
   end
   
   it "should be able to add file attachements of meego_test_session into storage and list them in alphabetical order" do
-    @storage.add_file(@session, File.new('public/images/ajax-loader.gif'), 'foo.gif')
+    @storage.add_file(@session, File.new('public/images/ajax-loader.gif'), 'f/oo.gif')
     @storage.list_files(@session).should == [{:name => "foo.gif", :path => "foobar/1002/foo.gif"}]
   end
 end
