@@ -29,17 +29,14 @@ function activateSuggestionLinks(target) {
         var $node = $(node);
         $node.find(".suggestions a").each(function(i, a) {
             var target = $node.find('input');
-            var $a = $(a);
-            $a.data("target", target);
-            $a.click(applySuggestion);
+            $(a).data("target", target).click(applySuggestion);
         });
     });
 }
 
 function applySuggestion() {
-    var a = $(this);
-    var target = a.data("target");
-    target.val(a.text());
+    var $this = $(this);
+    $this.data("target").val($this.text());
     return false;
 }
 
@@ -124,12 +121,9 @@ function handleResultSubmit() {
     var url = $form.attr('action');
 
     var $node = $form.closest('td');
-    $node.addClass('edit');
-    $node.click(handleResultEdit);
+    $node.addClass('edit').removeClass('pass fail na').click(handleResultEdit);
+
     var $span = $node.find('span');
-
-    $node.removeClass('pass fail na');
-
     var result = $form.find('select').val();
     if (result == "1") {
         $node.addClass('pass');
@@ -163,7 +157,6 @@ function handleCommentEdit() {
     $form.find('.id_field').val(id);
 
     var markup = $testcase.find('.comment_markup').text();
-    //$field.autoResize({animateDuration:0, limit:800});
     $field.autogrow();
     $field.val(markup);
 
@@ -272,10 +265,7 @@ function handleDateEdit() {
     var $form = $('#date_edit_form form').clone();
     var $field = $form.find('.date_field');
     $field.val(data);
-    $form.data('original', $content);
-    $form.data('raw', $raw);
-    $form.data('button', $button);
-
+    $form.data('original', $content).data('raw', $raw).data('button', $button);
 
     $form.submit(handleDateEditSubmit);
     $form.find('.save').click(function() {
@@ -336,9 +326,6 @@ function handleEditButton() {
 
     $area.attr('name', 'meego_test_session[' + fieldName + ']');
     $area.autogrow();
-    //$area.autoResize({animateDuration:0, limit:800});
-    //$area.autoResize();
-
     $area.val(text);
 
     $form.data('original', $div);
@@ -809,10 +796,10 @@ jQuery(function($) {
     // Bind event listeners
     if (typeof window.FileReader === "function") {
         // We have file API
-        $('#dropbox').bind('dragenter', dragenter);
-        $('#dropbox').bind('dragover', dragover);
-        $('#dropbox').bind('dragleave', dragleave);
-        $('#dropbox').bind('drop', drop);
+        $('#dropbox').bind('dragenter', dragenter)
+                     .bind('dragover', dragover)
+                     .bind('dragleave', dragleave)
+                     .bind('drop', drop);
     } else {
         // Fallback to normal file input
         $('#dragndrop_and_browse').remove();
