@@ -30,6 +30,7 @@
 <title>Meego Test Reports</title>
 <%= stylesheet_link_tag :all %>
 <%= csrf_meta_tag %>
+<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"%>
 </head>
 <body>
 <a name="top"></a>
@@ -66,10 +67,8 @@
 			     <%= render :partial => 'editable_date' %>
 		</dl>
 	</div>
-	
+      <%= render :partial => 'reports/file_attachments' %>	
       <%= render :partial => 'editable_text', :locals => {:anchor => 'test_objective', :title => "Test Objective", :field => 'objective'} %>
-
-    
       <%= render :partial => 'editable_text', :locals => {:anchor => 'build', :title => "Build (image)", :field => 'build'} %>
       <%= render :partial => 'editable_text', :locals => {:anchor => 'environment', :title => "Test Environment", :field => 'environment'} %>
       <%= render :partial => 'editable_text', :locals => {:anchor => 'qa_summary', :title => "Quality Summary", :field => 'qa_summary'} %>
@@ -112,10 +111,10 @@
 </div>
 </div>
 
-<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"%>
 <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"%>
+<%= javascript_include_tag "uploadify/swfobject.js"%>
+<%= javascript_include_tag "uploadify/jquery.uploadify.v2.1.4.min.js"%>
 <%= javascript_include_tag 'application'%>
-
 <%= yield :view_specific_js %>
 
 </body>

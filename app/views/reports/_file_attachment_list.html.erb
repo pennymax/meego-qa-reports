@@ -1,0 +1,5 @@
+<ul>
+  <% files.each do |file| %>
+      <li><a target="_blank" href="<%= file[:url] %>"><%= file[:name] %></a></li>
+  <% end %>
+</ul>
