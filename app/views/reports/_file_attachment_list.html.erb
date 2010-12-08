@@ -1,5 +1,8 @@
-<ul>
-  <% files.each do |file| %>
-      <li><a target="_blank" href="<%= file[:url] %>"><%= file[:name] %></a></li>
-  <% end %>
-</ul>
+<% files.each do |file| %>
+    <li>
+      <% if @editing %>
+        <a href="#" class="remove_list_item">Remove</a>
+      <% end %>
+      <a target="_blank" href="<%= file[:url] %>"><%= file[:name] %></a></li>
+<% end %>
+
