@@ -1395,5 +1395,24 @@ p.next_step {
 
 /* @end */
 
+div.uploadify_button_wrapper {
+    position:relative;
+}
 
+/* fake button */
+div.uploadify_button_wrapper a {
+    position:absolute; /* relative to uploadify_button_wrapper */
+    z-index:0;
+}
 
+/* pass hover effects to button */
+div.uploadify_button_wrapper a.hover {
+    background-color: #57257b;
+	color: #fff;
+}
+
+/* position flash button above css button */
+div.uploadify_object_wrapper {
+    position:relative;
+    z-index:10;
+}

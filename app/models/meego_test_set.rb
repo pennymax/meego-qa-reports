@@ -43,11 +43,7 @@ class MeegoTestSet < ActiveRecord::Base
   end
 
   def max_cases
-    result = 0
-    meego_test_session.meego_test_sets.each do |set|
-      result = [result, set.total_cases].max
-    end
-    result
+    meego_test_session.meego_test_sets.map{|item| item.total_cases}.max
   end
 
   def graph_img_tag
@@ -66,7 +62,7 @@ class MeegoTestSet < ActiveRecord::Base
   end
 
   def test_set_link
-    return "#test-set-%i" % id
+    "#test-set-%i" % id
   end
   
 end

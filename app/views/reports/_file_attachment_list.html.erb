@@ -1,0 +1,8 @@
+<% files.each_with_index do |file, index| %>
+    <li id="attachment_<%=index%>">
+      <% if @editing %>
+          <a href="#" onclick="removeAttachment(<%= report.id %>,'<%= file[:name] %>', function(){ $('#attachment_<%=index%>').hide();}); return false;" class="remove_list_item">Remove</a>
+      <% end %>
+      <a target="_blank" href="<%= file[:url] %>"><%= file[:name] %></a></li>
+<% end %>
+

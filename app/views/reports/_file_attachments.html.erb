@@ -1,0 +1,59 @@
+<% if (@files != nil && @files.length > 0) || @editing %>
+    <div class="emphasized_section">
+      <h2 id="attachments">Attachments</h2>
+
+      <div class="container">
+        <ul class="item_list" id="file_attachment_list">
+          <%= render :partial => "file_attachment_list", :locals => {:report => @report, :files => @files || []} %>
+        </ul>
+
+        <% if @editing %>
+            <div class="uploadify_button_wrapper">
+                  <a id="upload_button" class="small_btn">+ Add attachment</a>
+                  <div class="uploadify_object_wrapper">
+                    <input type="file" name="attachment" id="file_upload" />
+                  </div>
+            </div>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    var uploadify_script_data = {};
+                    var csrf_token = $('meta[name=csrf-token]').attr('content');
+                    var csrf_param = $('meta[name=csrf-param]').attr('content');
+                    uploadify_script_data[csrf_token] = encodeURI(csrf_param);
+                    <%- session_key = Rails.application.config.session_options[:key] -%>
+                    uploadify_script_data['<%= session_key %>'] = '<%= cookies[session_key] %>';
+                    uploadify_script_data['id'] = <%= @test_session.id %>;
+
+                    $('#file_upload').uploadify({
+                        'uploader'  : '/javascripts/uploadify/uploadify.swf',
+                        'script'    : '/upload_attachment/',
+                        'auto'      : true,
+                        'cancelImg' : '/javascripts/uploadify/cancel.png',
+                        'wmode'     : 'transparent',
+                        'buttonImage': ' ',
+                        'hideButton':true,
+                        'scriptData': uploadify_script_data,
+                        'onComplete': function(event, queueId, fileObj, response, data) {
+                            $("#file_attachment_list").html(response);
+                        }
+                    });
+
+                    // From http://stackoverflow.com/questions/2483662/uploadify-button-style-with-css
+                    var $buttonWrapper = $(".uploadify_button_wrapper");
+                    var $objectWrapper = $(".uploadify_object_wrapper");
+                    var $object = $("object", $objectWrapper);
+                    var $fakeButton = $("#upload_button");
+                    var width = $fakeButton.outerWidth();
+                    var height = $fakeButton.outerHeight();
+                    $object.attr("width", width).attr("height", height);
+                    $buttonWrapper.css("width", width + "px").css("height", height + "px")
+                    $objectWrapper.hover(function() {
+                        $fakeButton.addClass("hover");
+                    }, function() {
+                        $fakeButton.removeClass("hover");
+                    });
+                });
+            </script>
+        <% end %>
+      </div>
+<% end %>

@@ -27,9 +27,12 @@
 -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
 <title>Meego Test Reports</title>
 <%= stylesheet_link_tag :all %>
 <%= csrf_meta_tag %>
+<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"%>
+<%= stylesheet_link_tag("/javascripts/uploadify/uploadify.css") %>
 </head>
 <body>
 <a name="top"></a>
@@ -66,23 +69,8 @@
 			     <%= render :partial => 'editable_date' %>
 		</dl>
 	</div>
-
-	<div class="emphasized_section">
-		<h2 id="attachments">Attachments</h2>
-		<div class="container">
-			<ul class="item_list">
-				<li><a href="" class="remove_list_item">Remove</a> <a href="">aava_1020-20-10-snapshot_01.png</a></li>
-				<li><a href="" class="remove_list_item">Remove</a> <a href="">Report additions and disclaimer (John).doc </a></li>
-				<li><a href="" class="remove_list_item">Remove</a> <a href="">4.jpg</a></li>
-			</ul>
-			
-			<a class="small_btn">+ Add attachment</a>
-		</div>
-	</div>
-	
+      <%= render :partial => 'reports/file_attachments' %>
       <%= render :partial => 'editable_text', :locals => {:anchor => 'test_objective', :title => "Test Objective", :field => 'objective'} %>
-
-    
       <%= render :partial => 'editable_text', :locals => {:anchor => 'build', :title => "Build (image)", :field => 'build'} %>
       <%= render :partial => 'editable_text', :locals => {:anchor => 'environment', :title => "Test Environment", :field => 'environment'} %>
       <%= render :partial => 'editable_text', :locals => {:anchor => 'qa_summary', :title => "Quality Summary", :field => 'qa_summary'} %>
@@ -125,10 +113,10 @@
 </div>
 </div>
 
-<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"%>
 <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"%>
+<%= javascript_include_tag "uploadify/swfobject.js"%>
+<%= javascript_include_tag "uploadify/jquery.uploadify.v2.1.4.min.js"%>
 <%= javascript_include_tag 'application'%>
-
 <%= yield :view_specific_js %>
 
 </body>
