@@ -8,7 +8,7 @@ describe FileStorage do
   before(:each) do
     @temp = Dir.mktmpdir("FileStorage")
     @storage = FileStorage.new(@temp, "files/")
-    @session = mock_model(MeegoTestSession)
+    @session = mock_model(MeegoTestSession, {:id => 1})
   end
 
   after(:each) do
@@ -21,12 +21,12 @@ describe FileStorage do
   
   it "should be able to add file attachements of meego_test_session into storage and list them in alphabetical order" do
     @storage.add_file(@session, File.new('public/images/ajax-loader.gif'), 'f/oo.gif')
-    @storage.list_files(@session).should == [{:name => "foo.gif", :path => "meego_test_sessions/1002/foo.gif", :url => "files/meego_test_sessions/1002/foo.gif"}]
+    @storage.list_files(@session).should == [{:name => "foo.gif", :path => "meego_test_sessions/1/foo.gif", :url => "files/meego_test_sessions/1/foo.gif"}]
   end
 
   it "should be able to add file attachements of meego_test_session into storage and remove them" do
     @storage.add_file(@session, File.new('public/images/ajax-loader.gif'), 'bar.gif')
-    @storage.list_files(@session).should == [{:name => "bar.gif", :path => "meego_test_sessions/1003/bar.gif", :url => "files/meego_test_sessions/1003/bar.gif"}]
+    @storage.list_files(@session).should == [{:name => "bar.gif", :path => "meego_test_sessions/1/bar.gif", :url => "files/meego_test_sessions/1/bar.gif"}]
     @storage.remove_file(@session, 'bar.gif')
     @storage.list_files(@session).should == []
   end
