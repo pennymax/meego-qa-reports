@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--
+/*
+ * This file is part of meego-test-reports
+ *
+ * Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
+ *
+ * Authors: Jussi Jokinen <jussijokinen@iki.fi>
+ *			Sami Hangaslammi <sami.hangaslammi@leonidasoy.fi>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * version 2.1 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth bFloor, Boston, MA
+ * 02110-1301 USA
+ *
+ */
+-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Meego Test Reports</title>
+<link href="/stylesheets/jqModal.css?1287479708" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/jquery-ui-1.8.5.custom.css?1288563506" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/screen.css?1291727883" media="screen" rel="stylesheet" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js" type="text/javascript"></script>
+<script src="/javascripts/application.js?1289120652" type="text/javascript"></script>
+<meta name="csrf-param" content="authenticity_token"/>
+
+<meta name="csrf-token" content="wcaTiXP0cBI6v67XKUCRhCWONzUX1In&#x2F;HbQ3XpdIZDk="/>
+</head>
+<body>
+<a name="top"></a>
+<div id="wrapper">
+    <div id="header">
+  	<div id="logo">
+  	  <h3>
+  	  	<a href="/1.2">MeeGo | QA Reports</a>
+  	  	<a href="/1.2" class="hover"></a>
+  	  </h3>
+
+  	</div>
+
+    <div id="session">
+      <span class="username">Jaakko Jaakkonen</span> <a href="/users/sign_out" class="ui_btn">Sign out</a>
+</div>
+
+	<div id="action">
+	<a href="/1.2/Core/Handheld/N900/upload" class="small_btn add">Add report +</a>
+
+</div>
+
+  </div>
+
+    <div id="version_navi">
+	<ul class="clearfix"><li class="current"><a href="http://localhost:3000/1.2/Core/Handheld/N900">MeeGo v1.2</a></li><li><a href="http://localhost:3000/1.1/Core/Handheld/N900">v1.1</a></li><li><a href="http://localhost:3000/1.0/Core/Handheld/N900">v1.0</a></li></ul>
+  </div>
+
+  
+  <div id="page">
+
+<div id="breadcrumb"><a href="/1.2">Home</a> &rsaquo; <a href="/1.2/Core">Core</a> &rsaquo; <a href="/1.2/Core/Handheld">Handheld</a> &rsaquo; <strong>N900</strong></div>
+
+
+	<h1><em>Testing vs. Trunk:</em> Handset Aava</h1>
+	<div class="report_head">
+		<h2>Contents</h2>
+		<dl class="meta_info">
+			<h3><a href="">Testing</a></h3>
+			<dt>Author:</dt>
+			<dd>John Longername</dd>
+			<dd><a href="mailto:john.longername@mail.com">john.longername@mail.com</a></dd>
+			<dt>Test execution date</dt>
+			<dd><span class="un">25 October 2010</span></dd>
+		</dl>
+		
+		<dl class="meta_info">
+			<h3><a href="">Trunk</a></h3>
+			<dt>Author:</dt>
+			<dd>John Longername</dd>
+			<dd><a href="mailto:john.longername@mail.com">john.longername@mail.com</a></dd>
+			<dt>Test execution date</dt>
+			<dd><span class="un">25 October 2010</span></dd>
+		</dl>
+	</div>
+	
+	<h2>Summary</h2>
+	
+	<div class="clearfix">
+		<div class="result_caption big_number">
+			<strong class="pass">+3</strong>
+			Test result<br /> changed to <em>pass</em>
+		</div>
+		
+		<div class="result_caption big_number">
+			<strong class="fail">-2</strong>
+			Test result<br /> changed to <em>fail</em>
+		</div>	
+		<div class="new_tests result_caption">
+			<div class="result_caption_header"><strong>New tests:</strong></div>
+			<div class="result_caption medium_number"><strong class="pass">1</strong> Passing</div>
+			<div class="result_caption medium_number"><strong class="fail">3</strong> Failing</div>
+			<div class="result_caption medium_number"><strong>2</strong> N/A</div>
+		</div>
+	</div>
+	
+	<h2>Detailed results</h2>
+	
+	<table class="detailed_results">
+		<thead>
+			<tr>
+				<th class="sort" id="compare_view_test_case"><a class="sort_btn active">Categories</a> <a href="" class="sort_btn">Features</a></th>
+				<th colspan="2" class="column_head_1">Testing</th>
+				<th colspan="2" class="column_head_1">Trunk</th>
+			</tr>
+		</thead>
+		<tr class="category_name">
+			<td><a class="collapse_toggle open">[-]</a>Fennec browser <a href="" class="see_all_toggle">+ see all</a></td>
+			<td colspan="2"></td>
+			<td colspan="2"></td>
+		</tr>
+		<tr class="testcase">
+			<td char="testcase_name">Display orientation detection</td>
+			<td class="testcase_result pass">Pass</td>
+			<td class="testcase_notes">3456 Bug description here lorem ipsum</td>
+			<td class="testcase_result fail"><span class="changed_result">Fail</span></td>
+			<td class="testcase_notes">5417 Bug description here lorem ipsum</td>
+		</tr>
+		<tr class="testcase">
+			<td char="testcase_name">Display orientation detection</td>
+			<td class="testcase_result pass">Pass</td>
+			<td class="testcase_notes"></td>
+			<td class="testcase_result fail"><span class="changed_result">Fail</span></td>
+			<td class="testcase_notes">5417 Bug description here lorem ipsum</td>
+		</tr>
+		
+		<tr class="category_name">
+			<td><a class="collapse_toggle close">[+]</a>Audio system </td>
+			<td colspan="2"></td>
+			<td colspan="2"></td>
+		</tr>
+		
+		<tr class="category_name">
+			<td><a class="collapse_toggle open">[-]</a>Video manager <a href="" class="see_all_toggle">see changed only</a></td>
+			<td colspan="2"></td>
+			<td colspan="2"></td>
+		</tr>
+		<tr class="testcase">
+			<td char="testcase_name">Display orientation detection</td>
+			<td class="testcase_result">-</td>
+			<td class="testcase_notes">3456 Bug description here lorem ipsum</td>
+			<td class="testcase_result fail"><span class="changed_result">Fail</span></td>
+			<td class="testcase_notes">5417 Bug description here lorem ipsum</td>
+		</tr>
+		<tr class="testcase">
+			<td char="testcase_name">Display orientation detection</td>
+			<td class="testcase_result fail">Fail</td>
+			<td class="testcase_notes">3456 Bug description here lorem ipsum</td>
+			<td class="testcase_result pass"><span class="changed_result">Pass</span></td>
+			<td class="testcase_notes"></td>
+		</tr>
+		<tr class="testcase">
+			<td char="testcase_name">Display orientation detection</td>
+			<td class="testcase_result fail">Fail</td>
+			<td class="testcase_notes">3456 Bug description here lorem ipsum</td>
+			<td class="testcase_result fail"><span class="unchanged_result">Fail</span></td>
+			<td class="testcase_notes">5417 Bug description here lorem ipsum</td>
+		</tr>
+		<tr class="testcase">
+			<td char="testcase_name">Display orientation detection</td>
+			<td class="testcase_result pass">Pass</td>
+			<td class="testcase_notes"></td>
+			<td class="testcase_result pass"><span class="unchanged_result">Pass</span></td>
+			<td class="testcase_notes"></td>
+		</tr>		
+		
+	</table>
+
+  </div>
+
+  <div id="footer">
+  	
+  </div>
+</div>
+
+</body>
+</html>
