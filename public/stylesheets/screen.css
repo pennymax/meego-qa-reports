@@ -97,6 +97,11 @@ h1 {
 	margin-bottom:0.75em;
 	padding-top:0.25em;}
 
+h1 em {
+	font-style: normal;
+	color: #909090;
+}
+
 h2 {
 	font-size: 1.6666em;
 	line-height:1;
@@ -703,6 +708,59 @@ div.formError, #error, form .error {
 	clear:both; 
 	visibility: hidden;}
 
+.remove_list_item {
+	display: inline-block;
+	text-indent: -9999px;
+	background: transparent url(../images/remove_list_item.png) no-repeat;
+	width: 14px;
+	height: 13px;
+	vertical-align: bottom;
+	padding-right: 0.5em;}
+
+.remove_list_item:hover {
+	background-image:url(../images/remove_list_item_hover.png);}
+
+.item_list {
+	list-style-type: none;
+	margin-left: 0;}
+
+.item_list li {
+	margin-bottom: 0.3em;}
+
+.section {
+	margin-top: 50px;
+}
+	
+.emphasized_section {
+	border:1px solid #ccc;
+	overflow:hidden;}
+
+.emphasized_section h2{
+	border-top-style: none; 
+	background: url(../images/heading_shade.png) repeat-x 0 bottom; 
+	margin-bottom:0; 
+	margin-top: 0;
+	padding-right: 20px; 
+	padding-bottom: 6px; 
+	padding-left: 20px;}
+	
+.emphasized_section h3 { 
+	border-top: 1px solid #ccc; 
+	margin-right: -20px; 
+	margin-left: -20px; 
+	padding-left: 20px; 
+	padding-right: 20px; 
+	padding-top: 10px; 
+	margin-top: 20px; }
+
+.emphasized_section h3.first {
+	border-top: none;
+	margin-top: 0;}
+
+.container {
+	padding: 20px;
+	overflow: hidden;}
+
 /* @end */
 
 /* @end */
@@ -716,19 +774,13 @@ div.formError, #error, form .error {
 	margin-right: auto; 
 	margin-left: auto; 
 	padding-right: 30px; 
-	padding-left: 30px; }
+	padding-left: 30px;}
 
 #header { 
 	border-bottom: 7px solid #ed0089;  
 	padding-top: 0; 
 	height: 112px;
 	position: relative;}
-
-#page {
-	}
-
-#sidebar {
-	}
 	 
 #footer {
 	border-top: 7px solid #ED0089;
@@ -746,7 +798,6 @@ div.formError, #error, form .error {
 	margin-top: 20px; }
 
 .page_content { 
-	/* background: url(../images/hdiv_2.png) no-repeat 50% bottom;  */
 	padding-top: 30px; 
 	padding-bottom: 30px; }
 
@@ -755,7 +806,7 @@ div.formError, #error, form .error {
 	padding-bottom: 329px; 
 	background: url(../images/hdiv_3.png) no-repeat 50% bottom; }	
 
-/* header */
+/* @group header */
 #logo { 
 	float: left;
 	width: 498px; 
@@ -802,9 +853,9 @@ div.formError, #error, form .error {
 #action {
 	top: 72px;}
 		
-/* header end */
+/* @end */
 
-/* version navigation */
+/* @group version navigation */
 #version_navi {
 	height: 3em;
 	overflow: visible;
@@ -819,7 +870,7 @@ div.formError, #error, form .error {
 	background: transparent url(../images/version_navi_div.png) no-repeat right bottom;	}
 
 #version_navi ul li {
-background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;
+	background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;
 	float: left;}
 
 #version_navi ul li:hover {
@@ -841,19 +892,15 @@ background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;
 
 #version_navi ul li.current a {
 	border-right: 1px solid #cacaca;
-/**	background: #fff url(../images/version_navi_active_bg.png) repeat-x 0 bottom;*/
-background:none;
+	background:none;
 	background-color: #fff;
 	color: #f20089;
 	height: 1.0833em;
 	margin-right: -1px;}
 
 a#csv_report_link {
-    padding-left: 400px;
-}
-
-
-/* version navigation end */
+    padding-left: 400px;}
+/* @end */
 
 /* @end */
 
@@ -879,9 +926,7 @@ th.filtered {
 #report_navigation th:last-child,
 th.filtered:last-child {
 	background-position: left bottom;
-	border-right: 1px solid #cacaca;
-}
-
+	border-right: 1px solid #cacaca;}
 
 #report_navigation th { 
 	padding-left: 15px;
@@ -903,7 +948,6 @@ th.filtered {
 	padding-bottom: 14px; 
 	border-top: 1px solid #cacaca; 
 	padding-left: 40px; }
-
 
 td.filtered { 
 	padding-left: 40px;
@@ -936,25 +980,11 @@ td.date {
 .chart_actions.stack_chart {
 	margin-left: 25px;
 	margin-bottom: 36px;}
-
-
-
 /* @end */
 
+
 /* @group test_results */
-.container {
-	padding: 0 20px;}
-
-#page div.page_content div.test_results div.container h3 { 
-	border-top: 1px solid #ccc; 
-	margin-right: -20px; 
-	margin-left: -20px; 
-	padding-left: 20px; 
-	padding-right: 20px; 
-	padding-top: 10px; 
-	margin-top: 20px; }
-
-span.heading_actions { 
+.heading_actions { 
 	font-size: 14px; 
 	float: right; 
 	font-weight: normal; 
@@ -979,10 +1009,6 @@ textarea.txt_edit {
 	width: 550px;
 	height: 150px;
 	float:none;}
-
-.test_results { 
-	border: 1px solid #ccc; 
-	margin-top: 60px; }
 	
 #test_result_overview { 
 	float: left; 
@@ -1003,17 +1029,8 @@ textarea.txt_edit {
 	background: #fff8de url(../images/edit_icon.png) no-repeat 86% 10px;
 	cursor: pointer;}
 
-.test_results h2 { 
-	border-top-style: none; 
-	background: url(../images/heading_shade.png) repeat-x 0 bottom; 
-	margin-bottom: 0; 
-	padding-bottom: 6px; 
-	padding-left: 20px; 
-	padding-right: 20px; 
-	margin-top: 0; }
-
 #test_results_navi { 
-	margin-bottom: 20px; }
+	margin-bottom: 10px; }
 
 .go_to_next { 
 	float: right; }
@@ -1124,42 +1141,9 @@ td.testcase_notes.edit:hover {
 td.testcase_notes p {
 	margin-bottom: 0; }
 
-
-/* this is obsolete */
-	div.result_hover_wrap {
-		position: relative;}
-		
-	div.result_hover { 
-		position: absolute; 
-		left: -6px; 
-		top: -5px; 
-		background-color: #e1ecff; 
-		z-index: 100; 
-		border-top: 1px solid #38a6ff; 
-		border-right: 1px solid #38a6ff; 
-		border-left: 1px solid #38a6ff;}
-	
-	div.result_hover a{ 
-		padding: 5px 15px;
-		display: block; 
-		text-decoration: none; 
-		font-size: 12px; 
-		font-weight: normal; 
-		font-style: normal; 
-		border-bottom: 1px solid #93bfd2; }
-	
-	div.result_hover a:hover{ 
-		padding: 5px 10px;
-		display: block; 
-		text-decoration: none; 
-		background-color: #38a6ff; 
-		color: #fff; }
-/* end this is obsolete */
-
 td.pass,
 td.fail {
 	font-weight: bold; }
-
 
 .pass { 
 	color: #73a20c; }
@@ -1173,8 +1157,8 @@ td.fail {
 /* @end */
 
 /* @group toc and meta */
-ol.toc,
-dl.meta_info { 
+.toc,
+.meta_info { 
 	background: url(../images/bt_shade.png) repeat-x 0 bottom; 
 	list-style-type: none; 
 	list-style-position: outside; 
@@ -1185,18 +1169,18 @@ dl.meta_info {
 	width: 21em; 
 	line-height: 20px; }
 	
-ol.toc {border-top-color: #ed0089;}
+.toc {border-top-color: #ed0089;}
 
-ol.toc ol,
-dl.meta_info { 
+.toc ol,
+.meta_info { 
 	list-style-type: none; 
 	list-style-position: outside; 
 	}
 
-ol.toc a:after { 
+.toc a:after { 
 	content: ' >'; }
 
-dl.meta_info {border-top-color: #9f9f9f;}
+.meta_info {border-top-color: #9f9f9f;}
 
 .report_head .meta_info,
 .report_head .toc {
@@ -1243,11 +1227,6 @@ span#wizard_finalize {
 	top: 21px;
 	text-shadow: #666 1px 1px 1px;}
 
-p.next_step { 
-	float: left; 
-	margin-left: 10px; 
-	padding-top: 5px; }
-
 #wizard_progress #upload {left: 9px; }
 #wizard_progress #finalize {left: 107px; }
 #wizard_progress #publish {left: 216px; }	
@@ -1255,6 +1234,11 @@ p.next_step {
 #wizard_progress span strong{ 
 	display: block; 
 	text-indent: -9999px; }
+
+p.next_step { 
+	float: left; 
+	margin-left: 10px; 
+	padding-top: 5px; }
 
 #wizard_actions {
 	border-top: 1px solid #ccc;
@@ -1293,13 +1277,7 @@ p.next_step {
 
 /* @end */
 
-
-
 /* @end */
 
-/* @group Overrides */
 
-
-
-/* @end */
 
