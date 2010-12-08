@@ -31,8 +31,10 @@ class ReportComparisonSpec < ActiveSupport::TestCase
     it "should compare two reports and list changed tests" do
       comparison = ReportComparison.new(@session1, @session2)
       results = comparison.changed_test_cases
-      results.length.should == 1
       results[0].name.should == "SMOKE-SIM-Query_SIM_card_status"
+      results[1].name.should == "SMOKE-SIM-Get_IMSI"
+      results[2].name.should == "SMOKE-SIM-Query_Service_Provider_name"
+      results.length.should == 3
     end
   end
 end

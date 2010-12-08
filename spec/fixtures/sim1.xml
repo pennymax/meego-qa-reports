@@ -17,10 +17,10 @@ Contact: min-support@lists.sourceforge.net
      <stderr></stderr>
 </step>
 </case>
-   <case name="SMOKE-SIM-Get_IMSI" description="Purpose          This test case reads SIM cards IMSI.         Method         Uses Cellular-Qt API to get IMSI.         Pre-/Post-Conditions         SIM card inserted to device and pin code entered.          Pass/Fail Criteria         MIN returns passed/failed.         " manual="false" insignificant="false" result="FAIL" subfeature="Identity" level="Feature">
-    <step command="min -c -t 'SMOKE-SIM-Get_IMSI'" result="FAIL">
+   <case name="SMOKE-SIM-Get_IMSI" description="Purpose          This test case reads SIM cards IMSI.         Method         Uses Cellular-Qt API to get IMSI.         Pre-/Post-Conditions         SIM card inserted to device and pin code entered.          Pass/Fail Criteria         MIN returns passed/failed.         " manual="false" insignificant="false" result="PASS" subfeature="Identity" level="Feature">
+    <step command="min -c -t 'SMOKE-SIM-Get_IMSI'" result="PASS">
      <expected_result>0</expected_result>
-     <return_code>1</return_code>
+     <return_code>0</return_code>
      <start>2010-07-01 15:15:37</start>
      <end>2010-07-01 15:15:40</end>
      <stdout>MIN Test Framework, © Nokia 2008,2009,2010 All rights reserved,
@@ -28,21 +28,6 @@ licensed under the Gnu General Public License version 2,
 Contact: min-support@lists.sourceforge.net
 
 12:15:39 Failed     scripter.so:&quot;SMOKE-SIM-Get_IMSI&quot; - Test Method call sim.GetSimIMSI (retval 22)  FAILED (1 other errors/failures)
-</stdout>
-     <stderr></stderr>
-</step>
-</case>
-   <case name="SMOKE-SIM-Query_Service_Provider_name" description="Purpose          This test case reads Service Provider Name from SIM card.         Method         Uses Cellular-Qt API to get SPN.         Pre-/Post-Conditions         SIM card inserted to device and pin code entered.          Pass/Fail Criteria         MIN returns passed/failed.         " manual="false" insignificant="false" result="FAIL" subfeature="Identity" level="Feature">
-    <step command="min -c -t 'SMOKE-SIM-Query_Service_Provider_name'" result="FAIL">
-     <expected_result>0</expected_result>
-     <return_code>1</return_code>
-     <start>2010-07-01 15:15:40</start>
-     <end>2010-07-01 15:15:42</end>
-     <stdout>MIN Test Framework, © Nokia 2008,2009,2010 All rights reserved,
-licensed under the Gnu General Public License version 2,
-Contact: min-support@lists.sourceforge.net
-
-12:15:42 Failed     scripter.so:&quot;SMOKE-SIM-Query_Service_Provider_name&quot; - Test Method call sim.GetSimSPN (retval 22)  FAILED (1 other errors/failures)
 </stdout>
      <stderr></stderr>
 </step>

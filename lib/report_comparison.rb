@@ -26,14 +26,14 @@ class ReportComparison
   end
 
   def changed_test_cases
-    result = []
-    @old_report.meego_test_cases.each do |test_case|
-      other = @new_report.meego_test_cases.find(:first, :conditions => {:name => test_case.name})
+    reference = Hash[*@new_report.meego_test_cases.collect { |test_case| [test_case.name, test_case] }.flatten]
+
+    @old_report.meego_test_cases.map { |test_case|
+      other = reference.delete(test_case.name)
       if other==nil || other.result != test_case.result
-        result.push(test_case)
+        test_case
       end
-    end
-    result
+    }.compact.concat(reference.values())
   end
 
 end
