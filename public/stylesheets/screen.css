@@ -811,9 +811,9 @@ div.formError, #error, form .error {
 	vertical-align: middle;}
 .sort_btn {
 	text-decoration: none;
-	font-size: 1.2em;
+	font-size: 12px;
 	font-weight: normal;
-	padding: 0.1em 1.2em 0.3em;
+	padding: 3px 12px 3px;
 	-moz-border-radius: 8px;
 	border-radius: 8px; 
 	color: #515151;
@@ -821,7 +821,7 @@ div.formError, #error, form .error {
 	behavior: url(javascripts/pie.htc);}
 
 .sort_btn:hover {
-	background-color: #efefef;
+	background-color: #ddd;
 	color: #ed0089;}
 
 .active,
@@ -1261,6 +1261,12 @@ td.fail {
 .fail { 
 	color: #ec4343; }
 
+#test_results .sort {
+	margin-left: 3em;}
+
+#test_results .sort a {
+	vertical-align: 40%;}
+
 /* @end */
 
 
@@ -1295,7 +1301,7 @@ td.fail {
 .report_head .meta_info,
 .report_head .toc {
 	float: left;
-	min-height: 14em;}
+	min-height: 15em;}
 
 .report_head {
 	overflow: hidden;}
