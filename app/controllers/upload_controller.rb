@@ -84,8 +84,9 @@ class UploadController < ApplicationController
 
   def upload_attachment
     files = FileStorage.new("public/files", "/files/")
-    files.add_file(MeegoTestSession.find(params[:id]), request['Filedata'], request['Filename'])
-    render :json => { :ok => '1' }
+    session = MeegoTestSession.find(params[:id]);
+    files.add_file(session, request['Filedata'], request['Filename'])
+    render :partial => "reports/file_attachment_list", :locals => { :files => files.list_files(session) }
   end
   
   def upload
