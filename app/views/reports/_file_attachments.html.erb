@@ -4,7 +4,7 @@
 
       <div class="container">
         <ul class="item_list" id="file_attachment_list">
-          <%= render :partial => "file_attachment_list", :locals => {:report => @report, :files => @files} %>
+          <%= render :partial => "file_attachment_list", :locals => {:report => @report, :files => @files || []} %>
         </ul>
 
         <% if @editing %>
