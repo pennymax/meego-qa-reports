@@ -23,4 +23,11 @@ describe FileStorage do
     @storage.add_file(@session, File.new('public/images/ajax-loader.gif'), 'f/oo.gif')
     @storage.list_files(@session).should == [{:name => "foo.gif", :path => "meego_test_sessions/1002/foo.gif", :url => "files/meego_test_sessions/1002/foo.gif"}]
   end
+
+  it "should be able to add file attachements of meego_test_session into storage and remove them" do
+    @storage.add_file(@session, File.new('public/images/ajax-loader.gif'), 'bar.gif')
+    @storage.list_files(@session).should == [{:name => "bar.gif", :path => "meego_test_sessions/1003/bar.gif", :url => "files/meego_test_sessions/1003/bar.gif"}]
+    @storage.remove_file(@session, 'bar.gif')
+    @storage.list_files(@session).should == []
+  end
 end

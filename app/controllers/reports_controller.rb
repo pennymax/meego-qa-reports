@@ -26,6 +26,14 @@ require 'drag_n_drop_uploaded_file'
 require 'file_storage'
 
 module AjaxMixin
+  def remove_attachment
+    @preview_id = params[:id].to_i
+    @test_session = MeegoTestSession.find(@preview_id)
+    files = FileStorage.new()    
+    files.remove_file(@test_session, params[:name])
+    render :json => { :ok => '1'}
+  end
+
   def update_title
     @preview_id = params[:id].to_i
     @test_session = MeegoTestSession.find(@preview_id)
@@ -171,7 +179,7 @@ class ReportsController < ApplicationController
       @hwproduct = @test_session.hwproduct
 
       @report = @test_session
-      @files = FileStorage.new("public/files/", "/files/").list_files(@test_session) or []
+      @files = FileStorage.new().list_files(@test_session) or []
       @editing = false
       @wizard = false
 
@@ -187,7 +195,7 @@ class ReportsController < ApplicationController
 
       @report = @test_session
       @editing = false
-      @files = FileStorage.new("public/files/", "/files/").list_files(@test_session) or []
+      @files = FileStorage.new().list_files(@test_session) or []
       @wizard = false
       @email = true
 
@@ -205,7 +213,7 @@ class ReportsController < ApplicationController
       @test_session = MeegoTestSession.find(id)
       @report = @test_session
       @no_upload_link = true
-      @files = FileStorage.new("public/files/", "/files/").list_files(@test_session) or []
+      @files = FileStorage.new().list_files(@test_session) or []
       
       render :layout => "report"
     else

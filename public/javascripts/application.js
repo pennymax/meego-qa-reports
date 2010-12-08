@@ -354,6 +354,17 @@ function handleEditButton() {
     return false;
 }
 
+function removeAttachment(report, fileName, callback) {
+    $.post("/ajax_remove_attachment", {
+        id: report,
+        name: fileName
+    }, function(data, status){
+        if(data.ok==1 && callback!=null) {
+            callback.call(this);
+        }
+    });
+};    
+
 (function($) {
 
     /*
