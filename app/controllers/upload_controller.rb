@@ -83,7 +83,7 @@ class UploadController < ApplicationController
   end
 
   def upload_attachment
-    files = FileStorage.new("public/files", "/files/")
+    files = FileStorage.new()
     session = MeegoTestSession.find(params[:id]);
     files.add_file(session, request['Filedata'], request['Filename'])
     @editing = true
