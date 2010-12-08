@@ -101,7 +101,7 @@ module ReportSummary
   end
   
   def total_executed
-    return total_passed + total_failed
+    total_passed + total_failed
   end
   
   def run_rate
