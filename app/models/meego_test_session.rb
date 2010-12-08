@@ -88,6 +88,15 @@ class MeegoTestSession < ActiveRecord::Base
     prev_session
   end
 
+  def self.import(attributes, files, user)
+    attr = attributes.merge!({:uploaded_files => files})
+    result = MeegoTestSession.new(attr)
+    result.tested_at = result.tested_at || Time.now
+    result.import_report(user, true)
+    result.save!
+    result
+  end
+
   def self.release_versions
     # Add new release versions to the beginning of the array.
     ["1.2", "1.1", "1.0"]
@@ -401,7 +410,13 @@ class MeegoTestSession < ActiveRecord::Base
         dir = File.join(XML_DIR, datepart)
 
         begin
-          f = f.respond_to?(:original_filename) ? f : File.new(f.gsub(/\#.*/, ''))
+          f = if f.respond_to?(:original_filename)
+            f
+          elsif f.respond_to?(:path)
+            f
+          else
+              File.new(f.gsub(/\#.*/, ''))
+          end          
         rescue
           errors.add :uploaded_files, "can't be blank"
           return
