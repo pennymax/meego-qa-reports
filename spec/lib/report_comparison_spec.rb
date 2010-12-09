@@ -40,5 +40,16 @@ class ReportComparisonSpec < ActiveSupport::TestCase
       comparison.changed_to_fail.should == "+2"
       comparison.changed_to_pass.should == "+1"
     end
+
+    it "should compare two reports and group items" do
+      comparison = ReportComparison.new(@session1, @session2)
+      groups = comparison.groups
+      groups.length.should == 1
+      groups.keys.should == ['SIM']
+      groups['SIM'].length.should == 16
+      result = groups['SIM'][0]
+      result.left.name.should == result.right.name
+      result.changed.should == true
+    end
   end
 end

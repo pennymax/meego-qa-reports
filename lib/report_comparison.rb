@@ -18,6 +18,26 @@
 # 02110-1301 USA
 #
 
+class ComparisonResult
+  def initialize(left, right, changed)
+    @left = left
+    @right = right
+    @changed = changed
+  end
+
+  def left
+    @left
+  end
+
+  def right
+    @right
+  end
+
+  def changed
+    @changed
+  end
+end
+
 class ReportComparison
 
   def initialize(old_report, new_report)
@@ -29,6 +49,15 @@ class ReportComparison
     @changed_to_pass = 0
     @changed_to_fail = 0
     @changed_to_na   = 0
+    @groups = {}
+
+    reference = Hash[*@new_report.meego_test_cases.collect { |test_case| [test_case.name, test_case] }.flatten]
+
+    @changed_cases = @old_report.meego_test_cases.select { |test_case|
+      update_summary(test_case, reference.delete(test_case.name))
+    }.push(*reference.values.select { |test_case|
+      update_summary(nil, test_case)
+    })
   end
 
   def changed_to_fail
@@ -56,13 +85,7 @@ class ReportComparison
   end
 
   def changed_test_cases
-    reference = Hash[*@new_report.meego_test_cases.collect { |test_case| [test_case.name, test_case] }.flatten]
-
-    @old_report.meego_test_cases.select { |test_case|
-      update_summary(test_case, reference.delete(test_case.name))
-    }.push(*reference.values.select { |test_case|
-      update_summary(nil, test_case)
-    })
+    @changed_cases
   end
 
   def old_report
@@ -71,6 +94,10 @@ class ReportComparison
 
   def new_report
     @new_report
+  end
+
+  def groups
+    @groups
   end
 
   private
@@ -85,8 +112,12 @@ class ReportComparison
     end
   end
 
+  def update_group(old, new, changed)
+    (@groups[new.meego_test_set.name || old.meego_test_set.name] ||= []) << ComparisonResult.new(old, new, changed)
+  end
+
   def update_summary(old, new)
-    if old == nil
+    changed = if old == nil
       case new.result
         when -1 then
           @new_failing += 1
@@ -113,5 +144,7 @@ class ReportComparison
     else
       false
     end
+    update_group(old, new, changed)
+    changed
   end
 end
