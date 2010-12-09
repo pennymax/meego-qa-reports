@@ -35,6 +35,8 @@ class ReportComparisonSpec < ActiveSupport::TestCase
       results[1].name.should == "SMOKE-SIM-Get_IMSI"
       results[2].name.should == "SMOKE-SIM-Query_Service_Provider_name"
       results.length.should == 3
+      comparison.new_failing.should == 1
+      comparison.changed_to_fail.should == 2
     end
   end
 end
