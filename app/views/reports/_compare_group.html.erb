@@ -1,0 +1,7 @@
+<tr class="category_name">
+  <td colspan="5"><a href="#" class="collapse_toggle open">[+]</a><%=group.name%><a href="#" class="see_all_toggle">+ see all</a></td>
+</tr>
+</tbody>
+<tbody>
+    <%= render :partial => "compare_testcase", :collection => group.values, :as => :testcase %>
+</tbody>

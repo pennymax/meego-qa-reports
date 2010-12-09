@@ -1,6 +1,9 @@
 module MeegoTestCaseHelper
 
   def result_html(model)
+    if model==nil
+      return "N/A"
+    end
     case model.result
     when 1
       "Pass"
@@ -12,6 +15,10 @@ module MeegoTestCaseHelper
   end
 
   def result_class(model)
+    if model==nil
+      return "na"
+    end
+
     case model.result
     when 1
       "pass"
@@ -23,6 +30,9 @@ module MeegoTestCaseHelper
   end
 
   def comment_html(model)
+    if model==nil
+      return nil
+    end
     model.comment ? MeegoTestReport::format_txt(model.comment).html_safe : nil
   end
 end

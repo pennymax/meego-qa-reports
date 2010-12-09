@@ -19,9 +19,10 @@
 #
 
 class ComparisonResult
+  include MeegoTestCaseHelper
   def initialize(left, right, changed)
-    @left = left
-    @right = right
+    @left    = left
+    @right   = right
     @changed = changed
   end
 
@@ -32,11 +33,43 @@ class ComparisonResult
   def right
     @right
   end
-
+  
   def changed
     @changed
   end
+
+  def name
+    if @left!=nil
+      @left.name
+    else
+      @right.name
+    end
+  end
 end
+
+class ComparisonGroup
+  def initialize(name)
+    @name   = name
+    @values = []
+  end
+
+  def name
+    @name
+  end
+
+  def values
+    @values
+  end
+
+  def add_value(value)
+    @values << value
+  end
+
+  def changed
+    @values.select { |item| item.changed }.length > 0
+  end
+end
+
 
 class ReportComparison
 
@@ -49,11 +82,11 @@ class ReportComparison
     @changed_to_pass = 0
     @changed_to_fail = 0
     @changed_to_na   = 0
-    @groups = {}
+    @groups          = []
 
-    reference = Hash[*@new_report.meego_test_cases.collect { |test_case| [test_case.name, test_case] }.flatten]
+    reference        = Hash[*new_report.meego_test_cases.collect { |test_case| [test_case.name, test_case] }.flatten]
 
-    @changed_cases = @old_report.meego_test_cases.select { |test_case|
+    @changed_cases   = old_report.meego_test_cases.select { |test_case|
       update_summary(test_case, reference.delete(test_case.name))
     }.push(*reference.values.select { |test_case|
       update_summary(nil, test_case)
@@ -113,11 +146,21 @@ class ReportComparison
   end
 
   def update_group(old, new, changed)
-    (@groups[new.meego_test_set.name || old.meego_test_set.name] ||= []) << ComparisonResult.new(old, new, changed)
+    name  = if new!=nil
+              new.meego_test_set.name
+            elsif old!=nil
+              old.meego_test_set.name
+            else
+              "N/A"
+            end
+    group = @groups.select { |group| group.name.casecmp(name) == 0 }.first || @groups.push(ComparisonGroup.new(name)).last
+    group.add_value(ComparisonResult.new(old, new, changed))
   end
 
   def update_summary(old, new)
-    changed = if old == nil
+    changed = true
+    if old == nil
+      changed = true
       case new.result
         when -1 then
           @new_failing += 1
@@ -128,7 +171,9 @@ class ReportComparison
         else
           throw :invalid_value
       end
-      true
+    elsif new== nil
+      # test disappeared
+      @changed_to_na += 1
     elsif new.result!=old.result
       case new.result
         when 1 then
@@ -140,9 +185,8 @@ class ReportComparison
         else
           throw :invalid_value
       end
-      true
     else
-      false
+      changed = false
     end
     update_group(old, new, changed)
     changed

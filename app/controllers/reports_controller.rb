@@ -224,6 +224,8 @@ class ReportsController < ApplicationController
       @report = MeegoTestSession.find(@report_id)
       @other = @report.prev_session
       @comparison = ReportComparison.new(@other, @report)
+      @groups = @comparison.groups
+      puts @groups
       render :layout => "report"
     else
       redirect_to :action => :index

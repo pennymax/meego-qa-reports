@@ -71,40 +71,8 @@
       </tr>
       </thead>
       <tbody>
-      <tr class="category_name">
-        <td colspan="5"><a href="#" class="collapse_toggle open">[+]</a>Fennec browser<a href="#" class="see_all_toggle">+ see all</a></td>
-      </tr>
-      </tbody>
-      <tbody>
-      <tr class="testcase has_changes">
-        <td char="testcase_name">Display orientation detection</td>
-        <td class="testcase_result">-</td>
-        <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
-        <td class="testcase_result fail"><span class="changed_result">Fail</span></td>
-        <td class="testcase_notes">5417 Bug description here lorem ipsum</td>
-      </tr>
-      <tr class="testcase has_changes">
-        <td char="testcase_name">Display orientation detection</td>
-        <td class="testcase_result fail">Fail</td>
-        <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
-        <td class="testcase_result pass"><span class="changed_result">Pass</span></td>
-        <td class="testcase_notes"></td>
-      </tr>
-      <tr class="testcase" style="display:none;">
-        <td char="testcase_name">Display orientation detection</td>
-        <td class="testcase_result fail">Fail</td>
-        <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
-        <td class="testcase_result fail"><span class="unchanged_result">Fail</span></td>
-        <td class="testcase_notes">5417 Bug description here lorem ipsum</td>
-      </tr>
-      <tr class="testcase" style="display:none;">
-        <td char="testcase_name">Display orientation detection</td>
-        <td class="testcase_result pass">Pass</td>
-        <td class="testcase_notes"></td>
-        <td class="testcase_result pass"><span class="unchanged_result">Pass</span></td>
-        <td class="testcase_notes"></td>
-      </tr>
-      </tbody>
+
+      <%= render :partial => "compare_group", :collection => @groups, :as => :group %>
     </table>
     <script type="text/javascript">
         $(document).ready(function() {
