@@ -1,0 +1,126 @@
+<% content_for :page_header do %>
+    <%= render :partial => "page_header" %>
+<% end %>
+
+<% content_for :title do %>
+    <h1><em>Testing vs. Trunk:</em> Handset Aava</h1>
+<% end %>
+
+<% content_for :breadcrumbs do %>
+	<%= breadcrumbs %>
+<% end %>
+
+<% content_for :table_of_contents do %>
+    <div class="report_head">
+      <h2>Contents</h2>
+      <dl class="meta_info">
+        <h3><a href="">Testing</a></h3>
+        <dt>Author:</dt>
+        <dd>John Longername</dd>
+        <dd><a href="mailto:john.longername@mail.com">john.longername@mail.com</a></dd>
+        <dt>Test execution date</dt>
+        <dd><span class="un">25 October 2010</span></dd>
+      </dl>
+
+      <dl class="meta_info">
+        <h3><a href="">Trunk</a></h3>
+        <dt>Author:</dt>
+        <dd>John Longername</dd>
+        <dd><a href="mailto:john.longername@mail.com">john.longername@mail.com</a></dd>
+        <dt>Test execution date</dt>
+        <dd><span class="un">25 October 2010</span></dd>
+      </dl>
+    </div>
+<% end %>
+
+
+<% content_for :page_content do %>
+   <h2>Summary</h2>
+
+   <div class="clearfix">
+     <div class="result_caption big_number">
+       <strong class="pass">+3</strong>
+       Test result<br/> changed to <em>pass</em>
+     </div>
+
+     <div class="result_caption big_number">
+       <strong class="fail">-2</strong>
+       Test result<br/> changed to <em>fail</em>
+     </div>
+     <div class="new_tests result_caption">
+       <div class="result_caption_header"><strong>New tests:</strong></div>
+       <div class="result_caption medium_number"><strong class="pass">1</strong> Passing</div>
+       <div class="result_caption medium_number"><strong class="fail">3</strong> Failing</div>
+       <div class="result_caption medium_number"><strong>2</strong> N/A</div>
+     </div>
+   </div>
+
+   <h2>Detailed results</h2>
+
+   <table class="detailed_results">
+     <thead>
+     <tr>
+       <th class="sort" id="compare_view_test_case"><a class="sort_btn active">Categories</a>
+         <a href="" class="sort_btn">Features</a></th>
+       <th colspan="2" class="column_head_1">Testing</th>
+       <th colspan="2" class="column_head_1">Trunk</th>
+     </tr>
+     </thead>
+     <tr class="category_name">
+       <td colspan="5"><a class="collapse_toggle open">[-]</a>Fennec browser
+         <a href="" class="see_all_toggle">+ see all</a></td>
+     </tr>
+     <tr class="testcase">
+       <td char="testcase_name">Display orientation detection</td>
+       <td class="testcase_result pass">Pass</td>
+       <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
+       <td class="testcase_result fail"><span class="changed_result">Fail</span></td>
+       <td class="testcase_notes">5417 Bug description here lorem ipsum</td>
+     </tr>
+     <tr class="testcase">
+       <td char="testcase_name">Display orientation detection</td>
+       <td class="testcase_result pass">Pass</td>
+       <td class="testcase_notes"></td>
+       <td class="testcase_result fail"><span class="changed_result">Fail</span></td>
+       <td class="testcase_notes">5417 Bug description here lorem ipsum</td>
+     </tr>
+
+     <tr class="category_name">
+       <td colspan="5"><a class="collapse_toggle close">[+]</a>Audio system</td>
+     </tr>
+
+     <tr class="category_name">
+       <td colspan="5"><a class="collapse_toggle open">[-]</a>Video manager
+         <a href="" class="see_all_toggle">see changed only</a></td>
+     </tr>
+     <tr class="testcase">
+       <td char="testcase_name">Display orientation detection</td>
+       <td class="testcase_result">-</td>
+       <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
+       <td class="testcase_result fail"><span class="changed_result">Fail</span></td>
+       <td class="testcase_notes">5417 Bug description here lorem ipsum</td>
+     </tr>
+     <tr class="testcase">
+       <td char="testcase_name">Display orientation detection</td>
+       <td class="testcase_result fail">Fail</td>
+       <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
+       <td class="testcase_result pass"><span class="changed_result">Pass</span></td>
+       <td class="testcase_notes"></td>
+     </tr>
+     <tr class="testcase">
+       <td char="testcase_name">Display orientation detection</td>
+       <td class="testcase_result fail">Fail</td>
+       <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
+       <td class="testcase_result fail"><span class="unchanged_result">Fail</span></td>
+       <td class="testcase_notes">5417 Bug description here lorem ipsum</td>
+     </tr>
+     <tr class="testcase">
+       <td char="testcase_name">Display orientation detection</td>
+       <td class="testcase_result pass">Pass</td>
+       <td class="testcase_notes"></td>
+       <td class="testcase_result pass"><span class="unchanged_result">Pass</span></td>
+       <td class="testcase_notes"></td>
+     </tr>
+
+   </table>
+<% end %>

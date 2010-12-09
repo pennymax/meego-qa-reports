@@ -24,68 +24,73 @@
 %>
 
 <% content_for :page_header do %>
-	<%= render :partial => "page_header" %>
+    <%= render :partial => "page_header" %>
 <% end %>
 
 <% content_for :wizard_progress do %>
-<div id="wizard_progress" class="page_header">
-	<strong>Publish test report:</strong>
-    <span id="wizard_finalize"><span id="upload">Upload</span> <strong>&raquo;</strong> <span id="finalize">Finalize</span> <strong>&raquo;</strong> <span id="publish">Publish</span></span>
-</div>
+    <div id="wizard_progress" class="page_header">
+      <strong>Publish test report:</strong>
+      <span id="wizard_finalize"><span id="upload">Upload</span> <strong>&raquo;</strong> <span id="finalize">Finalize</span> <strong>&raquo;</strong> <span id="publish">Publish</span></span>
+    </div>
 <% end %>
 
 <% content_for :notification_area do %>
-	<div class="notification">Fill in the remaining information and finalize the report.</div>
+    <div class="notification">Fill in the remaining information and finalize the report.</div>
 <% end %>
 
 <% content_for :table_of_contents do %>
-	<%= render :partial => "toc" %>
+    <%= render :partial => "toc" %>
 <% end %>
 
 <% content_for :meta_info do %>
-<div id="meta_info">
-	<dl>
-		<dt>Author:</dt>
-		<dd>John Longername</dd>
-		<dt>Last modified by:</dt>
-		<dd>Jane Doe, 24th November 2010</dd>
-		<dt>Test execution date:</dt>
-		<dd>23th October 2010</dd>
-	</dl>
-</div>
+    <div id="meta_info">
+      <dl>
+        <dt>Author:</dt>
+        <dd>John Longername</dd>
+        <dt>Last modified by:</dt>
+        <dd>Jane Doe, 24th November 2010</dd>
+        <dt>Test execution date:</dt>
+        <dd>23th October 2010</dd>
+      </dl>
+    </div>
 <% end %>
 
 <% content_for :result_edit_notification do %>
-	<%= render :partial => "result_edit_notification" %>
+    <%= render :partial => "result_edit_notification" %>
 <% end %>
 
 <% content_for :wizard_actions do %>
-<div id="wizard_actions">
-  <div id="wizard_buttons">
-      <!--<input id="cancel-publish" type="button" class="big_btn cancel" value="Cancel" />-->
-	<form action="<%=url_for :controller=>'reports', :action=>'delete', :release_version=>@selected_release_version, :target=>@test_session.target, :testtype=>@test_session.testtype, :hwproduct=>@test_session.hwproduct, :id=>@test_session.id %>" method="post">
-	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
-	<input class="id_field" type="hidden" name="id" value="<%=@test_session.id%>" />
-	<input id="cancel-publish" class="big_btn cancel" type="submit" value="Cancel"/>
-	</form>
-    <form method="post" action="<%=url_for :controller => 'reports', :action => 'publish' %>">
-      <input type="hidden" name="authenticity_token" value="<%=    form_authenticity_token %>" />
-      <input type="hidden" name="report_id" value="<%=@test_session.id%>"/>
-      <input type="submit" id="upload_report_submit" value="Publish" class="big_btn submit" />
-    </form>
-  </div>
-</div>
+    <div id="wizard_actions">
+      <div id="wizard_buttons">
+        <!--<input id="cancel-publish" type="button" class="big_btn cancel" value="Cancel" />-->
+        <form action="<%=url_for :controller=>'reports', :action=>'delete', :release_version=>@selected_release_version, :target=>@test_session.target, :testtype=>@test_session.testtype, :hwproduct=>@test_session.hwproduct, :id=>@test_session.id %>" method="post">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+          <input class="id_field" type="hidden" name="id" value="<%=@test_session.id%>" />
+          <input id="cancel-publish" class="big_btn cancel" type="submit" value="Cancel"/>
+        </form>
+        <form method="post" action="<%=url_for :controller => 'reports', :action => 'publish' %>">
+          <input type="hidden" name="authenticity_token" value="<%=    form_authenticity_token %>" />
+          <input type="hidden" name="report_id" value="<%=@test_session.id%>"/>
+          <input type="submit" id="upload_report_submit" value="Publish" class="big_btn submit" />
+        </form>
+      </div>
+    </div>
 <% end %>
 
 <% content_for :inplace_edit_templates do %>
-	<%= render :partial => "inplace_edit_templates" %>
+    <%= render :partial => "inplace_edit_templates" %>
+<% end %>
+
+<% content_for :view_specific_js_head do %>
+    <%= javascript_include_tag "uploadify/swfobject.js" %>
+    <%= javascript_include_tag "uploadify/jquery.uploadify.v2.1.4.min.js" %>
 <% end %>
 
 <% content_for :view_specific_js do %>
-<script language="javascript" type="text/javascript">
-$(document).ready(function(){
-	linkEditButtons();
-	fetchBugzillaInfo();
-});
-</script>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function(){
+            linkEditButtons();
+            fetchBugzillaInfo();
+        });
+    </script>
 <% end %>

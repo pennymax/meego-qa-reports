@@ -24,39 +24,44 @@
 %>
 
 <% content_for :page_header do %>
-	<%= render :partial => "page_header" %>
+    <%= render :partial => "page_header" %>
 <% end %>
 
 <% content_for :notification_area do %>
-	<div class="notification">Edit the report information.</div>
+    <div class="notification">Edit the report information.</div>
 <% end %>
 
 <% content_for :table_of_contents do %>
-	<%= render :partial => "toc" %>
+    <%= render :partial => "toc" %>
 <% end %>
 
 <% content_for :result_edit_notification do %>
-	<%= render :partial => "result_edit_notification" %>
+    <%= render :partial => "result_edit_notification" %>
 <% end %>
 
 <% content_for :wizard_actions do %>
-<div id="wizard_actions">
-	<div id="wizard_buttons">
-	  <a href="<%=url_for :controller=>'reports', :action=>'view', :id=>@test_session.id %>" class="big_btn submit">Done</a>
-	</div>
-</div>
+    <div id="wizard_actions">
+      <div id="wizard_buttons">
+        <a href="<%=url_for :controller=>'reports', :action=>'view', :id=>@test_session.id %>" class="big_btn submit">Done</a>
+      </div>
+    </div>
 <% end %>
 
 <% content_for :inplace_edit_templates do %>
-	<%= render :partial => "inplace_edit_templates" %>
+    <%= render :partial => "inplace_edit_templates" %>
+<% end %>
+
+<% content_for :view_specific_js_head do %>
+    <%= javascript_include_tag "uploadify/swfobject.js" %>
+    <%= javascript_include_tag "uploadify/jquery.uploadify.v2.1.4.min.js" %>
 <% end %>
 
 <% content_for :view_specific_js do %>
-<%= javascript_include_tag 'datetime' %>
-<script language="javascript" type="text/javascript">
-$(document).ready(function(){
-	linkEditButtons();
-	fetchBugzillaInfo();
-});
-</script>
+    <%= javascript_include_tag 'datetime' %>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function(){
+            linkEditButtons();
+            fetchBugzillaInfo();
+        });
+    </script>
 <% end %>

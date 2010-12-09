@@ -115,10 +115,7 @@ end
 
 class ReportsController < ApplicationController
   include AjaxMixin
-  #before_filter :authenticate_user!, :only => ["upload", "upload_form", "edit", "delete", "update", "update_txt",
-  #    "update_title", "update_case_comment", "update_case_result"]
-
-  before_filter :authenticate_user!, :except => ["view", "print", "fetch_bugzilla_data"]
+  before_filter :authenticate_user!, :except => ["view", "print", "compare", "fetch_bugzilla_data"]
 
   #caches_page :print
   #caches_page :index, :upload_form, :email, :filtered_list
@@ -220,6 +217,20 @@ class ReportsController < ApplicationController
       redirect_to :action => :index
     end
   end
+
+  def compare
+    if @report_id = params[:id].try(:to_i)
+      @report = MeegoTestSession.find(@report_id)
+      @editing = false      
+      @wizard = false
+      @email = true
+
+      render :layout => "report"
+    else
+      redirect_to :action => :index
+    end
+  end
+
 
   def fetch_bugzilla_data
     ids = params[:bugids]

@@ -1,0 +1,58 @@
+<%= render :partial => 'editable_title' %>
+
+<div class="page_content">
+
+	<%= yield :notification_area %>
+
+	<%= yield :button_area %>
+
+    <%= yield :title || render(:partial => 'editable_title') %>
+
+	<div class="report_head">
+		<%= yield :table_of_contents %>
+
+		<dl class="meta_info">
+				<dt>Author:</dt>
+				<dd><%= @report.author.name%><br/>
+                  <span class="un"><%= format_date_to_human_readable @report.created_at %></span>
+                </dd>
+				<dt>Last modified by:</dt>
+				<dd><%= @report.editor.name %><br/>
+                  <span class="un"><%= format_date_to_human_readable @report.updated_at %></span>
+                </dd>
+			     <%= render :partial => 'editable_date' %>
+		</dl>
+	</div>
+      <%= render :partial => 'reports/file_attachments' %>
+      <%= render :partial => 'editable_text', :locals => {:anchor => 'test_objective', :title => "Test Objective", :field => 'objective'} %>
+      <%= render :partial => 'editable_text', :locals => {:anchor => 'build', :title => "Build (image)", :field => 'build'} %>
+      <%= render :partial => 'editable_text', :locals => {:anchor => 'environment', :title => "Test Environment", :field => 'environment'} %>
+      <%= render :partial => 'editable_text', :locals => {:anchor => 'qa_summary', :title => "Quality Summary", :field => 'qa_summary'} %>
+
+
+  <% cache("test_results_for_#{@report.id}") do %>
+    <%= render :partial => 'reports/test_results' %>
+  <% end %>
+
+   <%= yield :result_edit_notification %>
+
+      <h2 id="detailed_results">Detailed Test Results<span class="heading_actions"><%=back_to_top%></span></h2>
+
+      <table id="detailed_results">
+        <thead>
+			<tr>
+			  <th id="th_test_case">Test case</th>
+			  <th id="th_result">Result</th>
+			  <th id="th_notes">Notes</th>
+        	</tr>
+		</thead>
+
+		<%= render :partial => "category", :collection => @test_session.meego_test_sets %>
+
+      </table>
+
+      <%= render :partial => 'editable_text', :locals => {:anchor => 'issue_summary', :title => "Issue Summary", :field => 'issue_summary'} %>
+
+	<%= yield :wizard_actions %>
+
+</div>
