@@ -32,27 +32,27 @@ class ReportComparison
   end
 
   def changed_to_fail
-    @changed_to_fail
+    format_result(@changed_to_fail)
   end
 
   def changed_to_pass
-    @changed_to_pass
+    format_result(@changed_to_pass)
   end
 
   def changed_to_na
-    @changed_to_na
+    format_result(@changed_to_na)
   end
 
   def new_na
-    @new_na
+    format_result(@new_na)
   end
 
   def new_passing
-    @new_passing
+    format_result(@new_passing)
   end
 
   def new_failing
-    @new_failing
+    format_result(@new_failing)
   end
 
   def changed_test_cases
@@ -65,7 +65,26 @@ class ReportComparison
     })
   end
 
+  def old_report
+    @old_report
+  end
+
+  def new_report
+    @new_report
+  end
+
   private
+
+  def format_result(result)
+    if result==0
+      result.to_s
+    elsif result>0
+      "+" + result.to_s
+    else
+      "-" + result.to_s
+    end
+
+  end
 
   def update_summary(old, new)
     if old == nil

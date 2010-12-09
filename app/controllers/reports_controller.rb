@@ -24,6 +24,7 @@
 require 'open-uri'
 require 'drag_n_drop_uploaded_file'
 require 'file_storage'
+require 'report_comparison'
 
 module AjaxMixin
   def remove_attachment
@@ -221,10 +222,8 @@ class ReportsController < ApplicationController
   def compare
     if @report_id = params[:id].try(:to_i)
       @report = MeegoTestSession.find(@report_id)
-      @editing = false      
-      @wizard = false
-      @email = true
-
+      @other = @report.prev_session
+      @comparison = ReportComparison.new(@other, @report)
       render :layout => "report"
     else
       redirect_to :action => :index

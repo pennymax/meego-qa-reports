@@ -2,56 +2,51 @@
     <%= render :partial => "page_header" %>
 <% end %>
 
-<% content_for :title do %>
-    <h1><em>Testing vs. Trunk:</em> Handset Aava</h1>
-<% end %>
-
 <% content_for :breadcrumbs do %>
 	<%= breadcrumbs %>
 <% end %>
 
-<% content_for :table_of_contents do %>
+
+<% content_for :page_content do %>
+    <h1><em>Testing vs. Trunk:</em> Handset Aava</h1>
+
     <div class="report_head">
       <h2>Contents</h2>
       <dl class="meta_info">
-        <h3><a href="">Testing</a></h3>
+        <h3><a href="<%=url_for :controller=>'reports',:action=>'view', :release_version=>@selected_release_version, :target=>@report.target, :testtype=>@report.testtype, :hwproduct=>@report.hwproduct, :id=>@report.id%>">Testing</a></h3>
         <dt>Author:</dt>
-        <dd>John Longername</dd>
-        <dd><a href="mailto:john.longername@mail.com">john.longername@mail.com</a></dd>
+        <dd><%=@comparison.old_report.author.name%></dd>
+        <dd><a href="mailto:<%=@comparison.old_report.author.email%>"><%=@comparison.old_report.author.email%></a></dd>
         <dt>Test execution date</dt>
-        <dd><span class="un">25 October 2010</span></dd>
+        <dd><span class="un"><%=@comparison.old_report.tested_at.strftime("%d %B %Y")%></span></dd>
       </dl>
 
       <dl class="meta_info">
-        <h3><a href="">Trunk</a></h3>
-        <dt>Author:</dt>
-        <dd>John Longername</dd>
-        <dd><a href="mailto:john.longername@mail.com">john.longername@mail.com</a></dd>
+        <h3><a href="<%=url_for :controller=>'reports',:action=>'view', :release_version=>@selected_release_version, :target=>@other.target, :testtype=>@other.testtype, :hwproduct=>@other.hwproduct, :id=>@other.id%>">Trunk</a></h3>        <dt>Author:</dt>
+        <dd><%=@comparison.new_report.author.name%></dd>
+        <dd><a href="mailto:<%=@comparison.new_report.author.email%>"><%=@comparison.new_report.author.email%></a></dd>                
         <dt>Test execution date</dt>
-        <dd><span class="un">25 October 2010</span></dd>
+        <dd><span class="un"><%=@comparison.new_report.tested_at.strftime("%d %B %Y")%></span></dd>
       </dl>
     </div>
-<% end %>
-
-
-<% content_for :page_content do %>
+        
    <h2>Summary</h2>
 
    <div class="clearfix">
      <div class="result_caption big_number">
-       <strong class="pass">+3</strong>
+       <strong class="pass"><%=@comparison.changed_to_pass%></strong>
        Test result<br/> changed to <em>pass</em>
      </div>
 
      <div class="result_caption big_number">
-       <strong class="fail">-2</strong>
+       <strong class="fail"><%=@comparison.changed_to_fail%></strong>
        Test result<br/> changed to <em>fail</em>
      </div>
      <div class="new_tests result_caption">
        <div class="result_caption_header"><strong>New tests:</strong></div>
-       <div class="result_caption medium_number"><strong class="pass">1</strong> Passing</div>
-       <div class="result_caption medium_number"><strong class="fail">3</strong> Failing</div>
-       <div class="result_caption medium_number"><strong>2</strong> N/A</div>
+       <div class="result_caption medium_number"><strong class="pass"><%=@comparison.new_passing%></strong> Passing</div>
+       <div class="result_caption medium_number"><strong class="fail"><%=@comparison.new_failing%></strong> Failing</div>
+       <div class="result_caption medium_number"><strong><%=@comparison.new_na%></strong> N/A</div>
      </div>
    </div>
 
