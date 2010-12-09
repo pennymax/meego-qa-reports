@@ -6,8 +6,10 @@ class FileStorage
   end
 
   def add_file(model, file, name)
-    dir = get_directory(model, true)    
-    FileUtils.copy(file.path, get_file_path(dir, name))
+    dir = get_directory(model, true)
+    target = get_file_path(dir, name)
+    FileUtils.copy(file.path, target)
+    FileUtils.chmod(0755, target)
   end
 
   def remove_file(model, name)
@@ -33,7 +35,7 @@ class FileStorage
   def get_directory(model, create = false)
     path = @dir + "/" + model.class.table_name + "/" + model.id.to_s + "/"
     if !File.directory?(path) || create
-      FileUtils.mkdir_p(path)
+      FileUtils.mkdir_p(path, :mode => 0755)
     end
     Dir.new(path)
   end  
