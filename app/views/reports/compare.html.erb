@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :breadcrumbs do %>
-	<%= breadcrumbs %>
+    <%= breadcrumbs %>
 <% end %>
 
 
@@ -13,109 +13,120 @@
     <div class="report_head">
       <h2>Contents</h2>
       <dl class="meta_info">
-        <h3><a href="<%=url_for :controller=>'reports',:action=>'view', :release_version=>@selected_release_version, :target=>@report.target, :testtype=>@report.testtype, :hwproduct=>@report.hwproduct, :id=>@report.id%>">Testing</a></h3>
+        <h3>
+          <a href="<%= url_for :controller=>'reports', :action=>'view', :release_version=>@selected_release_version, :target=>@report.target, :testtype=>@report.testtype, :hwproduct=>@report.hwproduct, :id=>@report.id %>">Testing</a>
+        </h3>
         <dt>Author:</dt>
-        <dd><%=@comparison.old_report.author.name%></dd>
-        <dd><a href="mailto:<%=@comparison.old_report.author.email%>"><%=@comparison.old_report.author.email%></a></dd>
+        <dd><%= @comparison.old_report.author.name %></dd>
+        <dd><a href="mailto:<%= @comparison.old_report.author.email %>"><%= @comparison.old_report.author.email %></a>
+        </dd>
         <dt>Test execution date</dt>
-        <dd><span class="un"><%=@comparison.old_report.tested_at.strftime("%d %B %Y")%></span></dd>
+        <dd><span class="un"><%= @comparison.old_report.tested_at.strftime("%d %B %Y") %></span></dd>
       </dl>
 
       <dl class="meta_info">
-        <h3><a href="<%=url_for :controller=>'reports',:action=>'view', :release_version=>@selected_release_version, :target=>@other.target, :testtype=>@other.testtype, :hwproduct=>@other.hwproduct, :id=>@other.id%>">Trunk</a></h3>        <dt>Author:</dt>
-        <dd><%=@comparison.new_report.author.name%></dd>
-        <dd><a href="mailto:<%=@comparison.new_report.author.email%>"><%=@comparison.new_report.author.email%></a></dd>                
+        <h3>
+          <a href="<%= url_for :controller=>'reports', :action=>'view', :release_version=>@selected_release_version, :target=>@other.target, :testtype=>@other.testtype, :hwproduct=>@other.hwproduct, :id=>@other.id %>">Trunk</a>
+        </h3>
+        <dt>Author:</dt>
+        <dd><%= @comparison.new_report.author.name %></dd>
+        <dd><a href="mailto:<%= @comparison.new_report.author.email %>"><%= @comparison.new_report.author.email %></a>
+        </dd>
         <dt>Test execution date</dt>
-        <dd><span class="un"><%=@comparison.new_report.tested_at.strftime("%d %B %Y")%></span></dd>
+        <dd><span class="un"><%= @comparison.new_report.tested_at.strftime("%d %B %Y") %></span></dd>
       </dl>
     </div>
-        
-   <h2>Summary</h2>
 
-   <div class="clearfix">
-     <div class="result_caption big_number">
-       <strong class="pass"><%=@comparison.changed_to_pass%></strong>
-       Test result<br/> changed to <em>pass</em>
-     </div>
+    <h2>Summary</h2>
 
-     <div class="result_caption big_number">
-       <strong class="fail"><%=@comparison.changed_to_fail%></strong>
-       Test result<br/> changed to <em>fail</em>
-     </div>
-     <div class="new_tests result_caption">
-       <div class="result_caption_header"><strong>New tests:</strong></div>
-       <div class="result_caption medium_number"><strong class="pass"><%=@comparison.new_passing%></strong> Passing</div>
-       <div class="result_caption medium_number"><strong class="fail"><%=@comparison.new_failing%></strong> Failing</div>
-       <div class="result_caption medium_number"><strong><%=@comparison.new_na%></strong> N/A</div>
-     </div>
-   </div>
+    <div class="clearfix">
+      <div class="result_caption big_number">
+        <strong class="pass"><%= @comparison.changed_to_pass %></strong>
+        Test result<br/> changed to <em>pass</em>
+      </div>
 
-   <h2>Detailed results</h2>
+      <div class="result_caption big_number">
+        <strong class="fail"><%= @comparison.changed_to_fail %></strong>
+        Test result<br/> changed to <em>fail</em>
+      </div>
+      <div class="new_tests result_caption">
+        <div class="result_caption_header"><strong>New tests:</strong></div>
+        <div class="result_caption medium_number"><strong class="pass"><%= @comparison.new_passing %></strong> Passing
+        </div>
+        <div class="result_caption medium_number"><strong class="fail"><%= @comparison.new_failing %></strong> Failing
+        </div>
+        <div class="result_caption medium_number"><strong><%= @comparison.new_na %></strong> N/A</div>
+      </div>
+    </div>
 
-   <table class="detailed_results">
-     <thead>
-     <tr>
-       <th class="sort" id="compare_view_test_case"><a class="sort_btn active">Categories</a>
-         <a href="" class="sort_btn">Features</a></th>
-       <th colspan="2" class="column_head_1">Testing</th>
-       <th colspan="2" class="column_head_1">Trunk</th>
-     </tr>
-     </thead>
-     <tr class="category_name">
-       <td colspan="5"><a class="collapse_toggle open">[-]</a>Fennec browser
-         <a href="" class="see_all_toggle">+ see all</a></td>
-     </tr>
-     <tr class="testcase">
-       <td char="testcase_name">Display orientation detection</td>
-       <td class="testcase_result pass">Pass</td>
-       <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
-       <td class="testcase_result fail"><span class="changed_result">Fail</span></td>
-       <td class="testcase_notes">5417 Bug description here lorem ipsum</td>
-     </tr>
-     <tr class="testcase">
-       <td char="testcase_name">Display orientation detection</td>
-       <td class="testcase_result pass">Pass</td>
-       <td class="testcase_notes"></td>
-       <td class="testcase_result fail"><span class="changed_result">Fail</span></td>
-       <td class="testcase_notes">5417 Bug description here lorem ipsum</td>
-     </tr>
+    <h2>Detailed results</h2>
 
-     <tr class="category_name">
-       <td colspan="5"><a class="collapse_toggle close">[+]</a>Audio system</td>
-     </tr>
+    <table class="detailed_results">
+      <thead>
+      <tr>
+        <th class="sort" id="compare_view_test_case"><a class="sort_btn active">Categories</a>
+          <a href="" class="sort_btn">Features</a></th>
+        <th colspan="2" class="column_head_1">Testing</th>
+        <th colspan="2" class="column_head_1">Trunk</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="category_name">
+        <td colspan="5"><a href="#" class="collapse_toggle open">[+]</a>Fennec browser<a href="#" class="see_all_toggle">+ see all</a></td>
+      </tr>
+      </tbody>
+      <tbody>
+      <tr class="testcase has_changes">
+        <td char="testcase_name">Display orientation detection</td>
+        <td class="testcase_result">-</td>
+        <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
+        <td class="testcase_result fail"><span class="changed_result">Fail</span></td>
+        <td class="testcase_notes">5417 Bug description here lorem ipsum</td>
+      </tr>
+      <tr class="testcase has_changes">
+        <td char="testcase_name">Display orientation detection</td>
+        <td class="testcase_result fail">Fail</td>
+        <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
+        <td class="testcase_result pass"><span class="changed_result">Pass</span></td>
+        <td class="testcase_notes"></td>
+      </tr>
+      <tr class="testcase" style="display:none;">
+        <td char="testcase_name">Display orientation detection</td>
+        <td class="testcase_result fail">Fail</td>
+        <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
+        <td class="testcase_result fail"><span class="unchanged_result">Fail</span></td>
+        <td class="testcase_notes">5417 Bug description here lorem ipsum</td>
+      </tr>
+      <tr class="testcase" style="display:none;">
+        <td char="testcase_name">Display orientation detection</td>
+        <td class="testcase_result pass">Pass</td>
+        <td class="testcase_notes"></td>
+        <td class="testcase_result pass"><span class="unchanged_result">Pass</span></td>
+        <td class="testcase_notes"></td>
+      </tr>
+      </tbody>
+    </table>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("a.see_all_toggle").click(function() {
+                $this = $(this);
+                $tbody = $this.parents("tbody").next("tbody");
+                if($tbody.find("tr:hidden").length==0) {
+                    $this.text("+ see all");
+                } else {
+                    $this.text("see changed only");
+                }
+                $tbody.find("tr").not(".has_changes").toggle();
+                return false;
+            });
 
-     <tr class="category_name">
-       <td colspan="5"><a class="collapse_toggle open">[-]</a>Video manager
-         <a href="" class="see_all_toggle">see changed only</a></td>
-     </tr>
-     <tr class="testcase">
-       <td char="testcase_name">Display orientation detection</td>
-       <td class="testcase_result">-</td>
-       <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
-       <td class="testcase_result fail"><span class="changed_result">Fail</span></td>
-       <td class="testcase_notes">5417 Bug description here lorem ipsum</td>
-     </tr>
-     <tr class="testcase">
-       <td char="testcase_name">Display orientation detection</td>
-       <td class="testcase_result fail">Fail</td>
-       <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
-       <td class="testcase_result pass"><span class="changed_result">Pass</span></td>
-       <td class="testcase_notes"></td>
-     </tr>
-     <tr class="testcase">
-       <td char="testcase_name">Display orientation detection</td>
-       <td class="testcase_result fail">Fail</td>
-       <td class="testcase_notes">3456 Bug description here lorem ipsum</td>
-       <td class="testcase_result fail"><span class="unchanged_result">Fail</span></td>
-       <td class="testcase_notes">5417 Bug description here lorem ipsum</td>
-     </tr>
-     <tr class="testcase">
-       <td char="testcase_name">Display orientation detection</td>
-       <td class="testcase_result pass">Pass</td>
-       <td class="testcase_notes"></td>
-       <td class="testcase_result pass"><span class="unchanged_result">Pass</span></td>
-       <td class="testcase_notes"></td>
-     </tr>
-
-   </table>
+            $("a.collapse_toggle").click(function() {
+                $this = $(this);
+                $tbody = $this.toggleClass("close").toggleClass("open").parents("tbody");
+                $tbody.find("a.see_all_toggle").toggle();
+                $tbody.next("tbody").toggle($this.hasClass("open"));
+                return false;
+            });
+        });
+    </script>
 <% end %>

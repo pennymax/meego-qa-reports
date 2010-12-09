@@ -60,7 +60,7 @@ class ReportComparison
 
     @old_report.meego_test_cases.select { |test_case|
       update_summary(test_case, reference.delete(test_case.name))
-    }.push(*reference.values.select{|test_case|
+    }.push(*reference.values.select { |test_case|
       update_summary(nil, test_case)
     })
   end
@@ -83,7 +83,6 @@ class ReportComparison
     else
       "-" + result.to_s
     end
-
   end
 
   def update_summary(old, new)
