@@ -41,6 +41,7 @@ ssh_options[:forward_agent] = true
 after "deploy:setup" do
   # Create shared directories
   run "mkdir #{shared_path}/reports"
+  run "mkdir #{shared_path}/files"
   run "mkdir #{shared_path}/reports/tmp"
 end
 
@@ -50,6 +51,7 @@ after "deploy:symlink" do
   
   # Link to shared folders
   run "ln -nfs #{shared_path}/reports #{current_path}/public/"
+  run "ln -nfs #{shared_path}/files #{current_path}/public/"
 
   # Remove empty token file that comes with deployment
   run "rm -rf #{current_path}/config/registeration_token"
