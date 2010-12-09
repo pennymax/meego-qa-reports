@@ -94,7 +94,7 @@ class ReportComparison
   end
 
   def changed_to_fail
-    format_result(@changed_to_fail)
+    format_result(-@changed_to_fail)
   end
 
   def changed_to_pass
@@ -106,15 +106,15 @@ class ReportComparison
   end
 
   def new_na
-    format_result(@new_na)
+    @new_na.to_s
   end
 
   def new_passing
-    format_result(@new_passing)
+    @new_passing.to_s
   end
 
   def new_failing
-    format_result(@new_failing)
+    @new_failing.to_s
   end
 
   def changed_test_cases
@@ -136,12 +136,10 @@ class ReportComparison
   private
 
   def format_result(result)
-    if result==0
-      result.to_s
-    elsif result>0
+    if result>0
       "+" + result.to_s
     else
-      "-" + result.to_s
+      result.to_s
     end
   end
 

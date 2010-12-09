@@ -36,8 +36,8 @@ class ReportComparisonSpec < ActiveSupport::TestCase
       results[2].name.should == "SMOKE-SIM-Disable_PIN_query"
       results[3].name.should == "SMOKE-SIM-Query_Service_Provider_name"      
       results.length.should == 4
-      comparison.new_failing.should == "+1"
-      comparison.changed_to_fail.should == "+2"
+      comparison.new_failing.should == "1"
+      comparison.changed_to_fail.should == "-2"
       comparison.changed_to_pass.should == "+1"
     end
 
