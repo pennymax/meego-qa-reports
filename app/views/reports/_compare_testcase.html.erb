@@ -2,6 +2,6 @@
   <td char="testcase_name"><%=testcase.name%></td>
   <td class="testcase_result <%=result_class(testcase.left)%>"><%=result_html(testcase.left)%></td>
   <td class="testcase_notes"><%= comment_html(testcase.left) %></td>
-  <td class="testcase_result <%=result_class(testcase.right)%>"><span class="<%='changed_result' if testcase.changed %>"><%=result_html(testcase.right)%></span></td>
+  <td class="testcase_result <%=result_class(testcase.right)%>"><span class="<%= (testcase.changed ? 'changed_result' : 'unchanged_result') %>"><%=result_html(testcase.right)%></span></td>
   <td class="testcase_notes"><%= comment_html(testcase.right) %></td>
 </tr>
