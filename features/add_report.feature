@@ -34,7 +34,6 @@ Feature:
     | filesystem.xml | NFT-FS-Create_Directory_TMP-LATE | Fail          |
     | sim.xml        | SMOKE-SIM-Get_IMSI               | Fail          |
 
-  
   Scenario: Add new report with invalid filename extension
     When I follow "Add report"
     

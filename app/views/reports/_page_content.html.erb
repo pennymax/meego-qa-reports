@@ -70,11 +70,11 @@
                   if($tbody.find("tr.result_pass").length==0) {
                       $(this).hide();
                   }
-                  $(this).click(function(index, item){
+                  $(this).click(function(index, item) {
                       var $this = $(this);
                       $tbody = $this.parents("tbody").next("tbody");
                       $tbody.find("tr.result_pass").toggle();
-                      updateToggle($tbody, $(this));
+                      updateToggle($tbody, $this);
                       return false;
                   });
               });              
