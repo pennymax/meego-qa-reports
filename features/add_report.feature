@@ -29,12 +29,12 @@ Feature:
     And I should see "Handset Test Report: N990 Smokey 2010-11-22"
 
   Examples:
-    | attachment     | expected text             | expected link |
-    | sample.csv     | Check home screen         | 3921          |
-    | bluetooth.xml  | NFT-BT-Device_Scan_C-ITER | Pass          |
-    | filesystem.xml | NFT-FS-Read_Data_TMP-THRO | Pass          |
-    | sim.xml        | SMOKE-SIM-Get_Languages   | Pass          |
+    | attachment     | expected text                    | expected link |
+    | sample.csv     | Check home screen                | 3921          |    
+    | filesystem.xml | NFT-FS-Create_Directory_TMP-LATE | Fail          |
+    | sim.xml        | SMOKE-SIM-Get_IMSI               | Fail          |
 
+  
   Scenario: Add new report with invalid filename extension
     When I follow "Add report"
     

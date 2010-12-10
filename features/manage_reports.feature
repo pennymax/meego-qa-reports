@@ -35,7 +35,7 @@ Feature: Manage reports
     When I view the report "1.1/Core/Sanity/Aava"
     And I click to delete the report
 
-    Then I should see "Are you sure you want to delete" within "#delete-dialog"
+    Then I should see "Are you sure you want to delete"
 
   Scenario: Linking from print view to report view
     When I click to print the report
