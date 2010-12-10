@@ -18,7 +18,7 @@ class FileStorage
   end
 
   def list_files(model)
-    Dir[File.join(get_directory(model, false).path, '*')].entries.map{|file|
+    Dir[File.join(get_directory(model, false).path, '*')].entries.sort{|a,b| File.ctime(a) - File.ctime(b) }.map{|file|
       path = file.slice(@dir.length+1, file.length)
       {   :name => File.basename(file),
           :path => path,
@@ -29,7 +29,7 @@ class FileStorage
 
   private
   def get_file_path(dir, name)
-    dir.path + "/" + name.gsub(/[^0-9A-Za-z.\-]/, '')
+    dir.path + "/" + name.gsub(/[^0-9A-Za-z.\-_]/, '')
   end
 
   def get_directory(model, create = false)

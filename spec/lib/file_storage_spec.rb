@@ -19,9 +19,14 @@ describe FileStorage do
     @storage.list_files(@session).should == []
   end
   
-  it "should be able to add file attachements of meego_test_session into storage and list them in alphabetical order" do
+  it "should be able to add file attachements of meego_test_session into storage and list them in creation order" do
+    @storage.add_file(@session, File.new('public/images/icon_alert.gif'), 'icon_alert.gif')
+    sleep 1.1 # MacOS filesystem has 1sec resolution
     @storage.add_file(@session, File.new('public/images/ajax-loader.gif'), 'f/oo.gif')
-    @storage.list_files(@session).should == [{:name => "foo.gif", :path => "meego_test_sessions/1/foo.gif", :url => "files/meego_test_sessions/1/foo.gif"}]
+    @storage.list_files(@session).should == [
+        {:name => "icon_alert.gif", :path => "meego_test_sessions/1/icon_alert.gif", :url => "files/meego_test_sessions/1/icon_alert.gif"},
+        {:name => "foo.gif", :path => "meego_test_sessions/1/foo.gif", :url => "files/meego_test_sessions/1/foo.gif"}
+    ]
   end
 
   it "should be able to add file attachements of meego_test_session into storage and remove them" do
