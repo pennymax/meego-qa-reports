@@ -1,10 +1,4 @@
 GIT
-  remote: git://github.com/jannehietamaki/rack.git
-  revision: f48b9232214338f59f5ce8c14b5e65df4b59595f
-  specs:
-    rack (1.2.1)
-
-GIT
   remote: git://github.com/pyykkis/metric_fu.git
   revision: b790518f1cc65f9de292a9640fe5deba471d5f80
   specs:
@@ -19,6 +13,12 @@ GIT
       rcov (>= 0.8.3.3)
       reek (>= 1.2.6)
       roodi (>= 2.1.0)
+
+GIT
+  remote: git://github.com/rack/rack.git
+  revision: 672396f0fdaa639981daaf7e6ff309c76f71b352
+  specs:
+    rack (1.2.1)
 
 GEM
   remote: http://rubygems.org/
