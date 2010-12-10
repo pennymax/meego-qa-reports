@@ -22,12 +22,15 @@
 # 02110-1301 USA
 #
 %>
+<tbody>
 <tr class="category_name" id="test-set-<%=category.id%>">
 	<td colspan="3">
-		<!--<a class="collapse_toggle open">[-]</a>-->
+		<a class="collapse_toggle open">[-]</a>
 		<%= category.feature %>
-		<!--<a href="" class="see_all_toggle">- see failed</a>-->
+		<!-- <a href="" class="see_all_toggle">- see failed</a> -->
 	</td>
 </tr>
-
+</tbody>
+<tbody>
 <%= render :partial => "testcase", :collection => category.meego_test_cases %>
+</tbody>

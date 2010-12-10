@@ -50,7 +50,16 @@
 		<%= render :partial => "category", :collection => @test_session.meego_test_sets %>
 
       </table>
-
+      <script type="text/javascript">
+          $(document).ready(function() {
+              $("a.collapse_toggle").click(function() {
+                  $this = $(this);
+                  $tbody = $this.toggleClass("close").toggleClass("open").parents("tbody");
+                  $tbody.next("tbody").toggle($this.hasClass("open"));
+                  return false;
+              });
+          });
+      </script>
       <%= render :partial => 'editable_text', :locals => {:anchor => 'issue_summary', :title => "Issue Summary", :field => 'issue_summary'} %>
 
 	<%= yield :wizard_actions %>
