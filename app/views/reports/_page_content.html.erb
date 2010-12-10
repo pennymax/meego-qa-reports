@@ -45,7 +45,7 @@
 			<tr>
 			  <th id="th_test_case">Test case</th>
 			  <th id="th_result">Result</th>
-			  <th id="th_notes"><div style="position:relative;">Notes <span class="sort"><a class="sort_btn active">See all</a> <a href="" class="sort_btn">See only failed</a></span></div></th>
+			  <th id="th_notes"><div style="position:relative;">Notes <span class="sort"><a href="#" id="see_only_failed_button" class="sort_btn active">See only failed</a> <a href="#" id="see_all_button" class="sort_btn">See all</a></span></div></th>
         	</tr>
 		</thead>
 
@@ -54,22 +54,43 @@
       </table>
       <script type="text/javascript">
           $(document).ready(function() {
-              $("a.see_all_toggle").each(function() {
-                  $tbody = $(this).parents("tbody").next("tbody");
-
-                  var updateToggle = function($tbody, $this) {
-                      var count = $tbody.find("tr:hidden").length;
-                      if(count > 0) {
-                          $this.text("+ see " + count + " passing tests");
-                      } else {
-                          $this.text("- hide passing tests");
-                      }
+              var updateToggle = function($tbody, $this) {
+                  var count = $tbody.find("tr:hidden").length;
+                  if(count > 0) {
+                      $this.text("+ see " + count + " passing tests");
+                  } else {
+                      $this.text("- hide passing tests");
                   }
-
-                  updateToggle($tbody, $(this));
                   if($tbody.find("tr.result_pass").length==0) {
-                      $(this).hide();
+                      $this.hide();
                   }
+              }
+
+              var updateToggles = function() {
+                  $("a.see_all_toggle").each(function() {
+                    $tbody = $(this).parents("tbody").next("tbody");
+                    updateToggle($tbody, $(this));
+                  });
+              }
+
+              $("#see_all_button").click(function(){
+                  $("a.sort_btn").removeClass("active");
+                  $(this).addClass("active");
+                  $("tr.result_pass").show();
+                  updateToggles();
+                  return false;
+              });
+
+              $("#see_only_failed_button").click(function(){
+                  $("a.sort_btn").removeClass("active");
+                  $(this).addClass("active");                                    
+                  $("tr.result_pass").hide();
+                  updateToggles();
+                  return false;
+              });
+
+              updateToggles();
+              $("a.see_all_toggle").each(function() {
                   $(this).click(function(index, item) {
                       var $this = $(this);
                       $tbody = $this.parents("tbody").next("tbody");
