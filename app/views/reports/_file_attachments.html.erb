@@ -4,14 +4,16 @@
 
       <div class="container">
         <ul class="item_list" id="file_attachment_list">
-          <%= render :partial => "file_attachment_list", :locals => {:report => @report, :files => @files || []} %>
+          <span id="file_attachment_list_ready">
+            <%= render :partial => "file_attachment_list", :locals => {:report => @report, :files => @files || []} %>
+          </span>
         </ul>
 
         <% if @editing %>
             <div class="uploadify_button_wrapper">
                   <a id="upload_button" class="small_btn">+ Add attachment</a>
                   <div class="uploadify_object_wrapper">
-                    <input type="file" name="attachment" id="file_upload" />
+                    <input style="display:none;" type="file" name="attachment" id="file_upload" />
                   </div>
             </div>
             <script type="text/javascript">
@@ -33,8 +35,16 @@
                         'buttonImage': ' ',
                         'hideButton':true,
                         'scriptData': uploadify_script_data,
+                        'onProgress'  : function(event, queueId, fileObj, data) {
+                            $('#file_upload' + queueId + 'ProgressBar').text(data.percentage+"%");
+                            return false;
+                        },
+                        'onSelect'  : function(event, queueId, fileObj) {
+                            $("#file_attachment_list").append($('<li id="file_upload'+queueId+'"><a href="javascript:$(\'#file_upload\').uploadifyCancel(\'' + queueId + '\')" class="remove_list_item">Remove</a>'+fileObj.name+'  <img src="/images/progress.gif" /> <span id="file_upload' + queueId + 'ProgressBar"></span></li>'));
+                            return false;
+                        },
                         'onComplete': function(event, queueId, fileObj, response, data) {
-                            $("#file_attachment_list").html(response);
+                            $("#file_attachment_list_ready").html(response);
                         }
                     });
 

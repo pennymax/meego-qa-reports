@@ -23,35 +23,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 .uploadifyQueueItem {
-    display: none;
 	background-color: #F5F5F5;
 	border: 2px solid #E5E5E5;
 	font: 11px Verdana, Geneva, sans-serif;
 	margin-top: 5px;
+    margin-bottom: 45px;
 	padding: 10px;
+    display: block;
 	width: 350px;
 }
 .uploadifyError {
-    display: none;
 	background-color: #FDE5DD !important;
 	border: 2px solid #FBCBBC !important;
 }
 .uploadifyQueueItem .cancel {
-    display: none;
 	float: right;
 }
 .uploadifyQueue .completed {
-    display: none;
 	background-color: #E5E5E5;
 }
 .uploadifyProgress {
-    display: none;
 	background-color: #E5E5E5;
 	margin-top: 10px;
 	width: 100%;
 }
 .uploadifyProgressBar {
-    display: none;
 	background-color: #0099FF;
 	height: 3px;
 	width: 1px;
