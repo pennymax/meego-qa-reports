@@ -52,9 +52,29 @@
       </table>
       <script type="text/javascript">
           $(document).ready(function() {
+              $("a.see_all_toggle").each(function() {
+                  if($(this).parents("tbody").next("tbody").find("tr.result_pass").length==0) {
+                      $(this).hide();
+                  }                                        
+                  $(this).click(function(index, item){
+                      var $this = $(this);
+                      $tbody = $this.parents("tbody").next("tbody");
+                                        
+                      if($tbody.find("tr:hidden").length==0) {
+                          $this.text("+ see passing tests");
+                      } else {
+                          $this.text("- hide passing tests");
+                      }
+                      var passing = $tbody.find("tr.result_pass");
+                      passing.toggle();
+                      return false;
+                  });
+              });
+
               $("a.collapse_toggle").click(function() {
                   $this = $(this);
                   $tbody = $this.toggleClass("close").toggleClass("open").parents("tbody");
+                  $tbody.find("a.see_all_toggle").toggle();
                   $tbody.next("tbody").toggle($this.hasClass("open"));
                   return false;
               });

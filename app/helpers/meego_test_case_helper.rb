@@ -5,27 +5,39 @@ module MeegoTestCaseHelper
       return "N/A"
     end
     case model.result
-    when 1
-      "Pass"
-    when -1
-      "Fail"
-    else
-      "N/A"
+      when 1
+        "Pass"
+      when -1
+        "Fail"
+      else
+        "N/A"
     end
   end
 
-  def result_class(model)
+  def hide_passing(model)
     if model==nil
-      return "na"
+      return ""
+    end
+    if model.result == 1
+      "display:none;"
+    else
+      ""
+    end
+  end
+
+
+  def result_class(model, prefix = "")
+    if model==nil
+      return prefix + "na"
     end
 
     case model.result
-    when 1
-      "pass"
-    when -1
-      "fail"
-    else
-      "na"
+      when 1
+        prefix + "pass"
+      when -1
+        prefix + "fail"
+      else
+        prefix + "na"
     end
   end
 
