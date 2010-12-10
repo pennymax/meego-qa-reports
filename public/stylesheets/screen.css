@@ -722,7 +722,7 @@ div.formError, #error, form .error {
 	text-indent: -9999px;
 	background: transparent url(../images/remove_list_item.png) no-repeat;
 	width: 14px;
-	height: 13px;
+	height: 1.3em;
 	vertical-align: bottom;
 	padding-right: 0.5em;}
 
@@ -736,9 +736,16 @@ div.formError, #error, form .error {
 .item_list li {
 	margin-bottom: 0.3em;}
 
+.item_list.attachment li{
+	background: transparent url(../images/attachment_icon.png) no-repeat 0 50%;
+	padding-left: 23px;}
+
+.item_list.editing li {
+	background: none;
+	padding-left: 0;}
+
 .section {
-	margin-top: 50px;
-}
+	margin-top: 50px;}
 	
 .emphasized_section {
 	border:1px solid #ccc;
