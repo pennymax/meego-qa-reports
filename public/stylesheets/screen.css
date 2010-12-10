@@ -1203,11 +1203,17 @@ tr.category_name td{
 table#detailed_results,
 .detailed_results  { 
 	border: 1px solid #ccc; 
-	margin-bottom: 40px; }
+	margin-bottom: 40px;}
 	
 #detailed_results th { 
-	text-align: center; 
-	border-left: 1px solid #ddd; }
+	text-align: left;
+	border-left: 1px solid #ddd;
+	padding-top: 0.8em;
+	padding-bottom: 0.8em; }
+	
+#detailed_results .sort {
+	position:absolute;
+	right:1em;}
 
 #detailed_results th:first-child { 
 	border-left-style: none; }	
