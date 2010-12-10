@@ -22,7 +22,7 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'capybara-envjs'
+#  gem 'capybara-envjs'
   gem 'cucumber'
   gem 'rcov', :require => false
   gem 'culerity'
