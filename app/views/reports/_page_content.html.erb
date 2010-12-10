@@ -1,10 +1,12 @@
-<%= render :partial => 'editable_title' %>
+
 
 <div class="page_content">
 
 	<%= yield :notification_area %>	
 
     <%= yield :button_area %>
+    
+    <%= render :partial => 'editable_title' %>
 
     <%= yield :title || render(:partial => 'editable_title') %>
 
