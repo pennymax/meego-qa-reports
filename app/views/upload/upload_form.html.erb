@@ -73,7 +73,7 @@
     </div>
     <div class="field last">
       <label for="report_test_data">Test data:</label>
-      <div id="dragndrop_and_browse" >
+      <div id="dragndrop_and_browse" style="display:none">
         <div id="dropbox">
           Drop xml and csv result files here
         </div>
@@ -95,7 +95,7 @@
       </div>
 
       <!-- Fallback, if Drag'n Drop and File API is not supported, e.g. IE8 -->
-      <div id="only_browse" style="display: none">
+      <div id="only_browse">
         <div id="browse">
           <%= f.file_field :uploaded_files, 
             :id => "report_test_data", 

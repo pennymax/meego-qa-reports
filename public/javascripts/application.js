@@ -806,6 +806,8 @@ jQuery(function($) {
 
     // Bind event listeners
     if (typeof window.FileReader === "function") {
+        $('#only_browse').remove();
+        $('#dragndrop_and_browse').show();
         // We have file API
         $('#dropbox').bind('dragenter', dragenter)
                      .bind('dragover', dragover)
@@ -814,6 +816,6 @@ jQuery(function($) {
     } else {
         // Fallback to normal file input
         $('#dragndrop_and_browse').remove();
-        $('#only_browse').show();
+
     }    
 });
