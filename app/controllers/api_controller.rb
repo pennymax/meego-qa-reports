@@ -25,13 +25,17 @@ class ApiController < ApplicationController
     data = request.request_parameters    
     data[:uploaded_files] = collect_files("report")
     attachments = collect_files("attachment")
-
     data[:tested_at] = data[:tested_at] || Time.now
 
     @test_session = MeegoTestSession.new(data)
     @test_session.import_report(current_user, true)
     begin
       @test_session.save!
+
+      files = FileStorage.new()
+      attachments.each{|file|
+        files.add_file(@test_session, file, file.original_filename)
+      }
       render :json => {:ok => '1'}
     rescue ActiveRecord::RecordInvalid => invalid
       render :json => {:ok => '0', :errors => invalid.record.errors}

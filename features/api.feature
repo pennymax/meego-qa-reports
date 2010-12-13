@@ -19,6 +19,9 @@ Feature: REST API
 
     Then I should see "SIM" within ".category_name"
     And I should see "BT" within ".category_name"
+
+    And I should see "ajax-loader.gif" within "#file_attachment_list"
+    And I should see "icon_alert.gif" within "#file_attachment_list"
     
   Scenario: Sending REST import without valid report file
     When the client sends a request without file via the REST API
