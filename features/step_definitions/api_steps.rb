@@ -25,9 +25,12 @@ end
 
 When /^the client sends a request without parameter "target" via REST API$/ do
   post "/api/import?auth_token=foobar", {
-      "report"    => Rack::Test::UploadedFile.new("features/resources/sim.xml", "text/xml"),
-      "testtype"  => "automated",
-      "hwproduct" => "N900"
+      "report.1"     => Rack::Test::UploadedFile.new("features/resources/sim.xml", "text/xml"),
+      "report.2"     => Rack::Test::UploadedFile.new("features/resources/bluetooth.xml", "text/xml"),
+      "attachment.1" => Rack::Test::UploadedFile.new("features/resources/sim.xml", "text/xml"),
+      "attachment.2" => Rack::Test::UploadedFile.new("features/resources/bluetooth.xml", "text/xml"),
+      "testtype"     => "automated",
+      "hwproduct"    => "N900"
   }
 end
 
@@ -37,8 +40,6 @@ end
 
 Then /^the REST result "([^"]*)" is "([^"]*)"$/ do |key, value|
   json = ActiveSupport::JSON.decode(@response.body)
-  key.split('|').each do |item|
-    json = json[item]
-  end
+  key.split('|').each { |item| json = json[item] }
   json.should == value
 end

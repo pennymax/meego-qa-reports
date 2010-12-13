@@ -31,15 +31,15 @@ module ApplicationHelper
   
   def upload_full_path
     if @hwproduct
-      url_for :controller => :upload, :action => :upload_form, :release_version => @selected_release_version, :testtype => @testtype, :target => @target, :hwproduct => @hwproduct
+      url_for :controller => "/upload", :action => :upload_form, :release_version => @selected_release_version, :testtype => @testtype, :target => @target, :hwproduct => @hwproduct
     elsif @target
-      url_for :controller => :upload, :action => :upload_form,  :release_version => @selected_release_version, :testtype => @testtype, :target => @target
+      url_for :controller => "/upload", :action => :upload_form,  :release_version => @selected_release_version, :testtype => @testtype, :target => @target
     elsif @testtype
-      url_for :controller => :upload, :action => :upload_form, :release_version => @selected_release_version, :testtype => @testtype
+      url_for :controller => "/upload", :action => :upload_form, :release_version => @selected_release_version, :testtype => @testtype
     elsif @selected_release_version
-      url_for :controller => :upload, :action => :upload_form, :release_version => @selected_release_version
+      url_for :controller => "/upload", :action => :upload_form, :release_version => @selected_release_version
     else
-      url_for :controller => :upload, :action => :upload_form
+      url_for :controller => "/upload", :action => :upload_form
     end
   end
 

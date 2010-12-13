@@ -22,8 +22,10 @@ class ApiController < ApplicationController
   before_filter :authenticate_user!
 
   def import_data
-    data = request.request_parameters
-    data[:uploaded_files] = [data.delete(:report)].compact
+    data = request.request_parameters    
+    data[:uploaded_files] = collect_files("report")
+    attachments = collect_files("attachment")
+
     data[:tested_at] = data[:tested_at] || Time.now
 
     @test_session = MeegoTestSession.new(data)
@@ -36,8 +38,11 @@ class ApiController < ApplicationController
     end
   end
 
-  def get_token
-    current_user.ensure_authentication_token!
-    @token = current_user.authentication_token
+  def collect_files(name)
+    parameters = request.request_parameters
+    results = []    
+    results << parameters.delete(name)
+    20.times{|i| results << parameters.delete(name + "." + i.to_s)}
+    results.compact
   end
 end

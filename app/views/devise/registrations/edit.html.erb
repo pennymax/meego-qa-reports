@@ -1,5 +1,4 @@
 <div class="page_content">
-
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
 	<h1>Edit <%= resource_name.to_s.humanize %></h1>
   <%= devise_error_messages! %>
@@ -32,5 +31,10 @@
 <% end %>
 
 	<!-- <%= link_to "Back", :back %>-->
+  
+  <div id="wizard_actions">
+    Your API token is <b><%=resource.token%></b>
+  </div>
+
 
 </div>
