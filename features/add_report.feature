@@ -34,30 +34,6 @@ Feature:
     | filesystem.xml | NFT-FS-Create_Directory_TMP-LATE | Fail          |
     | sim.xml        | SMOKE-SIM-Get_IMSI               | Fail          |
 
-  @javascript
-  Scenario Outline: Add new report with valid data, passing tests should not be visible by default
-    When I follow "Add report"
-
-    And I select target "Handset", test type "Smokey" and hardware "N990" with date "2010-11-22"
-    And I attach the report "<attachment>"
-
-    And submit the form at "upload_report_submit"
-
-    Then I should see not "<expected text>" within "#detailed_results"
-    When I follow "<expected show link>" within ".category_name"
-
-    Then I should see "<expected text>" within ".testcase"
-    And I should see "<expected link>" within ".testcase"
-
-    And I should see "Publish"
-    And I should see "Handset Test Report: N990 Smokey 2010-11-22"
-
-  Examples:
-    | attachment     | expected text                    | expected link | expected show link     |
-    | bluetooth.xml  | NFT-BT-Device_Scan_C-ITER        | Pass          | + see 1 passing tests  |
-    | filesystem.xml | NFT-FS-Read_Data_TMP-THRO        | Pass          | + see 2 passing tests  |
-    | sim.xml        | SMOKE-SIM-Get_Languages          | Pass          | + see 13 passing tests |
-
   Scenario: Add new report with invalid filename extension
     When I follow "Add report"
     
