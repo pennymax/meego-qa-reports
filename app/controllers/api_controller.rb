@@ -18,17 +18,27 @@
 # 02110-1301 USA
 #
 
+require 'file_storage'
 class ApiController < ApplicationController
   before_filter :authenticate_user!
 
   def import_data
-    data = request.request_parameters    
-    data[:uploaded_files] = collect_files("report")
-    attachments = collect_files("attachment")
+    data = request.query_parameters.merge(request.request_parameters)
+    data.delete(:auth_token)
+    
+    data[:uploaded_files] = collect_files(data, "report")
+    attachments = collect_files(data, "attachment")
     data[:tested_at] = data[:tested_at] || Time.now
 
-    @test_session = MeegoTestSession.new(data)
-    @test_session.import_report(current_user, true)
+    begin
+      @test_session = MeegoTestSession.new(data)
+      @test_session.import_report(current_user, true)
+
+    rescue ActiveRecord::UnknownAttributeError => error
+      render :json => {:ok => '0', :errors => error.message}
+      return
+    end
+
     begin
       @test_session.save!
 
@@ -42,9 +52,10 @@ class ApiController < ApplicationController
     end
   end
 
-  def collect_files(name)
-    parameters = request.request_parameters
-    results = []    
+  private
+
+  def collect_files(parameters, name)
+    results = []
     results << parameters.delete(name)
     20.times{|i| results << parameters.delete(name + "." + i.to_s)}
     results.compact

@@ -13,6 +13,14 @@ When /^the client sends file "([^"]*)" via the REST API$/ do |file|
   response.should be_success
 end
 
+When /^the client sends file "([^"]*)" via the REST API with RESTful parameters$/ do |file|
+  post "/api/import?auth_token=foobar&release_version=1.2&target=Core&testtype=automated&hwproduct=N900", {
+      "report"          => Rack::Test::UploadedFile.new("features/resources/#{file}", "text/xml")
+  }
+  response.should be_success
+end
+
+
 When /^the client sends file with attachments via the REST API$/ do
   post "/api/import?auth_token=foobar", {
       "report.1"        => Rack::Test::UploadedFile.new("features/resources/sim.xml", "text/xml"),
@@ -36,6 +44,7 @@ When /^the client sends a request without file via the REST API$/ do
       "testtype"        => "automated",
       "hwproduct"       => "N900"
   }
+  response.should be_success
 end
 
 When /^the client sends a request without parameter "target" via the REST API$/ do
@@ -44,6 +53,15 @@ When /^the client sends a request without parameter "target" via the REST API$/ 
       "testtype"     => "automated",
       "hwproduct"    => "N900"
   }
+  response.should be_success
+end
+
+When /^the client sends a request with extra parameter "([^"]*)" via the REST API$/ do |extra|
+  post "/api/import?auth_token=foobar&release_version=1.2&target=Core&testtype=automated&hwproduct=N900&" + extra, {
+      "report.1"        => Rack::Test::UploadedFile.new("features/resources/sim.xml", "text/xml")
+  }
+  response.should be_success
+
 end
 
 Then /^I should be able to view the created report$/ do

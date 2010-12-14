@@ -12,6 +12,13 @@ Feature: REST API
     Then the REST result "ok" is "1"
     And I should be able to view the created report
 
+
+  Scenario: Uploading test report with HTTP POST with RESTful parameters
+    When the client sends file "bluetooth.xml" via the REST API with RESTful parameters
+
+    Then the REST result "ok" is "1"
+    And I should be able to view the created report
+
   Scenario: Uploading test report with multiple files and attachments
     When the client sends file with attachments via the REST API
     Then the REST result "ok" is "1"
@@ -34,3 +41,10 @@ Feature: REST API
 
     Then the REST result "ok" is "0"
     Then the REST result "errors|target" is "can't be blank"
+
+
+  Scenario: Sending REST import with invalid extra parameters
+    When the client sends a request with extra parameter "foobar=1" via the REST API
+
+    Then the REST result "ok" is "0"
+    Then the REST result "errors" is "unknown attribute: foobar"
