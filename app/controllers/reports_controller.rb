@@ -225,7 +225,6 @@ class ReportsController < ApplicationController
       @other = @report.prev_session
       @comparison = ReportComparison.new(@other, @report)
       @groups = @comparison.groups
-      puts @groups
       render :layout => "report"
     else
       redirect_to :action => :index
