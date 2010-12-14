@@ -31,7 +31,7 @@
   <%= form_for @test_session, :url=>{:action => "upload"}, :html => {:id => 'upload_report', :multipart => true} do |f| %>
     <h1>Upload test data</h1>
     <div class="field">
-      <label for="report_meego_version">Meego release:</label>
+      <label for="report_meego_version">MeeGo release:</label>
       <% @release_versions.each do |release_version| %>
         <%= f.radio_button :release_version, release_version, :id => release_version %>
         <%= f.label :release_version, release_version, :for => release_version, :class => "inline_label" %>
