@@ -87,7 +87,7 @@ class UploadController < ApplicationController
     session = MeegoTestSession.find(params[:id]);
     files.add_file(session, request['Filedata'], request['Filename'])
     @editing = true
-    render :partial => "reports/file_attachment_list", :locals => {:report => session, :files => files.list_files(session) }
+    render :partial => 'reports/file_attachment_list', :locals => {:report => session, :files => files.list_files(session)}
   end
   
   def upload
