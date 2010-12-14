@@ -1,6 +1,6 @@
 = MeeGo Test Reports
 
-Test reporting application prototype for the MeeGo QA teams. See trailer at
+Test reporting application for the MeeGo QA teams. See trailer at
 [[http://www.youtube.com/watch?v=sOUkwJT2RBo|youtube]]
 
 == Setting up the development environment
